@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Getter
@@ -22,11 +21,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Table(name = "office_card")
 public class OfficeCard {
     @Id
-    @GeneratedValue(strategy = AUTO)
     private Long id;
-
-    @Column(name = "card_number", nullable = false)
-    private Long number;
 
     @Column(name = "description")
     private String description;
@@ -41,10 +36,10 @@ public class OfficeCard {
     private Long housePrice;
 
     @Column(name = "level", nullable = false)
-    private Long level;
+    private Integer level;
 
     @ManyToMany(fetch = LAZY)
-    @JoinColumn(name = "level_prices")
-    private List<LevelPrice> prices = new ArrayList<>();
+    @JoinColumn(name = "level_fines")
+    private List<LevelFine> fines = new ArrayList<>();
 
 }

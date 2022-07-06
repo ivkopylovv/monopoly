@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Getter
@@ -20,11 +19,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Table(name = "session")
 public class Session {
     @Id
-    @GeneratedValue(strategy = AUTO)
-    private Long id;
-
-    @Column(name = "number", nullable = false)
-    private String number;
+    private String id;
 
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "player_id", nullable = false)

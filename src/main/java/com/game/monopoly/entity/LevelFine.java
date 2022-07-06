@@ -16,8 +16,8 @@ import static javax.persistence.GenerationType.AUTO;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "level_price")
-public class LevelPrice {
+@Table(name = "level_fine")
+public class LevelFine {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;

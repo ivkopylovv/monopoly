@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -21,7 +23,7 @@ public class Session {
     @Id
     private String id;
 
-    @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "player_id", nullable = false)
-    private Player player;
+    @ManyToMany(fetch = EAGER)
+    @JoinColumn(name = "players", nullable = false)
+    private List<Player> players = new ArrayList<>();
 }

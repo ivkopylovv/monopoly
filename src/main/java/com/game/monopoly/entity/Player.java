@@ -1,5 +1,6 @@
 package com.game.monopoly.entity;
 
+import com.game.monopoly.constants.EconomicalConstant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,7 @@ public class Player {
     private String name;
 
     @Column(name = "balance", nullable = false)
-    private Long balance = 15000L;
+    private Long balance = EconomicalConstant.DEFAULT_BALANCE;
 
     @ManyToMany(fetch = EAGER)
     @JoinColumn(name = "cards", nullable = false)

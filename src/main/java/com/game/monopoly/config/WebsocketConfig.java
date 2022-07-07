@@ -13,6 +13,8 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/api/v1/players/change-balance").withSockJS();
         registry.addEndpoint("/api/v1/players/buy").withSockJS();
+        registry.addEndpoint("/api/v1/sessions/add-player").withSockJS();
+        registry.addEndpoint("/api/v1/sessions/random-step").withSockJS();
     }
 
     @Override

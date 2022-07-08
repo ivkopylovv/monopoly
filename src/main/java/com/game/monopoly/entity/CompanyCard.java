@@ -26,8 +26,8 @@ public class CompanyCard {
     @EmbeddedId
     private CompanyCardId id;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "image", nullable = false)
     private String image;
@@ -38,8 +38,8 @@ public class CompanyCard {
     @Column(name = "current_fine")
     private Long currentFine;
 
-    @Column(name = "house_price", nullable = false)
-    private Long housePrice;
+    @Column(name = "star_price", nullable = false)
+    private Long starPrice;
 
     @Column(name = "level", nullable = false)
     private Integer level;
@@ -48,7 +48,7 @@ public class CompanyCard {
     @Enumerated(value = STRING)
     private CardType type;
 
-    @Column(name = "ownerName", nullable = false)
+    @Column(name = "ownerName")
     private String ownerName;
 
     @Column(name = "collection_number", nullable = false)

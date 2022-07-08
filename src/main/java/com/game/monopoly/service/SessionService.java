@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SessionService {
 
-    String createSession(String playerName);
+    void createSession(String sessionId, String playerName);
 
     void addPlayer(String sessionId, String playerName);
 

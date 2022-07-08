@@ -1,18 +1,26 @@
-INSERT INTO office_card
-    (id, description, default_price, current_fine, house_price, "level")
-VALUES (1, 'Рязань, Кудрявцева, 56', 100000, 15000, 10000, 1),
-       (2, 'Казань, Островского, 98', 150000, 20000, 30000, 1),
-       (3, 'Краснодар, Кубанская набережная, 39', 200000, 25000, 50000, 1),
-       (4, 'Воронеж, Кирова, 6A', 80000, 20000, 30000, 1),
-       (5, 'Сочи, Триумфальный проезд, 1', 200000, 50000, 40000, 1);
+INSERT INTO company_card
+    (id, string_title, image, price, star_price, fines, collection_number)
+VALUES (1, 'Wildberries', '/images/wildberries.jpg', 100000, 10000, 20000, 1),
+        (2, 'Ozon', '/images/ozon.jpg', 200000, 10000, 10000, 2),
+        (3, 'Apple', '/images/apple.jpg', 250000, 10000, 15000, 1),
+        (4, 'Samsung', '/images/samsung.jpg', 300000, 15000, 30000, 3),
+        (5, 'Huawei', '/images/huewei.jpg', 150000, 5000, 20000, 1);
 
 INSERT INTO chance_card
-    ("id", "number", description, money_difference, step)
-VALUES (1, 6, 'Поздравляем с Днем рождения! Получите в подарок 50k', 50000, 1),
-       (2, 7, 'Вы выиграли в лотерею! Получите 20k', 20000, 1),
-       (3, 8, 'О нет, вас только что оштрафовали! Заплатите 10k', 10000, 1),
-       (4, 9, 'Вы сегодня щедрый, отдайте всем игрокам по 20k', 20000, 1),
-       (5, 10, 'Сосед слева требует от вас 10k. Так отдайте же их ему!', 10000, 1);
+    ("id", description, money, step)
+VALUES (1, 'Поздравляем с Днем рождения! Получите в подарок 50k', 50000, 1),
+       (2, 'Вы выиграли в лотерею! Получите 20k', 20000, 1),
+       (3, 'О нет, вас только что оштрафовали! Заплатите 10k', 10000, 1),
+       (4, 'Вы сегодня щедрый, отдайте всем игрокам по 20k', 20000, 1),
+       (5, 'Сосед слева требует от вас 10k. Так отдайте же их ему!', 10000, 1);
+
+INSERT INTO nontype_card
+    ("id", image)
+VALUES (1, '/images/card1.jpg'),
+       (2, '/images/card2.jpg'),
+       (3, '/images/card3.jpg',),
+       (4, '/images/card4.jpg',),
+       (5, '/images/card5.jpg',);
 
 INSERT INTO level_fine
     ("id", "value")
@@ -21,25 +29,37 @@ VALUES (1, 100),
        (3, 400),
        (4, 800),
        (5, 1200);
-INSERT INTO office_card_fines
-VALUES (1, 1),
-       (1, 2),
-       (1, 3),
-       (1, 4),
-       (1, 5);
 
 INSERT INTO player
-    ("id", "name", balance)
-VALUES (1, 'Ivan', 150000),
-       (2, 'Masha', 150000),
-       (3, 'Nikita', 150000),
-       (4, 'Danila', 150000),
-       (5, 'Bogdan', 150000);
+    ("id", "name", "position", balance)
+VALUES (1, 'Ivan', 1, 150000),
+       (2, 'Masha', 1, 150000),
+       (3, 'Nikita', 1, 150000),
+       (4, 'Danila', 1, 150000),
+       (5, 'Bogdan', 1, 150000);
 
 INSERT INTO "session"
-    ("id", "player_id")
-VALUES ('1', 1),
-       ('2', 2),
-       ('3', 3),
-       ('4', 4),
-       ('5', 5);
+    ("id", "player_id", "state", "cards_id")
+VALUES (1, 1, "inprogress", 1),
+       (1, 2, "inprogress", 1),
+       (1, 3, "inprogress", 1),
+       (4, 4, "inprogress", 2),
+       (5, 5, "inprogress", 3);
+
+INSERT INTO "session_card_states"
+("session_id", "cards_state_id")
+VALUES (1, 1),
+       (2, 3),
+       (3, 2);
+
+INSERT INTO "card_level_fines"
+("level_fine_id", "card_id")
+VALUES (1, 1),
+       (2, 2),
+       (3, 3,);
+
+INSERT INTO "card_state"
+("id", "current_fine", "level", "card", "owner_name")
+VALUES (1, 20000, 1, "company", "null"),
+       (2, 15000, 2, "company", "not_null"),
+       (3, 10000, 1, "company", "null");

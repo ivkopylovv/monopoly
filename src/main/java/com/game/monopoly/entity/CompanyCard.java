@@ -25,8 +25,8 @@ public class CompanyCard {
     @Id
     private Long id;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "image", nullable = false)
     private String image;
@@ -34,13 +34,27 @@ public class CompanyCard {
     @Column(name = "price", nullable = false)
     private Long price;
 
+<<<<<<<<< Temporary merge branch 1
+    @Column(name = "current_fine")
+    private Long currentFine;
+
+    @Column(name = "star_price", nullable = false)
+    private Long starPrice;
+=========
     @Column(name = "house_price", nullable = false)
     private Long housePrice;
+>>>>>>>>> Temporary merge branch 2
 
     @Column(name = "type", nullable = false)
     @Enumerated(value = STRING)
     private CardType type;
 
+<<<<<<<<< Temporary merge branch 1
+    @Column(name = "ownerName")
+    private String ownerName;
+
+=========
+>>>>>>>>> Temporary merge branch 2
     @Column(name = "collection_number", nullable = false)
     private Integer collectionNumber;
 

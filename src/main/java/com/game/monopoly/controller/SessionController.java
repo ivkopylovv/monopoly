@@ -19,13 +19,13 @@ public class SessionController {
 
     private final SessionService sessionService;
 
-    @PostMapping(value = "/sessions/create-session")
+   /* @PostMapping(value = "/sessions/create-session")
     public ResponseEntity<EnterSessionDTO> createSession(@RequestBody PerformActionWithSessionDTO playerDTO) {
 
         String sessionId = sessionService.createSession(playerDTO.getPlayerName());
 
         return ResponseEntity.ok().body(new EnterSessionDTO(sessionId));
-    }
+    }*/
 
     @PostMapping(value = "/sessions/add-player")
     public ResponseEntity<ResultMessageDTO> addPlayer(@RequestBody PerformActionWithSessionDTO playerDTO) {

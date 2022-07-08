@@ -29,10 +29,9 @@ public class Player {
     @Column(name = "name", unique = true)
     private String name;
 
+    @Column(name = "position", nullable = false)
+    private Integer position;
+
     @Column(name = "balance", nullable = false)
     private Long balance = EconomicalConstant.DEFAULT_BALANCE;
-
-    @ManyToMany(fetch = EAGER)
-    @JoinColumn(name = "cards", nullable = false)
-    private List<OfficeCard> cards = new ArrayList<>();
 }

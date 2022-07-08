@@ -7,10 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface PlayerDAO extends JpaRepository<Player, String> {
+public interface PlayerDAO extends JpaRepository<Player, Long> {
     Optional<Player> findPlayerByName(String name);
-
-    Optional<Player> findPlayerByCardsId(Long cardId);
 
     @Modifying
     @Query("update Player p set p.balance = p.balance + ?1 where p.name = ?2")

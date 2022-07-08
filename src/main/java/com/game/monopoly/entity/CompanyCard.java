@@ -1,5 +1,7 @@
 package com.game.monopoly.entity;
 
+import com.game.monopoly.entity.compositekey.CompanyCardId;
+import com.game.monopoly.enums.CardType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -18,16 +21,19 @@ import static javax.persistence.FetchType.LAZY;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "office_card")
-public class OfficeCard {
-    @Id
-    private Long id;
+@Table(name = "company_card")
+public class CompanyCard {
+    @EmbeddedId
+    private CompanyCardId id;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "default_price", nullable = false)
-    private Long defaultPrice;
+    @Column(name = "image", nullable = false)
+    private String image;
+
+    @Column(name = "price", nullable = false)
+    private Long price;
 
     @Column(name = "current_fine")
     private Long currentFine;
@@ -38,8 +44,17 @@ public class OfficeCard {
     @Column(name = "level", nullable = false)
     private Integer level;
 
+    @Column(name = "type", nullable = false)
+    @Enumerated(value = STRING)
+    private CardType type;
+
+    @Column(name = "ownerName", nullable = false)
+    private String ownerName;
+
+    @Column(name = "collection_number", nullable = false)
+    private Integer collectionNumber;
+
     @ManyToMany(fetch = LAZY)
     @JoinColumn(name = "level_fines")
     private List<LevelFine> fines = new ArrayList<>();
-
 }

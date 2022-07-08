@@ -10,5 +10,4 @@ public interface SessionDAO extends JpaRepository<Session, String> {
     @Modifying
     @Query("update Session s set s.state = ?1 where s.id = ?2")
     void updateSessionState(SessionState state, String id);
-
 }

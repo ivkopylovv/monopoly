@@ -1,19 +1,13 @@
 package com.game.monopoly.service.impl;
 
-import com.game.monopoly.constants.DiceBorderConstant;
-import com.game.monopoly.dao.CompanyCardDAO;
-import com.game.monopoly.dao.PlayerDAO;
-import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.CommonCardDTO;
+import com.game.monopoly.dao.*;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
-import com.game.monopoly.entity.CompanyCard;
-import com.game.monopoly.entity.Player;
-import com.game.monopoly.entity.Session;
-import com.game.monopoly.entity.compositekey.CompanyCardId;
-import com.game.monopoly.enums.SessionState;
+import com.game.monopoly.dto.response.RollDiceResultDTO;
+import com.game.monopoly.entity.*;
 import com.game.monopoly.exception.ResourceNotFoundException;
-import com.game.monopoly.randomizer.StepsCountRandomizer;
-import com.game.monopoly.randomizer.StringIdRandomizer;
+import com.game.monopoly.mapper.CardMapper;
+import com.game.monopoly.helper.RandomHelper;
+import com.game.monopoly.mapper.RoleDicesMapper;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.game.monopoly.constants.PlayingFieldParam.*;
+import static com.game.monopoly.constants.PlayingFieldParam.MIN_BORDER;
+import static com.game.monopoly.constants.ErrorMessage.PLAYER_NOT_FOUND;
 import static com.game.monopoly.constants.ErrorMessage.SESSION_NOT_FOUND;
 import static com.game.monopoly.enums.SessionState.NEW;
 
@@ -31,16 +28,26 @@ public class SessionServiceImpl implements SessionService {
     private final SessionDAO sessionDAO;
     private final PlayerDAO playerDAO;
     private final CompanyCardDAO companyCardDAO;
+    private final ChanceCardDAO chanceCardDAO;
+    private final NonTypeCardDAO nonTypeCardDAO;
+    private final CardStateDAO cardStateDAO;
 
-    public void getPlayingField(String sessionId) {
-        sessionDAO.updateSessionState(SessionState.IN_PROGRESS, sessionId);
+    @Override
+    public PlayingFieldDTO getPlayingField(String sessionId) {
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
-        List<CompanyCard> companyCards = companyCardDAO.findByIdSessionId(sessionId);
+        List<CompanyCard> companyCards = companyCardDAO.findAll();
 
-        PlayingFieldDTO playingFieldDTO = new PlayingFieldDTO();
-        playingFieldDTO.setPlayers(session.getPlayers());
-        playingFieldDTO.setState(String.valueOf(session.getState()));
+        List<ChanceCard> chanceCards = chanceCardDAO.findAll();
+        List<NonTypeCard> nonTypeCards = nonTypeCardDAO.findAll();
+
+        PlayingFieldDTO playingFieldDTO = new PlayingFieldDTO()
+                .setPlayers(session.getPlayers())
+                .setState(String.valueOf(session.getState()))
+                .setCards(CardMapper.allCardsToCommonsList(companyCards, chanceCards, nonTypeCards))
+                .setCardStates(CardMapper.splitCompanyCardStatesOnCollections(session.getCardStates()));
+
+        return playingFieldDTO;
     }
 
 
@@ -51,26 +58,49 @@ public class SessionServiceImpl implements SessionService {
         Session session = new Session()
                 .setId(sessionId)
                 .setState(NEW);
+
         session.getPlayers().add(player);
+        List<CardState> cardStates = session.getCardStates();
+        List<CompanyCard> companyCards = companyCardDAO.findAll();
+
+        companyCards
+                .stream()
+                .map(companyCard -> new CardState()
+                        .setCard(companyCard)
+                        .setCurrentFine(null)
+                        .setLevel(0)
+                        .setOwnerName(null))
+                .forEach(cardState -> {
+                    cardStateDAO.save(cardState);
+                    cardStates.add(cardState);
+                });
+
         playerDAO.save(player);
-        sessionDAO.save(session);;
+        sessionDAO.save(session);
     }
 
     @Override
     public void addPlayer(String sessionId, String playerName) {
         Player player = new Player().setName(playerName);
-        playerDAO.save(player);
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
+
+        playerDAO.save(player);
         session.getPlayers().add(player);
     }
 
     @Override
-    public List<Long> randomSteps(String sessionId, String playerName) {
-        Long firstRollResult = StepsCountRandomizer.randomizeStepsCount(DiceBorderConstant.MIN_BORDER,
-                DiceBorderConstant.MAX_BORDER);
-        Long secondRollResult = StepsCountRandomizer.randomizeStepsCount(DiceBorderConstant.MIN_BORDER,
-                DiceBorderConstant.MAX_BORDER);
-        return List.of(firstRollResult, secondRollResult);
+    public RollDiceResultDTO rollDices(String sessionId, String playerName) {
+        Player player = playerDAO.findPlayerByName(playerName)
+                .orElseThrow(() -> new ResourceNotFoundException(PLAYER_NOT_FOUND));
+
+        int firstRoll = RandomHelper.getRandomDiceValue(MIN_BORDER, MAX_BORDER);
+        int secondRoll = RandomHelper.getRandomDiceValue(MIN_BORDER, MAX_BORDER);
+        int potentialPos = player.getPosition() + firstRoll + secondRoll;
+        int newPos = potentialPos > FIELD_SIZE ? potentialPos : potentialPos - FIELD_SIZE;
+
+        playerDAO.updatePlayerPositionByName(newPos, playerName);
+
+        return RoleDicesMapper.rollResultTODTO(List.of(firstRoll, secondRoll), playerName, newPos);
     }
 }

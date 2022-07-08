@@ -1,4 +1,4 @@
-package com.game.monopoly.dto.request;
+package com.game.monopoly.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class PerformActionWithSessionDTO {
-    private String sessionId;
+@AllArgsConstructor
+public class PlayerPositionDTO {
     private String playerName;
+    private Integer position;
 }

@@ -4,9 +4,11 @@ import com.game.monopoly.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface PlayerDAO extends JpaRepository<Player, Long> {
     Optional<Player> findPlayerByName(String name);
 

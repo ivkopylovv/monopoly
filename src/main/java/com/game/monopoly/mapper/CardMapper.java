@@ -9,6 +9,7 @@ import com.game.monopoly.entity.NonTypeCard;
 import com.game.monopoly.enums.CardType;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,9 +50,11 @@ public class CardMapper {
                 )
         );
 
-        return resultList;
+        return resultList
+                .stream()
+                .sorted(Comparator.comparing(CommonCardDTO::getId))
+                .collect(Collectors.toList());
     }
-
 
     public static Map<Integer, List<CardStateDTO>> splitCompanyCardStatesOnCollections(List<CardState> cardStates) {
         Map<Integer, List<CardState>> cardStateMap = cardStates

@@ -1,7 +1,6 @@
 package com.game.monopoly.controller;
 
 import com.game.monopoly.dto.request.ActionWithSessionDTO;
-import com.game.monopoly.dto.request.ResultDiceRollMessageDTO;
 import com.game.monopoly.dto.request.ResultMessageDTO;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
@@ -11,8 +10,6 @@ import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static com.game.monopoly.constants.ResultMessage.SESSION_WAS_CREATED;
 

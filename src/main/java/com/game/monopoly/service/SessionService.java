@@ -3,10 +3,7 @@ package com.game.monopoly.service;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 
-import java.util.List;
-
 public interface SessionService {
-
     PlayingFieldDTO getPlayingField(String sessionId);
 
     void createSession(String sessionId, String playerName);

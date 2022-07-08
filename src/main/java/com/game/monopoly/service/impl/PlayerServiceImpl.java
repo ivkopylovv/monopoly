@@ -1,23 +1,16 @@
 package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.PlayerDAO;
-import com.game.monopoly.entity.CompanyCard;
-import com.game.monopoly.entity.Player;
-import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.game.monopoly.constants.ErrorMessage.CARD_NOT_FOUND;
-import static com.game.monopoly.constants.ErrorMessage.PLAYER_NOT_FOUND;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
     private final PlayerDAO playerDAO;
-
 
 
     @Override

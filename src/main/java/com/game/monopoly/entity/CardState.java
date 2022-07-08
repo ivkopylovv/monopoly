@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Getter
@@ -19,6 +20,7 @@ import static javax.persistence.FetchType.EAGER;
 @Table(name = "card_state")
 public class CardState {
     @Id
+    @GeneratedValue(strategy = AUTO)
     private Long id;
 
     @Column(name = "current_fine")

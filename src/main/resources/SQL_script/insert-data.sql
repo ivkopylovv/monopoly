@@ -1,65 +1,45 @@
-INSERT INTO company_card
-    (id, string_title, image, price, star_price, fines, collection_number)
-VALUES (1, 'Wildberries', '/images/wildberries.jpg', 100000, 10000, 20000, 1),
-        (2, 'Ozon', '/images/ozon.jpg', 200000, 10000, 10000, 2),
-        (3, 'Apple', '/images/apple.jpg', 250000, 10000, 15000, 1),
-        (4, 'Samsung', '/images/samsung.jpg', 300000, 15000, 30000, 3),
-        (5, 'Huawei', '/images/huewei.jpg', 150000, 5000, 20000, 1);
+INSERT INTO company_card (id, title, image, price, star_price, collection_number)
+VALUES (2, 'Wildberries', '/images/wildberries.jpg', 600, 500, 1),
+       (4, 'Ozon', '/images/ozon.jpg', 800, 500, 1),
+       (6, 'Apple', '/images/apple.jpg', 2000, 0, 2),
+       (7, 'Adidas', '/images/adidas.jpg', 1000, 500, 3),
+       (9, 'Nike', '/images/nike.jpg', 1100, 500, 3),
+       (10, 'Puma', '/images/puma.jpg', 1200, 500, 3),
+       (12, 'Kfc', '/images/kfc.jpg', 1400, 750, 4),
+       (13, 'Mercedes', '/images/mercedes.jpg', 1500, 0, 5),
+       (14, 'Burger king', '/images/burgerking.jpg', 1500, 750, 4),
+       (15, 'Вкусно и точка', '/images/vkysno.jpg', 1600, 750, 4),
+       (16, 'Samsung', '/images/samsung.jpg', 2000, 0, 2),
+       (17, 'VK', '/images/vk.jpg', 1800, 1000, 6),
+       (19, 'Telegram', '/images/telegram.jpg', 1900, 1000, 6),
+       (20, 'Одноклассники', 'images/klass.jpg', 2000, 1000, 6),
+       (22, 'Tiffany', '/images/tiffani.jpg', 2200, 1250, 7),
+       (24, 'Sokolov', '/images/sokolov.jpg', 2300, 1250, 7),
+       (25, 'Cartier', '/images/cartier.jpg', 2400, 1250, 7),
+       (26, 'Huawei', '/images/huawei.jpg', 2000, 0, 2),
+       (27, 'Fanta', '/images/fanta.jpg', 2600, 1500, 8),
+       (28, 'Lipton', '/images/lipton.jpg', 2700, 1500, 8),
+       (29, 'Porsche', '/images/porsche.jpg', 1500, 0, 5),
+       (30, 'Coca-cola', '/images/coca-cola.jpg', 2800, 1500, 8),
+       (32, 'Sber', '/images/sber.jpg', 3000, 1750, 9),
+       (33, 'Почта Банк', '/images/pochta.jpg', 3100, 1750, 9),
+       (35, 'Tinkoff', '/images/pochta.jpg', 3200, 1750, 9),
+       (36, 'Vivo', '/images/vivo.jpg', 2000, 0, 2),
+       (38, 'Tenerife', '/images/tenerife.jpg', 3500, 2000, 10),
+       (40, 'Maldives', '/images/maldives.jpg', 4000, 2000, 10);
 
-INSERT INTO chance_card
-    ("id", description, money, step)
-VALUES (1, 'Поздравляем с Днем рождения! Получите в подарок 50k', 50000, 1),
-       (2, 'Вы выиграли в лотерею! Получите 20k', 20000, 1),
-       (3, 'О нет, вас только что оштрафовали! Заплатите 10k', 10000, 1),
-       (4, 'Вы сегодня щедрый, отдайте всем игрокам по 20k', 20000, 1),
-       (5, 'Сосед слева требует от вас 10k. Так отдайте же их ему!', 10000, 1);
+INSERT INTO chance_card (id, description, image, money_difference, step)
+VALUES (3, '', '/images/chance.jpg', 0, 0),
+       (8, '', '/images/chance.jpg', 0, 0),
+       (18, '', '/images/chance.jpg', 0, 0),
+       (23, '', '/images/chance.jpg', 0, 0),
+       (34, '', '/images/chance.jpg', 0, 0),
+       (39, '', '/images/chance.jpg', 0, 0);
 
-INSERT INTO nontype_card
-    ("id", image)
-VALUES (1, '/images/card1.jpg'),
-       (2, '/images/card2.jpg'),
-       (3, '/images/card3.jpg',),
-       (4, '/images/card4.jpg',),
-       (5, '/images/card5.jpg',);
-
-INSERT INTO level_fine
-    ("id", "value")
-VALUES (1, 100),
-       (2, 200),
-       (3, 400),
-       (4, 800),
-       (5, 1200);
-
-INSERT INTO player
-    ("id", "name", "position", balance)
-VALUES (1, 'Ivan', 1, 150000),
-       (2, 'Masha', 1, 150000),
-       (3, 'Nikita', 1, 150000),
-       (4, 'Danila', 1, 150000),
-       (5, 'Bogdan', 1, 150000);
-
-INSERT INTO "session"
-    ("id", "player_id", "state", "cards_id")
-VALUES (1, 1, "inprogress", 1),
-       (1, 2, "inprogress", 1),
-       (1, 3, "inprogress", 1),
-       (4, 4, "inprogress", 2),
-       (5, 5, "inprogress", 3);
-
-INSERT INTO "session_card_states"
-("session_id", "cards_state_id")
-VALUES (1, 1),
-       (2, 3),
-       (3, 2);
-
-INSERT INTO "card_level_fines"
-("level_fine_id", "card_id")
-VALUES (1, 1),
-       (2, 2),
-       (3, 3,);
-
-INSERT INTO "card_state"
-("id", "current_fine", "level", "card", "owner_name")
-VALUES (1, 20000, 1, "company", "null"),
-       (2, 15000, 2, "company", "not_null"),
-       (3, 10000, 1, "company", "null");
+INSERT INTO non_type_card (id, image)
+VALUES (1, '/images/start.jpg'),
+       (5, '/images/money.jpg'),
+       (11, '/images/jackpot.jpg'),
+       (21, '/images/chill.jpg'),
+       (31, '/images/policy.jpg'),
+       (37, '/images/jewelry.jpg');

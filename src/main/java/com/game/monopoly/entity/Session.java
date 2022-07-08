@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
@@ -29,11 +30,11 @@ public class Session {
     @Enumerated(STRING)
     private SessionState state;
 
-    @ManyToMany(fetch = LAZY)
-    @JoinColumn(name = "players", nullable = false)
+    @ManyToMany(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "players")
     private List<Player> players = new ArrayList<>();
 
-    @ManyToMany(fetch = LAZY)
-    @JoinColumn(name = "card_states", nullable = false)
+    @ManyToMany(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "card_states")
     private List<CardState> cardStates = new ArrayList<>();
 }

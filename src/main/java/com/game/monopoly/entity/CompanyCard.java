@@ -1,6 +1,5 @@
 package com.game.monopoly.entity;
 
-import com.game.monopoly.entity.compositekey.CompanyCardId;
 import com.game.monopoly.enums.CardType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,8 +22,8 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @Table(name = "company_card")
 public class CompanyCard {
-    @EmbeddedId
-    private CompanyCardId id;
+    @Id
+    private Long id;
 
     @Column(name = "description")
     private String description;
@@ -35,21 +34,12 @@ public class CompanyCard {
     @Column(name = "price", nullable = false)
     private Long price;
 
-    @Column(name = "current_fine")
-    private Long currentFine;
-
     @Column(name = "house_price", nullable = false)
     private Long housePrice;
-
-    @Column(name = "level", nullable = false)
-    private Integer level;
 
     @Column(name = "type", nullable = false)
     @Enumerated(value = STRING)
     private CardType type;
-
-    @Column(name = "ownerName", nullable = false)
-    private String ownerName;
 
     @Column(name = "collection_number", nullable = false)
     private Integer collectionNumber;

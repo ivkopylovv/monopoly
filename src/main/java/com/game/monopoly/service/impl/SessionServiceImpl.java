@@ -4,16 +4,13 @@ import com.game.monopoly.constants.DiceBorderConstant;
 import com.game.monopoly.dao.CompanyCardDAO;
 import com.game.monopoly.dao.PlayerDAO;
 import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.CommonCardDTO;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.entity.CompanyCard;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
-import com.game.monopoly.entity.compositekey.CompanyCardId;
 import com.game.monopoly.enums.SessionState;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.randomizer.StepsCountRandomizer;
-import com.game.monopoly.randomizer.StringIdRandomizer;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +33,7 @@ public class SessionServiceImpl implements SessionService {
         sessionDAO.updateSessionState(SessionState.IN_PROGRESS, sessionId);
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
-        List<CompanyCard> companyCards = companyCardDAO.findByIdSessionId(sessionId);
+        //List<CompanyCard> companyCards = companyCardDAO.findByIdSessionId(sessionId);
 
         PlayingFieldDTO playingFieldDTO = new PlayingFieldDTO();
         playingFieldDTO.setPlayers(session.getPlayers());

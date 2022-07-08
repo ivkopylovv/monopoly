@@ -24,8 +24,4 @@ public class NonTypeCard {
 
     @Column(name = "image", nullable = false)
     private String image;
-
-    @Column(name = "type", nullable = false)
-    @Enumerated(value = STRING)
-    private CardType type;
 }

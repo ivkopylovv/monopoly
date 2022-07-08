@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EnterSessionDTO {
+public class ActionWithSessionDTO {
     private String sessionId;
+    private String playerName;
 }

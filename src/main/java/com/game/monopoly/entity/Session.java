@@ -32,4 +32,8 @@ public class Session {
     @ManyToMany(fetch = LAZY)
     @JoinColumn(name = "players", nullable = false)
     private List<Player> players = new ArrayList<>();
+
+    @ManyToMany(fetch = LAZY)
+    @JoinColumn(name = "card_states", nullable = false)
+    private List<CardState> cardStates = new ArrayList<>();
 }

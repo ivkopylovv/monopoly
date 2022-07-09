@@ -24,14 +24,7 @@ public class ResultMessageMapper {
         return new ResultMessageDTO(String.format(PAY_FOR_CARD, dto.getPlayerName()));
     }
 
-    public static ResultMessageDTO addPlayerToResultMessage(ActionWithSessionDTO sessionDTO) {
+    public static ResultMessageDTO addPlayerToResultMessage(AddPlayerToSessionDTO sessionDTO) {
         return new ResultMessageDTO(String.format(NEW_PLAYER, sessionDTO.getPlayerName()));
-    }
-
-    public static ResultDiceRollMessageDTO randomSteps(ActionWithSessionDTO sessionDTO,
-                                                       List<Long> rollResults) {
-        return new ResultDiceRollMessageDTO(String.format(DICE_ROLL_RESULT, sessionDTO.getPlayerName(),
-                rollResults.get(0) + rollResults.get(1), rollResults.get(0), rollResults.get(1)),
-                rollResults.get(0), rollResults.get(1));
     }
 }

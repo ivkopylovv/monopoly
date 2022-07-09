@@ -1,7 +1,8 @@
 package com.game.monopoly.controller;
 
-import com.game.monopoly.dto.request.ActionWithSessionDTO;
+import com.game.monopoly.dto.request.AddPlayerToSessionDTO;
 import com.game.monopoly.dto.request.ResultMessageDTO;
+import com.game.monopoly.dto.request.SessionIdDTO;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.dto.response.SuccessMessageDTO;
@@ -23,8 +24,8 @@ public class SessionController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping(value = "/sessions/create")
-    public ResponseEntity<SuccessMessageDTO> createSession(@RequestBody ActionWithSessionDTO dto) {
-        sessionService.createSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
+    public ResponseEntity<SuccessMessageDTO> createSession(@RequestBody SessionIdDTO dto) {
+        sessionService.createSession(dto.getSessionId());
 
         return ResponseEntity.ok().body(new SuccessMessageDTO(SESSION_WAS_CREATED));
     }
@@ -35,7 +36,7 @@ public class SessionController {
     }
 
     @PostMapping(value = "/sessions/add-player")
-    public ResponseEntity<ResultMessageDTO> addPlayer(@RequestBody ActionWithSessionDTO dto) {
+    public ResponseEntity<ResultMessageDTO> addPlayer(@RequestBody AddPlayerToSessionDTO dto) {
         sessionService.addPlayer(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
         ResultMessageDTO resultMessage = ResultMessageMapper.addPlayerToResultMessage(dto);
         simpMessagingTemplate.convertAndSend(GAME_PROCESS_PATH + dto.getSessionId(), resultMessage);
@@ -44,7 +45,7 @@ public class SessionController {
     }
 
     @GetMapping(value = "/sessions/roll-dice")
-    public ResponseEntity<RollDiceResultDTO> randomSteps(@RequestBody ActionWithSessionDTO dto) {
+    public ResponseEntity<RollDiceResultDTO> randomSteps(@RequestBody AddPlayerToSessionDTO dto) {
         RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getSessionId(), dto.getPlayerName());
         simpMessagingTemplate.convertAndSend(GAME_PROCESS_PATH + dto.getSessionId(), rollDiceResult);
 

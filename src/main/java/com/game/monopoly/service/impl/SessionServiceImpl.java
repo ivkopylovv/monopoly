@@ -53,18 +53,7 @@ public class SessionServiceImpl implements SessionService {
 
 
     @Override
-    public void createSession(String sessionId, String playerName, String colour) {
-        Player player = new Player()
-                .setName(playerName)
-                .setPosition(0)
-                .setColour(PlayerColour.valueOf(colour));
-        Session session = new Session()
-                .setId(sessionId)
-                .setState(NEW);
-
-        playerDAO.save(player);
-        session.getPlayers().add(player);
-
+    public void createSession(String sessionId) {
         List<CardState> cardStates = new ArrayList<>();
         List<CompanyCard> companyCards = companyCardDAO.findAll();
 
@@ -79,8 +68,11 @@ public class SessionServiceImpl implements SessionService {
                     cardStateDAO.save(cardState);
                     cardStates.add(cardState);
                 });
+        Session session = new Session()
+                .setId(sessionId)
+                .setState(NEW)
+                .setCardStates(cardStates);
 
-        session.getCardStates().addAll(cardStates);
         sessionDAO.save(session);
     }
 

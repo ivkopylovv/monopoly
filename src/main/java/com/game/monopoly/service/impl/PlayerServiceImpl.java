@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlayerServiceImpl implements PlayerService {
     private final PlayerDAO playerDAO;
 
-
     @Override
     public void changePlayerBalance(String name, Long moneyDiff) {
         playerDAO.updatePlayerBalanceByName(moneyDiff, name);

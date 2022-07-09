@@ -4,6 +4,7 @@ import com.game.monopoly.dao.*;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.*;
+import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.helper.RandomHelper;
 import com.game.monopoly.mapper.CardMapper;
@@ -52,10 +53,11 @@ public class SessionServiceImpl implements SessionService {
 
 
     @Override
-    public void createSession(String sessionId, String playerName) {
+    public void createSession(String sessionId, String playerName, String colour) {
         Player player = new Player()
                 .setName(playerName)
-                .setPosition(0);
+                .setPosition(0)
+                .setColour(PlayerColour.valueOf(colour));
         Session session = new Session()
                 .setId(sessionId)
                 .setState(NEW);
@@ -83,10 +85,11 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void addPlayer(String sessionId, String playerName) {
+    public void addPlayer(String sessionId, String playerName, String colour) {
         Player player = new Player()
                 .setName(playerName)
-                .setPosition(0);
+                .setPosition(0)
+                .setColour(PlayerColour.valueOf(colour));
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
 

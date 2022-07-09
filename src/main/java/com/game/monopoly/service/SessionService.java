@@ -6,9 +6,9 @@ import com.game.monopoly.dto.response.RollDiceResultDTO;
 public interface SessionService {
     PlayingFieldDTO getPlayingField(String sessionId);
 
-    void createSession(String sessionId, String playerName);
+    void createSession(String sessionId, String playerName, String colour);
 
-    void addPlayer(String sessionId, String playerName);
+    void addPlayer(String sessionId, String playerName, String colour);
 
     RollDiceResultDTO rollDices(String sessionId, String playerName);
 }

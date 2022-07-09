@@ -24,7 +24,7 @@ public class SessionController {
 
     @PostMapping(value = "/sessions/create")
     public ResponseEntity<SuccessMessageDTO> createSession(@RequestBody ActionWithSessionDTO dto) {
-        sessionService.createSession(dto.getSessionId(), dto.getPlayerName());
+        sessionService.createSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
 
         return ResponseEntity.ok().body(new SuccessMessageDTO(SESSION_WAS_CREATED));
     }
@@ -36,7 +36,7 @@ public class SessionController {
 
     @PostMapping(value = "/sessions/add-player")
     public ResponseEntity<ResultMessageDTO> addPlayer(@RequestBody ActionWithSessionDTO dto) {
-        sessionService.addPlayer(dto.getSessionId(), dto.getPlayerName());
+        sessionService.addPlayer(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
         ResultMessageDTO resultMessage = ResultMessageMapper.addPlayerToResultMessage(dto);
         simpMessagingTemplate.convertAndSend(GAME_PROCESS_PATH + dto.getSessionId(), resultMessage);
 

@@ -12,4 +12,5 @@ import lombok.Setter;
 public class ActionWithSessionDTO {
     private String sessionId;
     private String playerName;
+    private String colour;
 }

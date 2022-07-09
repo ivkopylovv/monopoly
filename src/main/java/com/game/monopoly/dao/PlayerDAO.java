@@ -12,13 +12,13 @@ import java.util.Optional;
 public interface PlayerDAO extends JpaRepository<Player, Long> {
     Optional<Player> findPlayerByName(String name);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update Player p " +
-            "set p.balance = ?1 " +
+            "set p.balance = p.balance + ?1 " +
             "where p.name = ?2")
     void updatePlayerBalanceByName(Long moneyDiff, String name);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update Player p " +
             "set p.position = ?1 " +
             "where p.name = ?2")

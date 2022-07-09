@@ -45,7 +45,7 @@ public class SessionServiceImpl implements SessionService {
                 .setPlayers(session.getPlayers())
                 .setState(String.valueOf(session.getState()))
                 .setCards(CardMapper.allCardsToCommonsList(companyCards, chanceCards, nonTypeCards))
-                .setCardStates(CardMapper.splitCompanyCardStatesOnCollections(session.getCardStates()));
+                .setCardStates(CardMapper.cardStatesEntitiesToDTOList(session.getCardStates()));
 
         return playingFieldDTO;
     }

@@ -11,7 +11,6 @@ import com.game.monopoly.enums.CardType;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CardMapper {
@@ -56,30 +55,21 @@ public class CardMapper {
                 .collect(Collectors.toList());
     }
 
-    public static Map<Integer, List<CardStateDTO>> splitCompanyCardStatesOnCollections(List<CardState> cardStates) {
-        Map<Integer, List<CardState>> cardStateMap = cardStates
+    public static List<CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
+        return cardStates
                 .stream()
-                .collect(Collectors.groupingBy(CardMapper::apply));
-
-        return cardStateMap.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        entry.getValue()
-                                .stream()
-                                .map(CardMapper::cardStateToDTO)
-                                .collect(Collectors.toList())));
+                .map(CardMapper::cardStateEntityToDTO)
+                .collect(Collectors.toList());
     }
 
-    private static Integer apply(CardState cardState) {
-        return cardState.getCard().getCollectionNumber();
-    }
-
-    private static CardStateDTO cardStateToDTO(CardState cs) {
+    private static CardStateDTO cardStateEntityToDTO(CardState cs) {
         return new CardStateDTO(
                 cs.getCard().getId(),
                 cs.getCard().getPrice(),
                 cs.getCurrentFine(),
                 cs.getOwnerName(),
-                cs.getLevel()
-        );
+                cs.getLevel(),
+                cs.getCard().getCollectionNumber());
     }
+
 }

@@ -24,7 +24,7 @@ public class ResultMessageMapper {
         return new ResultMessageDTO(String.format(PAY_FOR_CARD, dto.getPlayerName()));
     }
 
-    public static ResultMessageDTO addPlayerMessage(ActionWithSessionDTO sessionDTO) {
+    public static ResultMessageDTO addPlayerToResultMessage(ActionWithSessionDTO sessionDTO) {
         return new ResultMessageDTO(String.format(NEW_PLAYER, sessionDTO.getPlayerName()));
     }
 

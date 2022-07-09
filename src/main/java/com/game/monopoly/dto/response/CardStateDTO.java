@@ -15,4 +15,5 @@ public class CardStateDTO {
     private Long fine;
     private String ownerName;
     private Integer level;
+    private Integer collectionNumber;
 }

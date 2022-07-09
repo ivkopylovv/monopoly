@@ -9,15 +9,18 @@ import com.game.monopoly.mapper.ResultMessageMapper;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import static com.game.monopoly.constants.ResultMessage.SESSION_WAS_CREATED;
+import static com.game.monopoly.constants.WebSocketPath.GAME_PROCESS_PATH;
 
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class SessionController {
     private final SessionService sessionService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping(value = "/sessions/create")
     public ResponseEntity<SuccessMessageDTO> createSession(@RequestBody ActionWithSessionDTO dto) {
@@ -32,14 +35,19 @@ public class SessionController {
     }
 
     @PostMapping(value = "/sessions/add-player")
-    public ResponseEntity<ResultMessageDTO> addPlayer(@RequestBody ActionWithSessionDTO playerDTO) {
-        sessionService.addPlayer(playerDTO.getSessionId(), playerDTO.getPlayerName());
+    public ResponseEntity<ResultMessageDTO> addPlayer(@RequestBody ActionWithSessionDTO dto) {
+        sessionService.addPlayer(dto.getSessionId(), dto.getPlayerName());
+        ResultMessageDTO resultMessage = ResultMessageMapper.addPlayerToResultMessage(dto);
+        simpMessagingTemplate.convertAndSend(GAME_PROCESS_PATH + dto.getSessionId(), resultMessage);
 
-        return ResponseEntity.ok(ResultMessageMapper.addPlayerMessage(playerDTO));
+        return ResponseEntity.ok().body(resultMessage);
     }
 
     @GetMapping(value = "/sessions/roll-dice")
-    public ResponseEntity<RollDiceResultDTO> randomSteps(@RequestBody ActionWithSessionDTO playerDTO) {
-        return ResponseEntity.ok(sessionService.rollDices(playerDTO.getSessionId(), playerDTO.getPlayerName()));
+    public ResponseEntity<RollDiceResultDTO> randomSteps(@RequestBody ActionWithSessionDTO dto) {
+        RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getSessionId(), dto.getPlayerName());
+        simpMessagingTemplate.convertAndSend(GAME_PROCESS_PATH + dto.getSessionId(), rollDiceResult);
+
+        return ResponseEntity.ok().body(rollDiceResult);
     }
 }

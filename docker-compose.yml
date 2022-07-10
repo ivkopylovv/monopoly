@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  db:
+    container_name: postgresql
+    image: postgres
+    restart: always
+    user: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: monopoly
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vanya
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./container/postgresql_data:/var/lib/postgresql/data
+
+  monopoly:
+    container_name: app
+    image: app-springboot
+    build: .
+    ports:
+      - "8090:8090"
+    depends_on:
+      - db
+
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   ports:
+  #     - "8082:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "admin@gmail.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "qwerty"
+  #     PGADMIN_DEFAULT_PASSWORD_FILE: "qwerty"
+  #   volumes:
+  #     - ./container/pgadmin:/var/lib/pgadmin
+  adminer:
+    container_name: adminer_db
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080

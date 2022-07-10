@@ -10,6 +10,9 @@ import com.game.monopoly.mapper.ResultMessageMapper;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +46,7 @@ public class SessionController {
 
         return ResponseEntity.ok().body(resultMessage);
     }
+
 
     @GetMapping(value = "/sessions/roll-dice")
     public ResponseEntity<RollDiceResultDTO> randomSteps(@RequestBody AddPlayerToSessionDTO dto) {

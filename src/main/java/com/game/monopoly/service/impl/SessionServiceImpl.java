@@ -80,11 +80,13 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void addPlayer(String sessionId, String playerName, String colour) {
+    public Player addPlayer(String sessionId, String playerName, String colour) {
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
         Player player = playerService.savePlayer(playerName, colour);
         session.getPlayers().add(player);
+
+        return player;
     }
 
     @Override

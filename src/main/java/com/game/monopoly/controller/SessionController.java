@@ -5,6 +5,7 @@ import com.game.monopoly.dto.request.ResultMessageDTO;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.dto.response.SuccessMessageDTO;
+import com.game.monopoly.entity.Player;
 import com.game.monopoly.mapper.ResultMessageMapper;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +36,11 @@ public class SessionController {
     }
 
     @MessageMapping(value = "/sessions/add-player")
-    public ResponseEntity<ResultMessageDTO> addPlayer(InitializeSessionDTO dto) {
-        sessionService.addPlayer(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
-        ResultMessageDTO resultMessage = ResultMessageMapper.addPlayerToResultMessage(dto);
-        simpMessagingTemplate.convertAndSend("/topic/add-player" + dto.getSessionId(), resultMessage);
+    public ResponseEntity<Player> addPlayer(InitializeSessionDTO dto) {
+        Player player = sessionService.addPlayer(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
+        simpMessagingTemplate.convertAndSend("/topic/add-player/" + dto.getSessionId(), player);
 
-        return ResponseEntity.ok().body(resultMessage);
+        return ResponseEntity.ok().body(player);
     }
 
 

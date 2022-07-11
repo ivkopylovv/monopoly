@@ -24,7 +24,7 @@ VALUES (2, 'Levi’s', '/images/levis.svg', 600, 500, 1),
        (32, 'L’Oreal', '/images/loreal.svg', 3000, 1750, 9),
        (33, 'Givenchy', '/images/givenchy.svg', 3100, 1750, 9),
        (35, 'Sephora', '/images/sephora.svg', 3200, 1750, 9),
-       (36, 'Apple', '/images/apple.svg', 2000, 0, 2),
+       (36, 'Nedozon', '/images/nedozon.svg', 2000, 0, 2),
        (38, 'Netflix', '/images/netflix.svg', 3500, 2000, 10),
        (40, 'Google', '/images/google.svg', 4000, 2000, 10);
 

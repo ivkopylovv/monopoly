@@ -4,11 +4,11 @@ import com.game.monopoly.dao.*;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.*;
-import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.helper.RandomHelper;
 import com.game.monopoly.mapper.CardMapper;
 import com.game.monopoly.mapper.RoleDicesMapper;
+import com.game.monopoly.service.PlayerService;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,7 @@ import static com.game.monopoly.enums.SessionState.NEW;
 @Transactional
 @RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
+    private final PlayerService playerService;
     private final SessionDAO sessionDAO;
     private final PlayerDAO playerDAO;
     private final CompanyCardDAO companyCardDAO;
@@ -53,9 +54,10 @@ public class SessionServiceImpl implements SessionService {
 
 
     @Override
-    public void createSession(String sessionId) {
+    public void createSession(String sessionId, String playerName, String colour) {
         List<CardState> cardStates = new ArrayList<>();
         List<CompanyCard> companyCards = companyCardDAO.findAll();
+        Player player = playerService.savePlayer(playerName, colour);
 
         companyCards
                 .stream()
@@ -72,20 +74,16 @@ public class SessionServiceImpl implements SessionService {
                 .setId(sessionId)
                 .setState(NEW)
                 .setCardStates(cardStates);
+        session.getPlayers().add(player);
 
         sessionDAO.save(session);
     }
 
     @Override
     public void addPlayer(String sessionId, String playerName, String colour) {
-        Player player = new Player()
-                .setName(playerName)
-                .setPosition(0)
-                .setColour(PlayerColour.valueOf(colour));
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
-
-        playerDAO.save(player);
+        Player player = playerService.savePlayer(playerName, colour);
         session.getPlayers().add(player);
     }
 

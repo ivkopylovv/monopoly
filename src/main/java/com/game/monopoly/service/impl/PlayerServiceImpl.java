@@ -1,10 +1,17 @@
 package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.PlayerDAO;
+import com.game.monopoly.entity.Player;
+import com.game.monopoly.enums.PlayerColour;
+import com.game.monopoly.exception.ResourceAlreadyExistsException;
 import com.game.monopoly.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Locale;
+
+import static com.game.monopoly.constants.ErrorMessage.PLAYER_ALREADY_EXISTS;
 
 @Service
 @Transactional
@@ -19,26 +26,24 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void buyCard(String name, Long cardNumber) {
-       /* Player player = playerDAO.findPlayerByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException(PLAYER_NOT_FOUND));
-        CompanyCard card = officeCardDAO.findById(cardNumber)
-                .orElseThrow(() -> new ResourceNotFoundException(CARD_NOT_FOUND));
 
-        card.setCurrentFine(card.getFines().get(card.getLevel()).getValue());
-        Long cardPrice = card.getPrice();
-
-        player.getCards().add(card);
-        playerDAO.updatePlayerBalanceByName(-cardPrice, name);*/
     }
 
     @Override
     public void payForCard(String name, Long cardNumber) {
-       /* CompanyCard card = officeCardDAO.findById(cardNumber)
-                .orElseThrow(() -> new ResourceNotFoundException(CARD_NOT_FOUND));
-        playerDAO.updatePlayerBalanceByName(-card.getCurrentFine(), name);
 
-        Player receivingPlayer = playerDAO.findPlayerByCardsId(cardNumber)
-                .orElseThrow(() -> new ResourceNotFoundException(PLAYER_NOT_FOUND));
-        playerDAO.updatePlayerBalanceByName(card.getCurrentFine(), receivingPlayer.getName());*/
+    }
+
+    @Override
+    public Player savePlayer(String playerName, String colour) {
+        playerDAO.findPlayerByName(playerName)
+                .ifPresent((player -> {
+                    throw new ResourceAlreadyExistsException(PLAYER_ALREADY_EXISTS);
+                }));
+        Player player = new Player()
+                .setName(playerName)
+                .setPosition(0)
+                .setColour(PlayerColour.valueOf(colour.toUpperCase(Locale.ROOT)));
+        return playerDAO.save(player);
     }
 }

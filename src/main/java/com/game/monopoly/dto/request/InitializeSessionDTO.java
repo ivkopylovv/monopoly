@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddPlayerToSessionDTO {
+public class InitializeSessionDTO {
     private String sessionId;
     private String playerName;
     private String colour;

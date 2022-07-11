@@ -1,5 +1,6 @@
 package com.game.monopoly.exception.handler;
 
+import com.game.monopoly.exception.ResourceAlreadyExistsException;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.exception.data.ApiError;
 import com.game.monopoly.helper.DateHelper;
@@ -133,6 +134,20 @@ public class GlobalResponseExceptionHandler extends ResponseEntityExceptionHandl
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity handleResourceNotFoundException(
             ResourceNotFoundException e, WebRequest request) {
+        ApiError error = new ApiError(
+                DateHelper.getCurrentDate(),
+                BAD_REQUEST.value(),
+                BAD_REQUEST,
+                e.getMessage(),
+                ServletPathHelper.getServletPath(request)
+        );
+
+        return ResponseErrorMapper.errorToEntity(error);
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity handleResourceNotFoundException(
+            ResourceAlreadyExistsException e, WebRequest request) {
         ApiError error = new ApiError(
                 DateHelper.getCurrentDate(),
                 BAD_REQUEST.value(),

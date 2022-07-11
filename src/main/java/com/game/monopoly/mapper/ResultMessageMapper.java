@@ -1,8 +1,9 @@
 package com.game.monopoly.mapper;
 
-import com.game.monopoly.dto.request.*;
-
-import java.util.List;
+import com.game.monopoly.dto.request.ChangeBalanceDTO;
+import com.game.monopoly.dto.request.InitializeSessionDTO;
+import com.game.monopoly.dto.request.PerformActionWithCardDTO;
+import com.game.monopoly.dto.request.ResultMessageDTO;
 
 import static com.game.monopoly.constants.ResultMessage.*;
 
@@ -24,7 +25,7 @@ public class ResultMessageMapper {
         return new ResultMessageDTO(String.format(PAY_FOR_CARD, dto.getPlayerName()));
     }
 
-    public static ResultMessageDTO addPlayerToResultMessage(AddPlayerToSessionDTO sessionDTO) {
+    public static ResultMessageDTO addPlayerToResultMessage(InitializeSessionDTO sessionDTO) {
         return new ResultMessageDTO(String.format(NEW_PLAYER, sessionDTO.getPlayerName()));
     }
 }

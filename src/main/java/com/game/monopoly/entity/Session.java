@@ -37,4 +37,10 @@ public class Session {
     @ManyToMany(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "card_states")
     private List<CardState> cardStates = new ArrayList<>();
+
+    @ManyToMany(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "messages")
+    private List<Message> messages = new ArrayList<>();
+
+
 }

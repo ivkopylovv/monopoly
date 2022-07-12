@@ -1,12 +1,11 @@
-
 FROM openjdk:latest
 
 VOLUME /project_data
 
 WORKDIR /monopoly
 
-ADD /build/libs/*.jar app.jar
-
 EXPOSE 8090
+
+COPY /build/libs/*.jar app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]

@@ -22,9 +22,8 @@ public class SessionProcessController {
 
     @MessageMapping(value = "/sessions/add-player")
     public ResponseEntity<Player> addPlayer(InitializeSessionDTO dto) {
-        Session session = sessionService.getSession(dto.getSessionId());
         Player player = playerService.savePlayer(dto.getPlayerName(), dto.getColour());
-        sessionService.addPlayerToSession(session, player);
+        sessionService.addPlayerToSession(dto.getSessionId(), player);
         simpMessagingTemplate.convertAndSend("/topic/add-player/" + dto.getSessionId(), player);
 
         return ResponseEntity.ok().body(player);

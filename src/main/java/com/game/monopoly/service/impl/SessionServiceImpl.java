@@ -38,8 +38,10 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void addPlayerToSession(Session session, Player player) {
+    public void addPlayerToSession(String sessionId, Player player) {
+        Session session = getSession(sessionId);
         session.getPlayers().add(player);
+        sessionDAO.save(session);
     }
 
 }

@@ -11,5 +11,5 @@ public interface SessionService {
 
     void saveSession(String sessionId, Player player, List<CardState> cardStates);
 
-    void addPlayerToSession(Session session, Player player);
+    void addPlayerToSession(String sessionId, Player player);
 }

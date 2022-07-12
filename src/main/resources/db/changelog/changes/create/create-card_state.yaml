@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-card_state
+      author: ZhurkinN
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                schemaName: public
+                tableName: card_state
+      changes:
+        - createTable:
+            tableName: card_state
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: current_fine
+                  type: bigint
+              - column:
+                  name: level
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: owner_name
+                  type: varchar
+              - column:
+                  name: card_id
+                  type: bigint
+                  constraints:
+                    nullable: false

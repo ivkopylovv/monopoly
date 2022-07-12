@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/changelog/changes/create
+  - include:
+      file: db/changelog/changes/add-constraints.sql
+  - include:
+      file: db/changelog/changes/insert-data.sql

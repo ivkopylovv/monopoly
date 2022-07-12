@@ -1,12 +1,10 @@
 package com.game.monopoly.controller;
 
 import com.game.monopoly.dto.request.InitializeSessionDTO;
-import com.game.monopoly.dto.request.ResultMessageDTO;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.dto.response.SuccessMessageDTO;
 import com.game.monopoly.entity.Player;
-import com.game.monopoly.mapper.ResultMessageMapper;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

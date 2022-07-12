@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SessionIdDTO {
+public class RollDiceDTO {
     private String sessionId;
+    private String playerName;
 }

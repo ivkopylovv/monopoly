@@ -1,15 +1,15 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dto.response.PlayingFieldDTO;
-import com.game.monopoly.dto.response.RollDiceResultDTO;
+import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Player;
+import com.game.monopoly.entity.Session;
+
+import java.util.List;
 
 public interface SessionService {
-    PlayingFieldDTO getPlayingField(String sessionId);
+    Session getSession(String sessionId);
 
-    void createSession(String sessionId, String playerName, String colour);
+    void saveSession(String sessionId, Player player, List<CardState> cardStates);
 
-    Player addPlayer(String sessionId, String playerName, String colour);
-
-    RollDiceResultDTO rollDices(String sessionId, String playerName);
+    void addPlayerToSession(Session session, Player player);
 }

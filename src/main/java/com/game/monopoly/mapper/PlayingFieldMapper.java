@@ -2,10 +2,8 @@ package com.game.monopoly.mapper;
 
 import com.game.monopoly.dto.response.CardStateDTO;
 import com.game.monopoly.dto.response.CommonCardDTO;
-import com.game.monopoly.entity.CardState;
-import com.game.monopoly.entity.ChanceCard;
-import com.game.monopoly.entity.CompanyCard;
-import com.game.monopoly.entity.NonTypeCard;
+import com.game.monopoly.dto.response.PlayingFieldDTO;
+import com.game.monopoly.entity.*;
 import com.game.monopoly.enums.CardType;
 
 import java.util.ArrayList;
@@ -13,9 +11,22 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CardMapper {
+public class PlayingFieldMapper {
 
-    public static List<CommonCardDTO> allCardsToCommonsList(
+    public static PlayingFieldDTO buildPlayingField(
+            Session session,
+            List<CompanyCard> companyCards,
+            List<ChanceCard> chanceCards,
+            List<NonTypeCard> nonTypeCards) {
+
+        return new PlayingFieldDTO()
+                .setPlayers(session.getPlayers())
+                .setState(String.valueOf(session.getState()))
+                .setCards(PlayingFieldMapper.allCardsToCommonsList(companyCards, chanceCards, nonTypeCards))
+                .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()));
+    }
+
+    private static List<CommonCardDTO> allCardsToCommonsList(
             List<CompanyCard> companyCards,
             List<ChanceCard> chanceCards,
             List<NonTypeCard> nonTypeCards) {
@@ -55,10 +66,10 @@ public class CardMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
+    private static List<CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
         return cardStates
                 .stream()
-                .map(CardMapper::cardStateEntityToDTO)
+                .map(PlayingFieldMapper::cardStateEntityToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -71,5 +82,4 @@ public class CardMapper {
                 cs.getLevel(),
                 cs.getCard().getCollectionNumber());
     }
-
 }

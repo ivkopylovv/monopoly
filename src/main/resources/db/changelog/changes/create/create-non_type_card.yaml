@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-non_type_card
+      author: ZhurkinN
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                schemaName: public
+                tableName: non_type_card
+      changes:
+        - createTable:
+            tableName: non_type_card
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: image
+                  type: varchar
+                  constraints:
+                    nullable: false

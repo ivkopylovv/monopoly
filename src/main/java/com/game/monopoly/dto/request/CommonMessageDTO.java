@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultMessageDTO {
+public class CommonMessageDTO {
+    private String sessionId;
+    private String sender;
     private String message;
 }

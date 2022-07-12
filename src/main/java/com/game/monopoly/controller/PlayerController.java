@@ -2,7 +2,7 @@ package com.game.monopoly.controller;
 
 import com.game.monopoly.dto.request.ChangeBalanceDTO;
 import com.game.monopoly.dto.request.PerformActionWithCardDTO;
-import com.game.monopoly.dto.request.ResultMessageDTO;
+import com.game.monopoly.dto.response.ResultMessageDTO;
 import com.game.monopoly.mapper.ResultMessageMapper;
 import com.game.monopoly.service.PlayerService;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package com.game.monopoly.mapper;
 import com.game.monopoly.dto.request.ChangeBalanceDTO;
 import com.game.monopoly.dto.request.InitializeSessionDTO;
 import com.game.monopoly.dto.request.PerformActionWithCardDTO;
-import com.game.monopoly.dto.request.ResultMessageDTO;
+import com.game.monopoly.dto.response.ResultMessageDTO;
 
 import static com.game.monopoly.constants.ResultMessage.*;
 

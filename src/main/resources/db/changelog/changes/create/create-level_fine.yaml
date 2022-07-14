@@ -7,10 +7,10 @@ databaseChangeLog:
           not:
             - tableExists:
                 schemaName: public
-                tableName: level_fines
+                tableName: level_fine
       changes:
         - createTable:
-            tableName: level_fines
+            tableName: level_fine
             columns:
               - column:
                   name: id

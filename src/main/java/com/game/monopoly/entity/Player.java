@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-import static com.game.monopoly.constants.EconomicalConstant.DEFAULT_BALANCE;
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_BALANCE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.AUTO;
 
@@ -36,5 +36,5 @@ public class Player {
     private PlayerColour colour;
 
     @Column(name = "balance", nullable = false)
-    private Long balance = DEFAULT_BALANCE;
+    private Long balance = INITIAL_BALANCE;
 }

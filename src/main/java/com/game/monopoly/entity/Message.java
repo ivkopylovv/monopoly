@@ -1,7 +1,6 @@
 package com.game.monopoly.entity;
 
 import com.game.monopoly.enums.MessageType;
-import com.game.monopoly.enums.PlayerColour;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
@@ -41,8 +39,6 @@ public class Message {
     @Column(name = "type", nullable = false)
     @Enumerated(STRING)
     private MessageType type;
-
-
 
 
 }

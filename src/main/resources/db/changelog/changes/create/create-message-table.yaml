@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-player
+      author: ZhurkinN
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                schemaName: public
+                tableName: message
+      changes:
+        - createTable:
+            tableName: message
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: content
+                  type: varchar
+              - column:
+                  name: type
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: receiver_id
+                  type: bigint
+              - column:
+                  name: sender_id
+                  type: bigint

@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-level_fine
+      author: ZhurkinN
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                schemaName: public
+                tableName: level_fine
+      changes:
+        - createTable:
+            tableName: level_fine
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: value
+                  type: bigint
+                  constraints:
+                    nullable: false

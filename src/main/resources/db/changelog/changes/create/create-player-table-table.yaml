@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-player
+      author: ZhurkinN
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                schemaName: public
+                tableName: player
+      changes:
+        - createTable:
+            tableName: player
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: balance
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: colour
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar
+                  constraints:
+                    unique: true
+              - column:
+                  name: position
+                  type: integer

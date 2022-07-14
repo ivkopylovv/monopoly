@@ -1,7 +1,7 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.Player;
+import com.game.monopoly.enums.PlayerRole;
 
 public interface PlayerService {
     Player getPlayer(String name);
@@ -12,7 +12,7 @@ public interface PlayerService {
 
     void payForCard(String name, Long cardNumber);
 
-    Player savePlayer(String playerName, String colour);
+    void savePlayer(String playerName, String colour, PlayerRole role);
 
-    RollDiceResultDTO rollDices(Player player);
+    void updatePlayerPosition(int newPosition, String playerName);
 }

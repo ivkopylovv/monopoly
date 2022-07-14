@@ -22,17 +22,14 @@ public class SessionInitController {
     private final CompanyCardService companyCardService;
     private final ChanceCardService chanceCardService;
     private final NonTypeCardService nonTypeCardService;
-    private final PlayerService playerService;
     private final CardStateService cardStateService;
 
     @PostMapping(value = "/sessions")
     public ResponseEntity<SuccessMessageDTO> createSession(@RequestBody InitializeSessionDTO dto) {
         List<CompanyCard> companyCards = companyCardService.getCompanyCards();
         List<CardState> cardStates = cardStateService.getNewCardStates(companyCards);
-
-        Player player = playerService.savePlayer(dto.getPlayerName(), dto.getColour());
         cardStateService.saveCardStates(cardStates);
-        sessionService.saveSession(dto.getSessionId(), player, cardStates);
+        sessionService.saveSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour(), cardStates);
 
         return ResponseEntity.ok().body(new SuccessMessageDTO(SESSION_WAS_CREATED));
     }

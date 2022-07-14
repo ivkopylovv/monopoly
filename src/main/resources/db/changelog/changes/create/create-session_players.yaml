@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-session_players
+      author: ZhurkinN
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - tableExists:
+                schemaName: public
+                tableName: session_players
+      changes:
+        - createTable:
+            tableName: session_players
+            columns:
+              - column:
+                  name: session_id
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: players_id
+                  type: bigint
+                  constraints:
+                    nullable: false

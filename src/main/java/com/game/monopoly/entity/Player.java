@@ -1,6 +1,7 @@
 package com.game.monopoly.entity;
 
 import com.game.monopoly.enums.PlayerColour;
+import com.game.monopoly.enums.PlayerRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class Player {
 
     @Column(name = "position", nullable = false)
     private Integer position;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(STRING)
+    private PlayerRole role;
 
     @Column(name = "colour", nullable = false)
     @Enumerated(STRING)

@@ -1,14 +1,13 @@
 package com.game.monopoly.service.impl;
 
-import com.game.monopoly.dao.MessageDAO;
+import com.game.monopoly.dao.ChatDAO;
 import com.game.monopoly.dao.PlayerDAO;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.entity.Message;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
-import com.game.monopoly.enums.MessageType;
 import com.game.monopoly.exception.ResourceNotFoundException;
-import com.game.monopoly.service.MessageService;
+import com.game.monopoly.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +20,8 @@ import static com.game.monopoly.enums.MessageType.SINGLE;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService {
-    private final MessageDAO messageDAO;
+public class ChatServiceImpl implements ChatService {
+    private final ChatDAO chatDAO;
     private final SessionDAO sessionDAO;
     private final PlayerDAO playerDAO;
 
@@ -38,10 +37,12 @@ public class MessageServiceImpl implements MessageService {
                 .setSender(player)
                 .setType(COMMON);
 
-        messageDAO.save(playerMessage);
+        chatDAO.save(playerMessage);
         session.getMessages()
                 .add(playerMessage);
-    };
+    }
+
+    ;
 
     @Override
     public void saveSingleMessage(String sessionId, String sender, String receiver, String message) {
@@ -58,8 +59,10 @@ public class MessageServiceImpl implements MessageService {
                 .setReceiver(receivingPlayer)
                 .setType(SINGLE);
 
-        messageDAO.save(playerMessage);
+        chatDAO.save(playerMessage);
         session.getMessages()
                 .add(playerMessage);
-    };
+    }
+
+    ;
 }

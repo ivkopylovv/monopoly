@@ -37,7 +37,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "qwerty"
     volumes:
       - ./container/pgadmin:/var/lib/pgadmin
-      
+
   # adminer:
   #   container_name: adminer_db
   #   image: adminer

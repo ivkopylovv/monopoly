@@ -40,7 +40,9 @@ public class ChatServiceImpl implements ChatService {
         chatDAO.save(playerMessage);
         session.getMessages()
                 .add(playerMessage);
-    };
+    }
+
+    ;
 
     @Override
     public void saveSingleMessage(String sessionId, String sender, String receiver, String message) {
@@ -60,5 +62,7 @@ public class ChatServiceImpl implements ChatService {
         chatDAO.save(playerMessage);
         session.getMessages()
                 .add(playerMessage);
-    };
+    }
+
+    ;
 }

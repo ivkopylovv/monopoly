@@ -2,6 +2,7 @@ package com.game.monopoly.dao;
 
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.enums.PlayerColour;
+import com.game.monopoly.enums.PlayerRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static com.game.monopoly.enums.PlayerColour.GREEN;
+import static com.game.monopoly.enums.PlayerRole.ADMIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
@@ -17,6 +19,7 @@ class PlayerDAOTest {
     public static final Long ACTUAL_BALANCE = 1000L;
     public static final Integer ACTUAL_POSITION = 0;
     public static final PlayerColour ACTUAL_COLOUR = GREEN;
+    public static final PlayerRole ACTUAL_ROLE = ADMIN;
 
     @Autowired
     private PlayerDAO playerDAO;
@@ -27,7 +30,8 @@ class PlayerDAOTest {
                 .setName(ACTUAL_NAME)
                 .setBalance(ACTUAL_BALANCE)
                 .setPosition(ACTUAL_POSITION)
-                .setColour(ACTUAL_COLOUR);
+                .setColour(ACTUAL_COLOUR)
+                .setRole(ACTUAL_ROLE);
         playerDAO.save(player);
     }
 

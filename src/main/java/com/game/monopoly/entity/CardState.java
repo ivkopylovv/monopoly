@@ -11,6 +11,7 @@ import javax.persistence.*;
 import static com.game.monopoly.constants.InitialGameValue.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
@@ -21,7 +22,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Table(name = "card_state")
 public class CardState {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name = "current_fine")

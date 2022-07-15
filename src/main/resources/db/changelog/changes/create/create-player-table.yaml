@@ -15,6 +15,9 @@ databaseChangeLog:
               - column:
                   name: id
                   type: bigint
+                  incrementBy: 1
+                  startWith: 1
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false

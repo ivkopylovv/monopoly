@@ -13,6 +13,7 @@ import javax.persistence.*;
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_BALANCE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
@@ -23,7 +24,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Table(name = "player")
 public class Player {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name = "name", unique = true)

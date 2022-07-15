@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
@@ -19,7 +20,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Table(name = "level_fine")
 public class LevelFine {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name = "value", nullable = false)

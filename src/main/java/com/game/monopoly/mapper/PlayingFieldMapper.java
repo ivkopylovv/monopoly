@@ -67,7 +67,8 @@ public class PlayingFieldMapper {
     private static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
         return cardStates
                 .stream()
-                .collect(Collectors.toMap(CardState::getId,
+                .collect(Collectors.toMap(
+                        PlayingFieldMapper::cardStateToCardId,
                         PlayingFieldMapper::cardStateEntityToDTO, (a, b) -> b)
                 );
     }
@@ -79,5 +80,9 @@ public class PlayingFieldMapper {
                 cs.getOwnerName(),
                 cs.getLevel(),
                 cs.getCard().getCollectionNumber());
+    }
+
+    private static Long cardStateToCardId(CardState cardState) {
+        return cardState.getCard().getId();
     }
 }

@@ -5,6 +5,7 @@ import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
+import com.game.monopoly.exception.ResourceAlreadyExistsException;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.helper.PlayerPositionHelper;
 import com.game.monopoly.helper.RandomHelper;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.game.monopoly.constants.ErrorMessage.SESSION_NOT_FOUND;
+import static com.game.monopoly.constants.ErrorMessage.*;
 import static com.game.monopoly.constants.PlayingFieldParam.MAX_BORDER;
 import static com.game.monopoly.constants.PlayingFieldParam.MIN_BORDER;
 import static com.game.monopoly.enums.PlayerRole.ADMIN;
@@ -41,6 +42,10 @@ public class SessionServiceImpl implements SessionService {
     @Transactional
     @Override
     public void saveSession(String sessionId, String playerName, String colour, List<CardState> cardStates) {
+        sessionDAO.findById(sessionId)
+                .ifPresent((session -> {
+                    throw new ResourceAlreadyExistsException(SESSION_ALREADY_EXISTS);
+                }));
         playerService.savePlayer(playerName, colour, ADMIN);
         Player player = playerService.getPlayer(playerName);
         Session session = new Session()

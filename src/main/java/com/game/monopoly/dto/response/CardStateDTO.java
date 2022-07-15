@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardStateDTO {
-    private Long id;
     private Long price;
     private Long fine;
     private String ownerName;

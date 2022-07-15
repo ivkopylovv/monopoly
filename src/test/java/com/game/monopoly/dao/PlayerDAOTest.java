@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static com.game.monopoly.enums.PlayerColour.GREEN;
+import static com.game.monopoly.enums.PlayerRole.ADMIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
@@ -18,6 +19,7 @@ class PlayerDAOTest {
     public static final Long ACTUAL_BALANCE = 1000L;
     public static final Integer ACTUAL_POSITION = 0;
     public static final PlayerColour ACTUAL_COLOUR = GREEN;
+    public static final PlayerRole ACTUAL_ROLE = ADMIN;
 
     @Autowired
     private PlayerDAO playerDAO;
@@ -29,7 +31,7 @@ class PlayerDAOTest {
                 .setBalance(ACTUAL_BALANCE)
                 .setPosition(ACTUAL_POSITION)
                 .setColour(ACTUAL_COLOUR)
-                .setRole(PlayerRole.USER);
+                .setRole(ACTUAL_ROLE);
         playerDAO.save(player);
     }
 

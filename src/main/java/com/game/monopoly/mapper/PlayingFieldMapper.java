@@ -6,9 +6,7 @@ import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.entity.*;
 import com.game.monopoly.enums.CardType;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PlayingFieldMapper {
@@ -66,16 +64,16 @@ public class PlayingFieldMapper {
                 .collect(Collectors.toList());
     }
 
-    private static List<CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
+    private static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
         return cardStates
                 .stream()
-                .map(PlayingFieldMapper::cardStateEntityToDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(CardState::getId,
+                        PlayingFieldMapper::cardStateEntityToDTO, (a, b) -> b)
+                );
     }
 
     private static CardStateDTO cardStateEntityToDTO(CardState cs) {
         return new CardStateDTO(
-                cs.getCard().getId(),
                 cs.getCard().getPrice(),
                 cs.getCurrentFine(),
                 cs.getOwnerName(),

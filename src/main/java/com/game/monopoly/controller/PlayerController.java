@@ -1,14 +1,7 @@
 package com.game.monopoly.controller;
 
-import com.game.monopoly.dto.request.ChangeBalanceDTO;
-import com.game.monopoly.dto.request.PerformActionWithCardDTO;
-import com.game.monopoly.dto.response.ResultMessageDTO;
-import com.game.monopoly.mapper.ResultMessageMapper;
 import com.game.monopoly.service.PlayerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlayerController {
     private final PlayerService playerService;
 
-    @PutMapping(value = "/players/change-balance")
+    /*@PutMapping(value = "/players/change-balance")
     public ResponseEntity<ResultMessageDTO> changePlayerBalance(@RequestBody ChangeBalanceDTO dto) {
         playerService.changePlayerBalance(dto.getPlayerName(), dto.getMoneyDifference());
 
@@ -37,5 +30,5 @@ public class PlayerController {
         playerService.payForCard(dto.getPlayerName(), dto.getCardNumber());
 
         return ResponseEntity.ok().body(ResultMessageMapper.payForCardDTOToResultMessage(dto));
-    }
+    }*/
 }

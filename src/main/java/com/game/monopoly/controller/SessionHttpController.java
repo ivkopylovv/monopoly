@@ -17,7 +17,7 @@ import static com.game.monopoly.constants.ResultMessage.SESSION_WAS_CREATED;
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-public class SessionInitController {
+public class SessionHttpController {
     private final SessionService sessionService;
     private final CompanyCardService companyCardService;
     private final ChanceCardService chanceCardService;

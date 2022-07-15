@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SessionDAO extends JpaRepository<Session, String> {
-    @Modifying
+
+    @Modifying(clearAutomatically = true)
     @Query("update Session s set s.state = ?1 where s.id = ?2")
     void updateSessionState(SessionState state, String id);
 }

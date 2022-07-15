@@ -43,3 +43,17 @@ VALUES (1, '/images/tinkoff.png'),
        (21, '/images/jackpot.svg'),
        (31, '/images/goToJail.png'),
        (37, '/images/tax_luxury.png');
+
+-- to do
+INSERT INTO level_fine (id, value)
+VALUES (1, 20),
+       (2, 100),
+       (3, 400),
+       (4, 600);
+
+-- to do
+INSERT INTO company_card_fines (company_card_id, fines_id)
+VALUES (2, 1),
+       (2, 2),
+       (2, 3),
+       (2, 4);

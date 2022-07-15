@@ -44,16 +44,364 @@ VALUES (1, '/images/tinkoff.png'),
        (31, '/images/goToJail.png'),
        (37, '/images/tax_luxury.png');
 
--- to do
-INSERT INTO level_fine (id, value)
-VALUES (1, 20),
-       (2, 100),
-       (3, 400),
-       (4, 600);
+INSERT INTO level_fine (value)
+VALUES (20),
+       (100),
+       (300),
+       (900),
+       (1600),
+       (2500);
+INSERT INTO level_fine (value)
+VALUES (40),
+       (200),
+       (600),
+       (1800),
+       (3200),
+       (4500);
+INSERT INTO level_fine (value)
+VALUES (250),
+       (500),
+       (1000),
+       (2000);
+INSERT INTO level_fine (value)
+VALUES (60),
+       (300),
+       (900),
+       (2700),
+       (4000),
+       (5500);
+INSERT INTO level_fine (value)
+VALUES (60),
+       (300),
+       (900),
+       (2700),
+       (4000),
+       (5500);
+INSERT INTO level_fine (value)
+VALUES (80),
+       (400),
+       (1000),
+       (3000),
+       (4500),
+       (6000);
+INSERT INTO level_fine (value)
+VALUES (100),
+       (500),
+       (1500),
+       (4500),
+       (6250),
+       (7500);
+INSERT INTO level_fine (value)
+VALUES (100),
+       (250);
+INSERT INTO level_fine (value)
+VALUES (100),
+       (500),
+       (1500),
+       (4500),
+       (6250),
+       (7500);
+INSERT INTO level_fine (value)
+VALUES (120),
+       (600),
+       (1800),
+       (5000),
+       (7000),
+       (9000);
+INSERT INTO level_fine (value)
+VALUES (250),
+       (500),
+       (1000),
+       (2000);
+INSERT INTO level_fine (value)
+VALUES (140),
+       (700),
+       (2000),
+       (5500),
+       (7500),
+       (9500);
+INSERT INTO level_fine (value)
+VALUES (140),
+       (700),
+       (2000),
+       (5500),
+       (7500),
+       (9500);
+INSERT INTO level_fine (value)
+VALUES (160),
+       (800),
+       (2200),
+       (6000),
+       (8000),
+       (10000);
+INSERT INTO level_fine (value)
+VALUES (180),
+       (900),
+       (2500),
+       (7000),
+       (8750),
+       (10500);
+INSERT INTO level_fine (value)
+VALUES (180),
+       (900),
+       (2500),
+       (7000),
+       (8750),
+       (10500);
+INSERT INTO level_fine (value)
+VALUES (200),
+       (1000),
+       (3000),
+       (7500),
+       (9250),
+       (11000);
+INSERT INTO level_fine (value)
+VALUES (250),
+       (500),
+       (1000),
+       (2000);
+INSERT INTO level_fine (value)
+VALUES (220),
+       (1100),
+       (3300),
+       (8000),
+       (9750),
+       (11500);
+INSERT INTO level_fine (value)
+VALUES (220),
+       (1100),
+       (3300),
+       (8000),
+       (9750),
+       (11500);
+INSERT INTO level_fine (value)
+VALUES (100),
+       (250);
+INSERT INTO level_fine (value)
+VALUES (240),
+       (1200),
+       (3600),
+       (8500),
+       (10250),
+       (12000);
+INSERT INTO level_fine (value)
+VALUES (260),
+       (1300),
+       (3900),
+       (9000),
+       (11000),
+       (12750);
+INSERT INTO level_fine (value)
+VALUES (260),
+       (1300),
+       (3900),
+       (9000),
+       (11000),
+       (12750);
+INSERT INTO level_fine (value)
+VALUES (280),
+       (1500),
+       (4500),
+       (10000),
+       (12000),
+       (14000);
+INSERT INTO level_fine (value)
+VALUES (250),
+       (500),
+       (1000),
+       (2000);
+INSERT INTO level_fine (value)
+VALUES (350),
+       (1750),
+       (5000),
+       (11000),
+       (13000),
+       (15000);
+INSERT INTO level_fine (value)
+VALUES (500),
+       (2000),
+       (6000),
+       (14000),
+       (17000),
+       (20000);
 
--- to do
-INSERT INTO company_card_fines (company_card_id, fines_id)
+INSERT INTO company_card_fines(company_card_id, fines_id)
 VALUES (2, 1),
        (2, 2),
        (2, 3),
-       (2, 4);
+       (2, 4),
+       (2, 5),
+       (2, 6);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (4, 7),
+       (4, 8),
+       (4, 9),
+       (4, 10),
+       (4, 11),
+       (4, 12);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (6, 13),
+       (6, 14),
+       (6, 15),
+       (6, 16);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (7, 17),
+       (7, 18),
+       (7, 19),
+       (7, 20),
+       (7, 21),
+       (7, 22);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (9, 23),
+       (9, 24),
+       (9, 25),
+       (9, 26),
+       (9, 27),
+       (9, 28);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (10, 29),
+       (10, 30),
+       (10, 31),
+       (10, 32),
+       (10, 33),
+       (10, 34);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (12, 35),
+       (12, 36),
+       (12, 37),
+       (12, 38),
+       (12, 39),
+       (12, 40);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (13, 41),
+       (13, 42);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (14, 43),
+       (14, 44),
+       (14, 45),
+       (14, 46),
+       (14, 47),
+       (14, 48);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (15, 49),
+       (15, 50),
+       (15, 51),
+       (15, 52),
+       (15, 53),
+       (15, 54);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (16, 55),
+       (16, 56),
+       (16, 57),
+       (16, 58);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (17, 59),
+       (17, 60),
+       (17, 61),
+       (17, 62),
+       (17, 63),
+       (17, 64);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (19, 65),
+       (19, 66),
+       (19, 67),
+       (19, 68),
+       (19, 69),
+       (19, 70);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (20, 71),
+       (20, 72),
+       (20, 73),
+       (20, 74),
+       (20, 75),
+       (20, 76);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (22, 77),
+       (22, 78),
+       (22, 79),
+       (22, 80),
+       (22, 81),
+       (22, 82);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (24, 83),
+       (24, 84),
+       (24, 85),
+       (24, 86),
+       (24, 87),
+       (24, 88);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (25, 89),
+       (25, 90),
+       (25, 91),
+       (25, 92),
+       (25, 93),
+       (25, 94);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (26, 95),
+       (26, 96),
+       (26, 97),
+       (26, 98);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (27, 99),
+       (27, 100),
+       (27, 101),
+       (27, 102),
+       (27, 103),
+       (27, 104);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (28, 105),
+       (28, 106),
+       (28, 107),
+       (28, 108),
+       (28, 109),
+       (28, 110);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (29, 111),
+       (29, 112);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (30, 113),
+       (30, 114),
+       (30, 115),
+       (30, 116),
+       (30, 117),
+       (30, 118);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (32, 119),
+       (32, 120),
+       (32, 121),
+       (32, 122),
+       (32, 123),
+       (32, 124);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (33, 125),
+       (33, 126),
+       (33, 127),
+       (33, 128),
+       (33, 129),
+       (33, 130);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (35, 131),
+       (35, 132),
+       (35, 133),
+       (35, 134),
+       (35, 135),
+       (35, 136);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (36, 137),
+       (36, 138),
+       (36, 139),
+       (36, 140);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (38, 141),
+       (38, 142),
+       (38, 143),
+       (38, 144),
+       (38, 145),
+       (38, 146);
+INSERT INTO company_card_fines(company_card_id, fines_id)
+VALUES (40, 147),
+       (40, 148),
+       (40, 149),
+       (40, 150),
+       (40, 151),
+       (40, 152);

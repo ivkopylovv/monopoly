@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 import static com.game.monopoly.constants.InitialGameValue.*;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity

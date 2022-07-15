@@ -1,8 +1,10 @@
 package com.game.monopoly.controller;
 
 import com.game.monopoly.dto.request.InitializeSessionDTO;
+import com.game.monopoly.dto.request.PerformActionWithCardDTO;
 import com.game.monopoly.dto.request.RollDiceDTO;
 import com.game.monopoly.dto.request.SessionIdDTO;
+import com.game.monopoly.dto.response.BuyCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.dto.response.SessionStateDTO;
 import com.game.monopoly.entity.Player;
@@ -17,7 +19,7 @@ import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 
 @Controller
 @RequiredArgsConstructor
-public class SessionProcessController {
+public class SessionWebSocketController {
     private final SessionService sessionService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -42,6 +44,14 @@ public class SessionProcessController {
         sessionService.startGame(dto.getSessionId());
         SessionStateDTO result = new SessionStateDTO(IN_PROGRESS.toString());
         simpMessagingTemplate.convertAndSend("/topic/start-game/" + dto.getSessionId(), result);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @MessageMapping(value = "/sessions/buy-card")
+    public ResponseEntity<BuyCardDTO> buyCard(PerformActionWithCardDTO dto) {
+        BuyCardDTO result = sessionService.buyCard(dto.getSessionId(), dto.getPlayerName(), dto.getCardId());
+        simpMessagingTemplate.convertAndSend("/topic/buy-card/" + dto.getSessionId(), result);
 
         return ResponseEntity.ok().body(result);
     }

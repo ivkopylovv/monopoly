@@ -1,4 +1,4 @@
-package com.game.monopoly.dto.request;
+package com.game.monopoly.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class PerformActionWithCardDTO {
-    private String sessionId;
+@AllArgsConstructor
+public class PlayerBalanceDTO {
     private String playerName;
-    private Long cardId;
+    private Long balance;
 }

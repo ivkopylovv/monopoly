@@ -30,12 +30,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
-    public void changePlayerBalance(String name, Long moneyDiff) {
-        playerDAO.updatePlayerBalanceByName(moneyDiff, name);
-    }
-
-    @Transactional
-    @Override
     public void savePlayer(String playerName, String colour, PlayerRole role) {
         playerDAO.findPlayerByName(playerName)
                 .ifPresent((player -> {
@@ -57,12 +51,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void buyCard(String name, Long cardNumber) {
-
+    public void updatePlayerBalance(Long moneyDiff, String playerName) {
+        playerDAO.updatePlayerBalanceByName(moneyDiff, playerName);
     }
 
-    @Override
-    public void payForCard(String name, Long cardNumber) {
-
-    }
 }

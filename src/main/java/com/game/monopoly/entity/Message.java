@@ -11,7 +11,6 @@ import javax.persistence.*;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity

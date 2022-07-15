@@ -1,5 +1,6 @@
 package com.game.monopoly.service;
 
+import com.game.monopoly.dto.response.BuyCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Player;
@@ -17,4 +18,6 @@ public interface SessionService {
     RollDiceResultDTO rollDices(String playerName);
 
     void startGame(String sessionId);
+
+    BuyCardDTO buyCard(String sessionId, String playerName, Long cardId);
 }

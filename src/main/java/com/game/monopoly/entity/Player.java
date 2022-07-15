@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_BALANCE;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity

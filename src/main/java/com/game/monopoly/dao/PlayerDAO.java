@@ -14,9 +14,9 @@ public interface PlayerDAO extends JpaRepository<Player, Long> {
 
     @Modifying(clearAutomatically = true)
     @Query("update Player p " +
-            "set p.balance = p.balance + ?1 " +
+            "set p.balance = ?1 " +
             "where p.name = ?2")
-    void updatePlayerBalanceByName(Long moneyDiff, String name);
+    void updatePlayerBalanceByName(Long newBalance, String name);
 
     @Modifying(clearAutomatically = true)
     @Query("update Player p " +

@@ -1,5 +1,6 @@
 package com.game.monopoly.dao;
 
+import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
 import com.game.monopoly.enums.SessionState;
 import org.springframework.data.jpa.repository.JpaRepository;

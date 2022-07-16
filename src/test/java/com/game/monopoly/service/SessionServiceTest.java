@@ -1,6 +1,9 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dao.*;
+import com.game.monopoly.dao.CardStateDAO;
+import com.game.monopoly.dao.CompanyCardDAO;
+import com.game.monopoly.dao.PlayerDAO;
+import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.CompanyCard;
 import com.game.monopoly.entity.Player;
@@ -50,7 +53,7 @@ class SessionServiceTest {
     @Mock
     private CompanyCardService companyCardService;
 
-    private  AutoCloseable autoCloseable;
+    private AutoCloseable autoCloseable;
 
 
     //@Mock
@@ -115,7 +118,7 @@ class SessionServiceTest {
                 ArgumentCaptor.forClass(Player.class);
         verify(playerDAO)
                 .save(playerArgumentCaptor.capture());
-         Player capturedPlayer = playerArgumentCaptor.getValue();
+        Player capturedPlayer = playerArgumentCaptor.getValue();
         assertThat(capturedPlayer).isEqualTo(player);
     }
 }

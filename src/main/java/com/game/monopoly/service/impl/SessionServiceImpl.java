@@ -108,7 +108,7 @@ public class SessionServiceImpl implements SessionService {
         Long fine = card.getFines().get(level).getValue();
         Long newBalance = player.getBalance() - card.getPrice();
 
-        cardStateDAO.save(cardState
+        cardStateDAO.saveAndFlush(cardState
                 .setCurrentFine(fine)
                 .setLevel(level + 1)
                 .setOwnerName(playerName));

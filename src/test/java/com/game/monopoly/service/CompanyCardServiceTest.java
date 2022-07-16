@@ -2,9 +2,9 @@ package com.game.monopoly.service;
 
 import com.game.monopoly.dao.CompanyCardDAO;
 import com.game.monopoly.service.impl.CompanyCardServiceImpl;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -15,7 +15,7 @@ public class CompanyCardServiceTest {
     private CompanyCardDAO companyCardDAO;
     private CompanyCardService underTest;
 
-    private  AutoCloseable autoCloseable;
+    private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {

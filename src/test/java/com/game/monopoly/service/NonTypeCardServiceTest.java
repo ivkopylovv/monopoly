@@ -17,7 +17,7 @@ class NonTypeCardServiceTest {
 
     private NonTypeCardService underTest;
 
-    private  AutoCloseable autoCloseable;
+    private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {

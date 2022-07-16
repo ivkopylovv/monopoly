@@ -23,6 +23,7 @@ public class PlayingFieldMapper {
         return new PlayingFieldDTO()
                 .setPlayers(session.getPlayers())
                 .setState(String.valueOf(session.getState()))
+                .setCurrentPlayer(session.getCurrentPlayer())
                 .setCards(PlayingFieldMapper.allCardsToCommonsList(companyCards, chanceCards, nonTypeCards))
                 .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()));
     }

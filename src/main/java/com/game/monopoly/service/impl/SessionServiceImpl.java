@@ -28,7 +28,6 @@ import static com.game.monopoly.constants.PlayingFieldParam.MIN_BORDER;
 import static com.game.monopoly.enums.PlayerRole.ADMIN;
 import static com.game.monopoly.enums.PlayerRole.USER;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
-import static com.game.monopoly.enums.SessionState.NEW;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +54,7 @@ public class SessionServiceImpl implements SessionService {
         Player player = playerService.getPlayer(playerName);
         Session session = new Session()
                 .setId(sessionId)
-                .setState(NEW)
+                .setCurrentPlayer(null)
                 .setCardStates(cardStates);
         session.getPlayers().add(player);
         sessionDAO.save(session);
@@ -88,8 +87,8 @@ public class SessionServiceImpl implements SessionService {
 
     @Transactional
     @Override
-    public void startGame(String sessionId) {
-        sessionDAO.updateSessionState(IN_PROGRESS, sessionId);
+    public void startGame(String sessionId, String nextPlayer) {
+        sessionDAO.updateSessionStateAndCurrentPlayer(IN_PROGRESS, nextPlayer, sessionId);
     }
 
     @Transactional
@@ -115,6 +114,12 @@ public class SessionServiceImpl implements SessionService {
         playerService.updatePlayerBalance(newBalance, playerName);
 
         return CardActionMapper.cardActionTODTO(playerName, newBalance, cardState);
+    }
+
+    @Transactional
+    @Override
+    public void moveTransition(String sessionId, String nextPlayer) {
+        sessionDAO.updateCurrentPlayer(nextPlayer, sessionId);
     }
 
 }

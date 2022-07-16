@@ -1,12 +1,13 @@
 package com.game.monopoly.controller;
 
+import com.game.monopoly.dto.request.ChangeCurrentPlayerDTO;
 import com.game.monopoly.dto.request.InitializeSessionDTO;
 import com.game.monopoly.dto.request.PerformActionWithCardDTO;
 import com.game.monopoly.dto.request.RollDiceDTO;
-import com.game.monopoly.dto.request.SessionIdDTO;
 import com.game.monopoly.dto.response.BuyCardDTO;
+import com.game.monopoly.dto.response.CurrentPlayerDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
-import com.game.monopoly.dto.response.SessionStateDTO;
+import com.game.monopoly.dto.response.StartGameResultDTO;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,19 @@ public class SessionWebSocketController {
     }
 
     @MessageMapping(value = "/sessions/start-game")
-    public ResponseEntity<SessionStateDTO> startGame(SessionIdDTO dto) {
-        sessionService.startGame(dto.getSessionId());
-        SessionStateDTO result = new SessionStateDTO(IN_PROGRESS.toString());
+    public ResponseEntity<StartGameResultDTO> startGame(ChangeCurrentPlayerDTO dto) {
+        sessionService.startGame(dto.getSessionId(), dto.getPlayerName());
+        StartGameResultDTO result = new StartGameResultDTO(IN_PROGRESS.toString(), dto.getPlayerName());
         simpMessagingTemplate.convertAndSend("/topic/start-game/" + dto.getSessionId(), result);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @MessageMapping(value = "/sessions/move-transition")
+    public ResponseEntity<CurrentPlayerDTO> moveTransition(ChangeCurrentPlayerDTO dto) {
+        sessionService.moveTransition(dto.getSessionId(), dto.getPlayerName());
+        CurrentPlayerDTO result = new CurrentPlayerDTO(dto.getPlayerName());
+        simpMessagingTemplate.convertAndSend("/topic/move-transition/" + dto.getSessionId(), result);
 
         return ResponseEntity.ok().body(result);
     }

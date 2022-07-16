@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SessionStateDTO {
+public class StartGameResultDTO {
     private String sessionState;
+    private String currentPlayer;
 }

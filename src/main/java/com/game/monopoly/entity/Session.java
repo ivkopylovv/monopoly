@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.game.monopoly.enums.SessionState.NEW;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -28,7 +29,10 @@ public class Session {
 
     @Column(name = "state", nullable = false)
     @Enumerated(STRING)
-    private SessionState state;
+    private SessionState state = NEW;
+
+    @Column(name = "currentPlayer")
+    private String currentPlayer;
 
     @ManyToMany(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "players")

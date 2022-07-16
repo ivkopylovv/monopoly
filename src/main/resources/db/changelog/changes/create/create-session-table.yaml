@@ -23,3 +23,6 @@ databaseChangeLog:
                   type: varchar
                   constraints:
                     nullable: false
+              - column:
+                  name: current_player
+                  type: varchar

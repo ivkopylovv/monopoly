@@ -9,7 +9,6 @@ import com.game.monopoly.entity.CompanyCard;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
 import com.game.monopoly.enums.PlayerColour;
-import com.game.monopoly.service.impl.SessionServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +64,7 @@ class SessionServiceTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new SessionServiceImpl(sessionDAO, playerService);
+        // underTest = new SessionServiceImpl(sessionDAO, playerService);
         //companyCardService = new CompanyCardServiceImpl(companyCardDAO);
         //cardStateService = new CardStateServiceImpl(cardStateDAO);
         List<CompanyCard> companyCards = companyCardService.getCompanyCards();

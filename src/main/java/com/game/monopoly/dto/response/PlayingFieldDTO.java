@@ -18,6 +18,7 @@ import java.util.Map;
 public class PlayingFieldDTO {
     private List<Player> players;
     private String state;
+    private String currentPlayer;
     private List<CommonCardDTO> cards;
     private Map<Long, CardStateDTO> cardStates;
 }

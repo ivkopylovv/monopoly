@@ -17,7 +17,9 @@ public interface SessionService {
 
     RollDiceResultDTO rollDices(String playerName);
 
-    void startGame(String sessionId);
+    void startGame(String sessionId, String nextPlayer);
 
     BuyCardDTO buyCard(String sessionId, String playerName, Long cardId);
+
+    void moveTransition(String sessionId, String nextPlayer);
 }

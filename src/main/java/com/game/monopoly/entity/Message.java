@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -28,13 +27,11 @@ public class Message {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "sender_id")
-    private Player sender;
+    @JoinColumn(name = "sender")
+    private String sender;
 
-    @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "receiver_id")
-    private Player receiver;
+    @JoinColumn(name = "receiver")
+    private String receiver;
 
     @Column(name = "type", nullable = false)
     @Enumerated(STRING)

@@ -16,5 +16,4 @@ import java.util.List;
 public class RollDiceResultDTO {
     private PlayerPositionDTO player;
     private List<Integer> digits;
-    private String message;
 }

@@ -21,4 +21,5 @@ public class PlayingFieldDTO {
     private String currentPlayer;
     private List<CommonCard> cards;
     private Map<Long, CardStateDTO> cardStates;
+    private List<ResultMessageDTO> chatHistory;
 }

@@ -1,5 +1,7 @@
 package com.game.monopoly.mapper;
 
+import com.game.monopoly.dto.response.PayForCardDTO;
+import com.game.monopoly.dto.response.PlayerBalanceDTO;
 import com.game.monopoly.dto.response.PlayerDTO;
 import com.game.monopoly.entity.Player;
 
@@ -23,5 +25,16 @@ public class PlayerMapper {
                 .setPosition(player.getPosition())
                 .setRole(player.getRole().toString())
                 .setBalance(player.getBalance());
+    }
+
+    public static PayForCardDTO playerBalancesToDTO(
+            String buyer, Long buyerBalance, String owner, Long ownerBalance) {
+        return new PayForCardDTO()
+                .setBuyer(PlayerMapper.playerBalanceToDTO(buyer, buyerBalance))
+                .setOwner(PlayerMapper.playerBalanceToDTO(owner, ownerBalance));
+    }
+
+    public static PlayerBalanceDTO playerBalanceToDTO(String playerName, Long balance) {
+        return new PlayerBalanceDTO(playerName, balance);
     }
 }

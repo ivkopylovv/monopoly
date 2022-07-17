@@ -55,7 +55,7 @@ public class SessionWebSocketController {
         sessionService.startGame(dto.getSessionId(), dto.getPlayerName());
 
         StartGameResultDTO result = new StartGameResultDTO(IN_PROGRESS.toString(), dto.getPlayerName());
-        ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), GAME_WAS_STARTED);
+        ResultMessageDTO resultMessage = new ResultMessageDTO(null, GAME_WAS_STARTED);
 
         simpMessagingTemplate.convertAndSend("/topic/start-game/" + dto.getSessionId(), result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
@@ -79,6 +79,17 @@ public class SessionWebSocketController {
         ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), BUY_CARD);
 
         simpMessagingTemplate.convertAndSend("/topic/buy-card/" + dto.getSessionId(), result);
+        simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @MessageMapping(value = "/sessions/pay-for-card")
+    public ResponseEntity<PayForCardDTO> payForCard(PerformActionWithCardDTO dto) {
+        PayForCardDTO result = sessionService.payForCard(dto.getSessionId(), dto.getPlayerName(), dto.getCardId());
+        ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), PAY_FOR_CARD);
+
+        simpMessagingTemplate.convertAndSend("/topic/pay-for-card/" + dto.getSessionId(), result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
 
         return ResponseEntity.ok().body(result);

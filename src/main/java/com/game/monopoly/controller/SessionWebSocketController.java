@@ -4,11 +4,9 @@ import com.game.monopoly.dto.request.ChangeCurrentPlayerDTO;
 import com.game.monopoly.dto.request.InitializeSessionDTO;
 import com.game.monopoly.dto.request.PerformActionWithCardDTO;
 import com.game.monopoly.dto.request.RollDiceDTO;
-import com.game.monopoly.dto.response.BuyCardDTO;
-import com.game.monopoly.dto.response.CurrentPlayerDTO;
-import com.game.monopoly.dto.response.RollDiceResultDTO;
-import com.game.monopoly.dto.response.StartGameResultDTO;
+import com.game.monopoly.dto.response.*;
 import com.game.monopoly.entity.Player;
+import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +23,12 @@ public class SessionWebSocketController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping(value = "/sessions/add-player")
-    public ResponseEntity<Player> addPlayer(InitializeSessionDTO dto) {
+    public ResponseEntity<PlayerDTO> addPlayer(InitializeSessionDTO dto) {
         Player player = sessionService.addPlayerToSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
-        simpMessagingTemplate.convertAndSend("/topic/add-player/" + dto.getSessionId(), player);
+        PlayerDTO playerDTO = PlayerMapper.entityToPLayerDTO(player);
+        simpMessagingTemplate.convertAndSend("/topic/add-player/" + dto.getSessionId(), playerDTO);
 
-        return ResponseEntity.ok().body(player);
+        return ResponseEntity.ok().body(playerDTO);
     }
 
     @MessageMapping(value = "/sessions/roll-dice")

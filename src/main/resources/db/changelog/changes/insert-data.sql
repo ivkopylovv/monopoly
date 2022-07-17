@@ -45,7 +45,7 @@ VALUES (1, 0),
        (37, 0);
 
 
-INSERT INTO common_card (id, card_type)
+INSERT INTO common_card (id, image, card_type)
 VALUES (1, '/images/tinkoff.png', 'NONTYPE'),
        (2, '/images/levis.svg', 'COMPANY'),
        (3, '/images/chance-1.png', 'CHANCE'),

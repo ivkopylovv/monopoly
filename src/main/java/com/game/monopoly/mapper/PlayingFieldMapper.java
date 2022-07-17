@@ -16,7 +16,7 @@ public class PlayingFieldMapper {
     public static PlayingFieldDTO buildPlayingField(Session session, List<CommonCard> cards) {
 
         return new PlayingFieldDTO()
-                .setPlayers(SortHelper.getSortedPlayers(session.getPlayers()))
+                .setPlayers(PlayerMapper.entitiesToDTOList(SortHelper.getSortedPlayers(session.getPlayers())))
                 .setState(String.valueOf(session.getState()))
                 .setCurrentPlayer(session.getCurrentPlayer())
                 .setCards(cards)

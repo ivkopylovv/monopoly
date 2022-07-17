@@ -55,14 +55,14 @@ class PlayerDAOTest {
     @Test
     void itShouldUpdatePlayerBalanceByName() {
         // given
-        Long moneyDiff = 200L;
+        Long newBalance = 200L;
 
         // when
-        playerDAO.updatePlayerBalanceByName(moneyDiff, PLAYER_NAME);
+        playerDAO.updatePlayerBalanceByName(newBalance, PLAYER_NAME);
         Long exceptedBalance = playerDAO.findPlayerByUniqueName(PLAYER_NAME).get().getBalance();
 
         // then
-        assertEquals(ACTUAL_BALANCE + moneyDiff, exceptedBalance);
+        assertEquals(newBalance, exceptedBalance);
     }
 
     @Test

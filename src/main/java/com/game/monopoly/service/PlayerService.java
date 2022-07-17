@@ -10,5 +10,5 @@ public interface PlayerService {
 
     void updatePlayerPosition(int newPosition, String sessionId, String playerName);
 
-    void updatePlayerBalance(Long moneyDiff, String sessionId, String playerName);
+    void updatePlayerBalance(Long newBalance, String sessionId, String playerName);
 }

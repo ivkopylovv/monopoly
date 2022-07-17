@@ -16,12 +16,8 @@ public class CardActionMapper {
                 CardStateMapper.cardStateEntityToDTO(cardState));
 
         return new BuyCardDTO(
-                CardActionMapper.playerBalanceToDTO(playerName, balance),
+                PlayerMapper.playerBalanceToDTO(playerName, balance),
                 cardStateMap
         );
-    }
-
-    private static PlayerBalanceDTO playerBalanceToDTO(String playerName, Long balance) {
-        return new PlayerBalanceDTO(playerName, balance);
     }
 }

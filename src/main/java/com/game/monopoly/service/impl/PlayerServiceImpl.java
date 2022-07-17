@@ -48,8 +48,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Transactional
     @Override
-    public void updatePlayerBalance(Long moneyDiff, String sessionId, String playerName) {
-        playerDAO.updatePlayerBalanceByName(moneyDiff, new PlayerUniqueName(sessionId, playerName));
+    public void updatePlayerBalance(Long newBalance, String sessionId, String playerName) {
+        playerDAO.updatePlayerBalanceByName(newBalance, new PlayerUniqueName(sessionId, playerName));
     }
 
 }

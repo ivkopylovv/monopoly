@@ -44,4 +44,11 @@ public class MessageHelper {
                 .setSender(playerName)
                 .setType(COMMON);
     }
+
+    public static Message createPayForCardMessage(String playerName) {
+        return new Message()
+                .setContent(PAY_FOR_CARD)
+                .setSender(playerName)
+                .setType(COMMON);
+    }
 }

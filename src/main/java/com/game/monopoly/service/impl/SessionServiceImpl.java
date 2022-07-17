@@ -1,15 +1,14 @@
 package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.CardStateDAO;
+import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.dto.response.BuyCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
-import com.game.monopoly.entity.CardState;
-import com.game.monopoly.entity.CompanyCard;
-import com.game.monopoly.entity.Player;
-import com.game.monopoly.entity.Session;
+import com.game.monopoly.entity.*;
 import com.game.monopoly.exception.ResourceAlreadyExistsException;
 import com.game.monopoly.exception.ResourceNotFoundException;
+import com.game.monopoly.helper.MessageHelper;
 import com.game.monopoly.helper.PlayerPositionHelper;
 import com.game.monopoly.helper.RandomHelper;
 import com.game.monopoly.helper.SortHelper;
@@ -35,6 +34,7 @@ import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 @RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
     private final SessionDAO sessionDAO;
+    private final MessageDAO messageDAO;
     private final CardStateDAO cardStateDAO;
     private final PlayerService playerService;
 
@@ -70,10 +70,14 @@ public class SessionServiceImpl implements SessionService {
     @Transactional
     @Override
     public Player addPlayerToSession(String sessionId, String playerName, String colour) {
-        playerService.savePlayer(sessionId, playerName, colour, USER);
         Session session = getSession(sessionId);
+        playerService.savePlayer(sessionId, playerName, colour, USER);
         Player player = playerService.getPlayer(sessionId, playerName);
+
+        Message message = MessageHelper.createAddPlayerMessage(playerName);
+        messageDAO.save(message);
         session.getPlayers().add(player);
+        session.getMessages().add(message);
 
         return player;
     }
@@ -86,22 +90,37 @@ public class SessionServiceImpl implements SessionService {
         int firstRoll = RandomHelper.getRandomDiceValue(MIN_BORDER, MAX_BORDER);
         int secondRoll = RandomHelper.getRandomDiceValue(MIN_BORDER, MAX_BORDER);
         int newPosition = PlayerPositionHelper.getNewPosition(player.getPosition(), firstRoll, secondRoll);
+        List<Integer> digits = List.of(firstRoll, secondRoll);
 
         playerService.updatePlayerPosition(newPosition, sessionId, playerName);
 
-        return RoleDicesMapper.rollResultTODTO(List.of(firstRoll, secondRoll), playerName, newPosition);
+        Session session = getSession(sessionId);
+        Message message = MessageHelper.createRollDicesMessage(playerName, digits);
+        messageDAO.save(message);
+        session.getMessages().add(message);
+
+        return RoleDicesMapper.rollResultTODTO(digits, playerName, newPosition);
     }
 
     @Transactional
     @Override
     public void startGame(String sessionId, String nextPlayer) {
         sessionDAO.updateSessionStateAndCurrentPlayer(IN_PROGRESS, nextPlayer, sessionId);
+
+        Session session = getSession(sessionId);
+        Message message = MessageHelper.createStartGameMessage();
+        messageDAO.save(message);
+        session.getMessages().add(message);
     }
 
     @Transactional
     @Override
     public BuyCardDTO buyCard(String sessionId, String playerName, Long cardId) {
         Session session = getSession(sessionId);
+        Message message = MessageHelper.createBuyCardMessage(playerName);
+        messageDAO.save(message);
+        session.getMessages().add(message);
+
         CardState cardState = session.getCardStates()
                 .stream()
                 .filter(cs -> cs.getCard().getId() == cardId)
@@ -140,6 +159,15 @@ public class SessionServiceImpl implements SessionService {
         sessionDAO.updateCurrentPlayer(nextPlayerName, sessionId);
 
         return nextPlayerName;
+    }
+
+    @Transactional
+    @Override
+    public void addCommonMessageToChatHistory(String sessionId, String sender, String message) {
+        Session session = getSession(sessionId);
+        Message newMessage = MessageHelper.createSentMessage(message, sender);
+        messageDAO.save(newMessage);
+        session.getMessages().add(newMessage);
     }
 
 }

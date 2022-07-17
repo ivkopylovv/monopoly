@@ -1,31 +1,23 @@
 package com.game.monopoly.mapper;
 
-import com.game.monopoly.dto.request.ChangeBalanceDTO;
-import com.game.monopoly.dto.request.InitializeSessionDTO;
-import com.game.monopoly.dto.request.PerformActionWithCardDTO;
 import com.game.monopoly.dto.response.ResultMessageDTO;
+import com.game.monopoly.entity.Message;
 
-import static com.game.monopoly.constants.ResultMessage.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResultMessageMapper {
-    public static ResultMessageDTO changeBalanceDTOToResultMessage(ChangeBalanceDTO dto) {
-        Long diff = dto.getMoneyDifference();
-        String format = diff > 0 ? UPDATE_BALANCE_POSITIVE : UPDATE_BALANCE_NEGATIVE;
 
-        return new ResultMessageDTO(
-                String.format(format, dto.getPlayerName(), dto.getMoneyDifference())
-        );
+    public static List<ResultMessageDTO> entitiesToDTOList(List<Message> messages) {
+        return messages
+                .stream()
+                .map(ResultMessageMapper::entityToMessageDTO)
+                .collect(Collectors.toList());
     }
 
-    public static ResultMessageDTO buyCardDTOToResultMessage(PerformActionWithCardDTO dto) {
-        return new ResultMessageDTO(String.format(BUY_CARD, dto.getPlayerName()));
-    }
-
-    public static ResultMessageDTO payForCardDTOToResultMessage(PerformActionWithCardDTO dto) {
-        return new ResultMessageDTO(String.format(PAY_FOR_CARD, dto.getPlayerName()));
-    }
-
-    public static ResultMessageDTO addPlayerToResultMessage(InitializeSessionDTO sessionDTO) {
-        return new ResultMessageDTO(String.format(NEW_PLAYER, sessionDTO.getPlayerName()));
+    private static ResultMessageDTO entityToMessageDTO(Message message) {
+        return new ResultMessageDTO()
+                .setPlayerName(message.getSender())
+                .setMessage(message.getContent());
     }
 }

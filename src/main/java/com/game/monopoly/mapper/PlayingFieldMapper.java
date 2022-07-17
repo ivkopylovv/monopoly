@@ -20,7 +20,8 @@ public class PlayingFieldMapper {
                 .setState(String.valueOf(session.getState()))
                 .setCurrentPlayer(session.getCurrentPlayer())
                 .setCards(cards)
-                .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()));
+                .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()))
+                .setChatHistory(ResultMessageMapper.entitiesToDTOList(session.getMessages()));
     }
 
     private static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {

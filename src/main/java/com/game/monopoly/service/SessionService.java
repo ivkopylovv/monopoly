@@ -24,4 +24,6 @@ public interface SessionService {
     BuyCardDTO buyCard(String sessionId, String playerName, Long cardId);
 
     String getNextPlayer(String sessionId, String nextPlayer);
+
+    void addCommonMessageToChatHistory(String sessionId, String sender, String message);
 }

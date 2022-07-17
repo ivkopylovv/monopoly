@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 import static com.game.monopoly.enums.SessionState.NEW;
+import static java.lang.Boolean.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
@@ -33,16 +34,43 @@ public class SessionDAOTest {
     }
 
     @Test
-    void itShouldUpdateSessionState() {
+    void itShouldUpdateSessionStateAndCurrentPlayer() {
         // given
+        String nextPlayer = "Vanya";
         SessionState newState = IN_PROGRESS;
 
         // when
-        sessionDAO.updateSessionState(newState, ACTUAL_ID);
-        SessionState exceptedState = sessionDAO.findById(ACTUAL_ID).get().getState();
+        sessionDAO.updateSessionStateAndCurrentPlayer(newState, nextPlayer, ACTUAL_ID);
+        SessionState exceptedSessionState = sessionDAO.findById(ACTUAL_ID).get().getState();
+        String exceptedNextPlayer = sessionDAO.findById(ACTUAL_ID).get().getCurrentPlayer();
 
         // then
-        assertEquals(newState, exceptedState);
+        assertEquals(nextPlayer, exceptedNextPlayer);
+        assertEquals(newState, exceptedSessionState);
 
     }
+
+    @Test
+    void itShouldUpdateCurrentPlayer() {
+        // given
+        String nextPlayer = "Vanya";
+
+        // when
+        sessionDAO.updateCurrentPlayer(nextPlayer, ACTUAL_ID);
+        String exceptedNextPlayer = sessionDAO.findById(ACTUAL_ID).get().getCurrentPlayer();
+
+        // then
+        assertEquals(nextPlayer, exceptedNextPlayer);
+
+    }
+
+    @Test
+    void itShouldCheckSessionExistence() {
+        Boolean sessionExists = TRUE;
+        Boolean isExists = sessionDAO.existsSessionById(ACTUAL_ID);
+
+        assertEquals(sessionExists, isExists);
+
+    }
+
 }

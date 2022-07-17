@@ -37,4 +37,5 @@ class NonTypeCardServiceTest {
         //then
         verify(nonTypeCardDAO).findAll();
     }
+
 }

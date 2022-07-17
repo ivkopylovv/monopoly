@@ -1,7 +1,7 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dao.ChanceCardDAO;
-import com.game.monopoly.service.impl.ChanceCardServiceImpl;
+import com.game.monopoly.dao.CommonCardDAO;
+import com.game.monopoly.service.impl.CommonCardServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,19 +10,17 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
 
-public class ChanceCardServiceTest {
-
+public class CommonCardServiceTest {
     @Mock
-    private ChanceCardDAO chanceCardDAO;
-    private ChanceCardService underTest;
+    private CommonCardDAO commonCardDAO;
+    private CommonCardService underTest;
 
     private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new ChanceCardServiceImpl(chanceCardDAO);
-
+        underTest = new CommonCardServiceImpl(commonCardDAO);
     }
 
     @AfterEach
@@ -33,9 +31,9 @@ public class ChanceCardServiceTest {
     @Test
     void canGetChanceCards() {
         //when
-        underTest.getChanceCards();
+        underTest.getAllCards();
         //then
-        verify(chanceCardDAO).findAll();
+        verify(commonCardDAO).findAll();
     }
 
 }

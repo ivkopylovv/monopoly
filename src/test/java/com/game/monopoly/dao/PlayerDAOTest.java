@@ -1,6 +1,7 @@
 package com.game.monopoly.dao;
 
 import com.game.monopoly.entity.Player;
+import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.enums.PlayerRole;
 import org.junit.jupiter.api.AfterEach;
@@ -16,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 class PlayerDAOTest {
     public static final String ACTUAL_NAME = "Masha";
+    public static final String SESSION_ID = "111";
+    public static final PlayerUniqueName PLAYER_NAME = new PlayerUniqueName(SESSION_ID, ACTUAL_NAME);
     public static final Long ACTUAL_BALANCE = 1000L;
     public static final Integer ACTUAL_POSITION = 0;
     public static final PlayerColour ACTUAL_COLOUR = GREEN;
@@ -27,7 +30,7 @@ class PlayerDAOTest {
     @BeforeEach
     void setUp() {
         Player player = new Player()
-                .setName(ACTUAL_NAME)
+                .setUniqueName(PLAYER_NAME)
                 .setBalance(ACTUAL_BALANCE)
                 .setPosition(ACTUAL_POSITION)
                 .setColour(ACTUAL_COLOUR)
@@ -43,10 +46,10 @@ class PlayerDAOTest {
     @Test
     void itShouldFindPlayerByName() {
         // when
-        Player exceptedPlayer = playerDAO.findPlayerByName(ACTUAL_NAME).get();
+        Player exceptedPlayer = playerDAO.findPlayerByUniqueName(PLAYER_NAME).get();
 
         // then
-        assertEquals(exceptedPlayer.getName(), ACTUAL_NAME);
+        assertEquals(exceptedPlayer.getUniqueName(), PLAYER_NAME);
     }
 
     @Test
@@ -55,8 +58,8 @@ class PlayerDAOTest {
         Long moneyDiff = 200L;
 
         // when
-        playerDAO.updatePlayerBalanceByName(moneyDiff, ACTUAL_NAME);
-        Long exceptedBalance = playerDAO.findPlayerByName(ACTUAL_NAME).get().getBalance();
+        playerDAO.updatePlayerBalanceByName(moneyDiff, PLAYER_NAME);
+        Long exceptedBalance = playerDAO.findPlayerByUniqueName(PLAYER_NAME).get().getBalance();
 
         // then
         assertEquals(ACTUAL_BALANCE + moneyDiff, exceptedBalance);
@@ -68,8 +71,8 @@ class PlayerDAOTest {
         Integer position = 5;
 
         // when
-        playerDAO.updatePlayerPositionByName(position, ACTUAL_NAME);
-        Integer exceptedPosition = playerDAO.findPlayerByName(ACTUAL_NAME).get().getPosition();
+        playerDAO.updatePlayerPositionByName(position, PLAYER_NAME);
+        Integer exceptedPosition = playerDAO.findPlayerByUniqueName(PLAYER_NAME).get().getPosition();
 
         // then
         assertEquals(ACTUAL_POSITION + position, exceptedPosition);

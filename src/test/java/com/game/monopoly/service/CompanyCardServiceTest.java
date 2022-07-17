@@ -36,4 +36,5 @@ public class CompanyCardServiceTest {
         //then
         verify(companyCardDAO).findAll();
     }
+
 }

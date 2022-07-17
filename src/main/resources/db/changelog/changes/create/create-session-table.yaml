@@ -19,10 +19,10 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: current_player
+                  type: varchar
+              - column:
                   name: state
                   type: varchar
                   constraints:
                     nullable: false
-              - column:
-                  name: current_player
-                  type: varchar

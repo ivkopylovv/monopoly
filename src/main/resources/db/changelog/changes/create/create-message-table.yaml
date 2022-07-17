@@ -25,13 +25,13 @@ databaseChangeLog:
                   name: content
                   type: varchar
               - column:
+                  name: receiver
+                  type: varchar
+              - column:
+                  name: sender
+                  type: varchar
+              - column:
                   name: type
                   type: varchar
                   constraints:
                     nullable: false
-              - column:
-                  name: receiver_id
-                  type: bigint
-              - column:
-                  name: sender_id
-                  type: bigint

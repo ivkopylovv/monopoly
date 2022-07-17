@@ -22,6 +22,6 @@ public class NonTypeCard {
     @Id
     private Long id;
 
-    @Column(name = "image", nullable = false)
-    private String image;
+    @Column(name = "money_diff", nullable = false)
+    private Long moneyDiff;
 }

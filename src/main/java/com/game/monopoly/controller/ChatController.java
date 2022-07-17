@@ -17,7 +17,6 @@ import static com.game.monopoly.constants.ResultMessage.SINGLE_MESSAGE_WAS_SAVED
 @RestController
 @RequiredArgsConstructor
 public class ChatController {
-
     private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 

@@ -11,15 +11,17 @@ import java.util.List;
 public interface SessionService {
     Session getSession(String sessionId);
 
+    void checkSessionExists(String sessionId);
+
     void saveSession(String sessionId, String playerName, String colour, List<CardState> cardStates);
 
     Player addPlayerToSession(String sessionId, String playerName, String colour);
 
-    RollDiceResultDTO rollDices(String playerName);
+    RollDiceResultDTO rollDices(String sessionId, String playerName);
 
     void startGame(String sessionId, String nextPlayer);
 
     BuyCardDTO buyCard(String sessionId, String playerName, Long cardId);
 
-    void moveTransition(String sessionId, String nextPlayer);
+    String getNextPlayer(String sessionId, String nextPlayer);
 }

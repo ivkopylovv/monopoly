@@ -6,6 +6,7 @@ import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.entity.Message;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
+import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class ChatServiceImpl implements ChatService {
     public void saveCommonMessage(String sessionId, String sender, String message) {
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
-        Player player = playerDAO.findPlayerByName(sender)
+        Player player = playerDAO.findPlayerByUniqueName(new PlayerUniqueName(sessionId, sender))
                 .orElseThrow(() -> new ResourceNotFoundException(PLAYER_NOT_FOUND));
 
         Message playerMessage = new Message()
@@ -48,9 +49,9 @@ public class ChatServiceImpl implements ChatService {
     public void saveSingleMessage(String sessionId, String sender, String receiver, String message) {
         Session session = sessionDAO.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException(SESSION_NOT_FOUND));
-        Player sendingPlayer = playerDAO.findPlayerByName(sender)
+        Player sendingPlayer = playerDAO.findPlayerByUniqueName(new PlayerUniqueName(sessionId, sender))
                 .orElseThrow(() -> new ResourceNotFoundException(PLAYER_NOT_FOUND));
-        Player receivingPlayer = playerDAO.findPlayerByName(receiver)
+        Player receivingPlayer = playerDAO.findPlayerByUniqueName(new PlayerUniqueName(sessionId, receiver))
                 .orElseThrow(() -> new ResourceNotFoundException(PLAYER_NOT_FOUND));
 
         Message playerMessage = new Message()

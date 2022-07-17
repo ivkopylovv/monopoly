@@ -31,7 +31,7 @@ public class Session {
     @Enumerated(STRING)
     private SessionState state = NEW;
 
-    @Column(name = "currentPlayer")
+    @Column(name = "current_player")
     private String currentPlayer;
 
     @ManyToMany(fetch = LAZY, cascade = ALL)
@@ -45,6 +45,4 @@ public class Session {
     @ManyToMany(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "messages")
     private List<Message> messages = new ArrayList<>();
-
-
 }

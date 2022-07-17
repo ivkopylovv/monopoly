@@ -1,71 +1,26 @@
 package com.game.monopoly.mapper;
 
 import com.game.monopoly.dto.response.CardStateDTO;
-import com.game.monopoly.dto.response.CommonCardDTO;
 import com.game.monopoly.dto.response.PlayingFieldDTO;
-import com.game.monopoly.entity.*;
-import com.game.monopoly.enums.CardType;
+import com.game.monopoly.entity.CardState;
+import com.game.monopoly.entity.CommonCard;
+import com.game.monopoly.entity.Session;
+import com.game.monopoly.helper.SortHelper;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PlayingFieldMapper {
 
-    public static PlayingFieldDTO buildPlayingField(
-            Session session,
-            List<CompanyCard> companyCards,
-            List<ChanceCard> chanceCards,
-            List<NonTypeCard> nonTypeCards) {
+    public static PlayingFieldDTO buildPlayingField(Session session, List<CommonCard> cards) {
 
         return new PlayingFieldDTO()
-                .setPlayers(session.getPlayers())
+                .setPlayers(SortHelper.getSortedPlayers(session.getPlayers()))
                 .setState(String.valueOf(session.getState()))
                 .setCurrentPlayer(session.getCurrentPlayer())
-                .setCards(PlayingFieldMapper.allCardsToCommonsList(companyCards, chanceCards, nonTypeCards))
+                .setCards(cards)
                 .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()));
-    }
-
-    private static List<CommonCardDTO> allCardsToCommonsList(
-            List<CompanyCard> companyCards,
-            List<ChanceCard> chanceCards,
-            List<NonTypeCard> nonTypeCards) {
-        List<CommonCardDTO> resultList = new ArrayList<>();
-
-        companyCards.forEach(
-                (card) -> resultList.add(
-                        new CommonCardDTO(
-                                card.getId(),
-                                card.getImage(),
-                                String.valueOf(CardType.COMPANY)
-                        )
-                )
-        );
-        chanceCards.forEach(
-                (card) -> resultList.add(
-                        new CommonCardDTO(
-                                card.getId(),
-                                card.getImage(),
-                                String.valueOf(CardType.CHANCE)
-                        )
-                )
-        );
-        nonTypeCards.forEach(
-                (card) -> resultList.add(
-                        new CommonCardDTO(
-                                card.getId(),
-                                card.getImage(),
-                                String.valueOf(CardType.NONTYPE)
-                        )
-                )
-        );
-
-        return resultList
-                .stream()
-                .sorted(Comparator.comparing(CommonCardDTO::getId))
-                .collect(Collectors.toList());
     }
 
     private static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {

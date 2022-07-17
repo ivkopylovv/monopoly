@@ -1,5 +1,6 @@
 package com.game.monopoly.dto.response;
 
+import com.game.monopoly.entity.CommonCard;
 import com.game.monopoly.entity.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,6 @@ public class PlayingFieldDTO {
     private List<Player> players;
     private String state;
     private String currentPlayer;
-    private List<CommonCardDTO> cards;
+    private List<CommonCard> cards;
     private Map<Long, CardStateDTO> cardStates;
 }

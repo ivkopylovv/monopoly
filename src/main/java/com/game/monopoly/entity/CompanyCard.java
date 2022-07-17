@@ -26,9 +26,6 @@ public class CompanyCard {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "image", nullable = false)
-    private String image;
-
     @Column(name = "price", nullable = false)
     private Long price;
 

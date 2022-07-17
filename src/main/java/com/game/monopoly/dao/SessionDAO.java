@@ -14,8 +14,9 @@ public interface SessionDAO extends JpaRepository<Session, String> {
     @Query("update Session s set s.state = ?1, s.currentPlayer = ?2 where s.id = ?3")
     void updateSessionStateAndCurrentPlayer(SessionState state, String nextPlayer, String id);
 
-
     @Modifying(clearAutomatically = true)
     @Query("update Session s set s.currentPlayer = ?1 where s.id = ?2")
     void updateCurrentPlayer(String nextPlayer, String id);
+
+    boolean existsSessionById(String id);
 }

@@ -1,5 +1,6 @@
 package com.game.monopoly.entity;
 
+import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.enums.PlayerRole;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,9 @@ public class Player {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true)
-    private String name;
+    @Column(nullable = false, unique = true)
+    @Embedded
+    private PlayerUniqueName uniqueName;
 
     @Column(name = "position", nullable = false)
     private Integer position;

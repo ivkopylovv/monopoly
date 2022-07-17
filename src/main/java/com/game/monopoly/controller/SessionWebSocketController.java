@@ -34,7 +34,7 @@ public class SessionWebSocketController {
 
     @MessageMapping(value = "/sessions/roll-dice")
     public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(RollDiceDTO dto) {
-        RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getPlayerName());
+        RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getSessionId(), dto.getPlayerName());
         simpMessagingTemplate.convertAndSend("/topic/roll-dice/" + dto.getSessionId(), rollDiceResult);
 
         return ResponseEntity.ok().body(rollDiceResult);
@@ -51,8 +51,8 @@ public class SessionWebSocketController {
 
     @MessageMapping(value = "/sessions/move-transition")
     public ResponseEntity<CurrentPlayerDTO> moveTransition(ChangeCurrentPlayerDTO dto) {
-        sessionService.moveTransition(dto.getSessionId(), dto.getPlayerName());
-        CurrentPlayerDTO result = new CurrentPlayerDTO(dto.getPlayerName());
+        String currentPlayer = sessionService.getNextPlayer(dto.getSessionId(), dto.getPlayerName());
+        CurrentPlayerDTO result = new CurrentPlayerDTO(currentPlayer);
         simpMessagingTemplate.convertAndSend("/topic/move-transition/" + dto.getSessionId(), result);
 
         return ResponseEntity.ok().body(result);

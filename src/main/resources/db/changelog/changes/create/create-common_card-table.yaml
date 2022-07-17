@@ -1,28 +1,30 @@
 databaseChangeLog:
   - changeSet:
-      id: create-level_fine
+      id: create-player
       author: ZhurkinN
       preConditions:
         - onFail: MARK_RAN
           not:
             - tableExists:
                 schemaName: public
-                tableName: level_fine
+                tableName: common_card
       changes:
         - createTable:
-            tableName: level_fine
+            tableName: common_card
             columns:
               - column:
                   name: id
                   type: bigint
-                  incrementBy: 1
-                  startWith: 1
-                  autoIncrement: true
                   constraints:
+                    nullable: false
                     primaryKey: true
+              - column:
+                  name: image
+                  type: varchar
+                  constraints:
                     nullable: false
               - column:
-                  name: value
-                  type: bigint
+                  name: card_type
+                  type: varchar
                   constraints:
                     nullable: false

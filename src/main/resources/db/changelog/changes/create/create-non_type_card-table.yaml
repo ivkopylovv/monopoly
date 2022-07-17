@@ -19,7 +19,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
               - column:
-                  name: image
-                  type: varchar
+                  name: money_diff
+                  type: bigint
                   constraints:
                     nullable: false

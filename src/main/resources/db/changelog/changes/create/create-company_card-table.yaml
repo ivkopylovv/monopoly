@@ -24,11 +24,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: image
-                  type: varchar
-                  constraints:
-                    nullable: false
-              - column:
                   name: price
                   type: bigint
                   constraints:

@@ -4,6 +4,7 @@ import com.game.monopoly.dao.CardStateDAO;
 import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.dto.response.BuyCardDTO;
+import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.*;
 import com.game.monopoly.exception.ResourceAlreadyExistsException;
@@ -13,6 +14,7 @@ import com.game.monopoly.helper.PlayerPositionHelper;
 import com.game.monopoly.helper.RandomHelper;
 import com.game.monopoly.helper.SortHelper;
 import com.game.monopoly.mapper.CardActionMapper;
+import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.mapper.RoleDicesMapper;
 import com.game.monopoly.service.PlayerService;
 import com.game.monopoly.service.SessionService;
@@ -168,6 +170,33 @@ public class SessionServiceImpl implements SessionService {
         Message newMessage = MessageHelper.createSentMessage(message, sender);
         messageDAO.save(newMessage);
         session.getMessages().add(newMessage);
+    }
+
+    @Transactional
+    @Override
+    public PayForCardDTO payForCard(String sessionId, String buyerName, Long cardId) {
+        Session session = getSession(sessionId);
+        Message newMessage = MessageHelper.createPayForCardMessage(buyerName);
+        messageDAO.save(newMessage);
+        session.getMessages().add(newMessage);
+
+        CardState cardState = session.getCardStates()
+                .stream()
+                .filter(cs -> cs.getCard().getId() == cardId)
+                .findAny()
+                .orElseThrow(() -> new ResourceNotFoundException(CARD_NOT_FOUND));
+        String ownerName = cardState.getOwnerName();
+        Long fine = cardState.getCurrentFine();
+
+        Player buyer = playerService.getPlayer(sessionId, buyerName);
+        Player owner = playerService.getPlayer(sessionId, ownerName);
+        Long buyerBalance = buyer.getBalance() - fine;
+        Long ownerBalance = owner.getBalance() + fine;
+
+        playerService.updatePlayerBalance(buyerBalance, sessionId, buyerName);
+        playerService.updatePlayerBalance(ownerBalance, sessionId, ownerName);
+
+        return PlayerMapper.playerBalancesToDTO(buyerName, buyerBalance, ownerName, ownerBalance);
     }
 
 }

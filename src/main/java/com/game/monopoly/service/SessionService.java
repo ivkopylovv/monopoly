@@ -1,6 +1,7 @@
 package com.game.monopoly.service;
 
 import com.game.monopoly.dto.response.BuyCardDTO;
+import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Player;
@@ -26,4 +27,6 @@ public interface SessionService {
     String getNextPlayer(String sessionId, String nextPlayer);
 
     void addCommonMessageToChatHistory(String sessionId, String sender, String message);
+
+    PayForCardDTO payForCard(String sessionId, String buyerName, Long cardId);
 }

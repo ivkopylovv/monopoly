@@ -37,7 +37,7 @@ public class SessionWebSocketController {
     }
 
     @MessageMapping(value = "/sessions/roll-dice")
-    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(RollDiceDTO dto) {
+    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(SessionPlayerNameDTO dto) {
         RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getSessionId(), dto.getPlayerName());
         ResultMessageDTO resultMessage = new ResultMessageDTO(
                 dto.getPlayerName(),
@@ -73,8 +73,8 @@ public class SessionWebSocketController {
         return ResponseEntity.ok().body(result);
     }
 
-    @MessageMapping(value = "/sessions/buy-card")
-    public ResponseEntity<BuyCardDTO> buyCard(PerformActionWithCardDTO dto) {
+    @PostMapping(value = "/sessions/buy-card")
+    public ResponseEntity<BuyCardDTO> buyCard(@RequestBody PerformActionWithCardDTO dto) {
         BuyCardDTO result = sessionService.buyCard(dto.getSessionId(), dto.getPlayerName(), dto.getCardId());
         ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), BUY_CARD);
 

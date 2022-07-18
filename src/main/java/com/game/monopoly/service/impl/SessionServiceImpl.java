@@ -165,9 +165,7 @@ public class SessionServiceImpl implements SessionService {
         }
 
         String nextPlayerName = nextPlayer.getUniqueName().getName();
-
-        sessionDAO.updateCurrentPlayer(nextPlayerName, sessionId);
-        sessionDAO.updateMoveStatus(START, sessionId);
+        sessionDAO.updateCurrentPlayerAndMoveStatus(nextPlayerName, START, sessionId);
 
         return nextPlayerName;
     }

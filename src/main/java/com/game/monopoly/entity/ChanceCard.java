@@ -1,14 +1,15 @@
 package com.game.monopoly.entity;
 
+import com.game.monopoly.enums.ChanceCardType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import static javax.persistence.EnumType.STRING;
 
 
 @Entity
@@ -16,17 +17,22 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "chance_card")
 public class ChanceCard {
     @Id
     private Long id;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Column(name = "money_difference")
     private Long moneyDifference;
 
     @Column(name = "step")
-    private Long step;
+    private Integer step;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(STRING)
+    private ChanceCardType type;
 }

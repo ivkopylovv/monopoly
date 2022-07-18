@@ -1,6 +1,5 @@
 package com.game.monopoly.constants;
 
-import com.game.monopoly.entity.Player;
 import com.game.monopoly.enums.MoveStatus;
 
 public class InitialGameValue {

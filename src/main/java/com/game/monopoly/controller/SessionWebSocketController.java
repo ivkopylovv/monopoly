@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.game.monopoly.constants.ResultMessage.*;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
@@ -73,8 +71,8 @@ public class SessionWebSocketController {
         return ResponseEntity.ok().body(result);
     }
 
-    @PostMapping(value = "/sessions/buy-card")
-    public ResponseEntity<BuyCardDTO> buyCard(@RequestBody PerformActionWithCardDTO dto) {
+    @MessageMapping(value = "/sessions/buy-card")
+    public ResponseEntity<BuyCardDTO> buyCard(PerformActionWithCardDTO dto) {
         BuyCardDTO result = sessionService.buyCard(dto.getSessionId(), dto.getPlayerName(), dto.getCardId());
         ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), BUY_CARD);
 

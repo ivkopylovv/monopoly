@@ -26,8 +26,10 @@ import java.util.List;
 
 import static com.game.monopoly.constants.ErrorMessage.*;
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_MOVE_STATUS;
 import static com.game.monopoly.constants.PlayingFieldParam.MAX_BORDER;
 import static com.game.monopoly.constants.PlayingFieldParam.MIN_BORDER;
+import static com.game.monopoly.enums.MoveStatus.*;
 import static com.game.monopoly.enums.PlayerRole.ADMIN;
 import static com.game.monopoly.enums.PlayerRole.USER;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
@@ -64,6 +66,7 @@ public class SessionServiceImpl implements SessionService {
         Session session = new Session()
                 .setId(sessionId)
                 .setCurrentPlayer(INITIAL_CURRENT_PLAYER_NAME)
+                .setMoveStatus(INITIAL_MOVE_STATUS)
                 .setCardStates(cardStates);
         session.getPlayers().add(player);
         sessionDAO.save(session);
@@ -100,6 +103,7 @@ public class SessionServiceImpl implements SessionService {
         Message message = MessageHelper.createRollDicesMessage(playerName, digits);
         messageDAO.save(message);
         session.getMessages().add(message);
+        sessionDAO.updateMoveStatus(MIDDLE, sessionId);
 
         return RoleDicesMapper.rollResultTODTO(digits, playerName, newPosition);
     }
@@ -108,6 +112,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public void startGame(String sessionId, String nextPlayer) {
         sessionDAO.updateSessionStateAndCurrentPlayer(IN_PROGRESS, nextPlayer, sessionId);
+        sessionDAO.updateMoveStatus(START, sessionId);
 
         Session session = getSession(sessionId);
         Message message = MessageHelper.createStartGameMessage();
@@ -140,6 +145,7 @@ public class SessionServiceImpl implements SessionService {
                 .setLevel(level + 1)
                 .setOwnerName(playerName));
         playerService.updatePlayerBalance(newBalance, sessionId, playerName);
+        sessionDAO.updateMoveStatus(END, sessionId);
 
         return CardActionMapper.cardActionTODTO(playerName, newBalance, cardState);
     }
@@ -157,8 +163,11 @@ public class SessionServiceImpl implements SessionService {
                 break;
             }
         }
+
         String nextPlayerName = nextPlayer.getUniqueName().getName();
+
         sessionDAO.updateCurrentPlayer(nextPlayerName, sessionId);
+        sessionDAO.updateMoveStatus(START, sessionId);
 
         return nextPlayerName;
     }
@@ -195,6 +204,7 @@ public class SessionServiceImpl implements SessionService {
 
         playerService.updatePlayerBalance(buyerBalance, sessionId, buyerName);
         playerService.updatePlayerBalance(ownerBalance, sessionId, ownerName);
+        sessionDAO.updateMoveStatus(START, sessionId);
 
         return PlayerMapper.playerBalancesToDTO(buyerName, buyerBalance, ownerName, ownerBalance);
     }

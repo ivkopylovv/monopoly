@@ -19,6 +19,7 @@ public class PlayingFieldMapper {
                 .setPlayers(PlayerMapper.entitiesToDTOList(SortHelper.getSortedPlayers(session.getPlayers())))
                 .setState(String.valueOf(session.getState()))
                 .setCurrentPlayer(session.getCurrentPlayer())
+                .setMoveStatus(String.valueOf(session.getMoveStatus()))
                 .setCards(cards)
                 .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()))
                 .setChatHistory(ResultMessageMapper.entitiesToDTOList(session.getMessages()));

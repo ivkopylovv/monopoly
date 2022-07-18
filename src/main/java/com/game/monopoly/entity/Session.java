@@ -1,5 +1,6 @@
 package com.game.monopoly.entity;
 
+import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.enums.SessionState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.util.List;
 import static com.game.monopoly.enums.SessionState.NEW;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -33,6 +35,10 @@ public class Session {
 
     @Column(name = "current_player")
     private String currentPlayer;
+
+    @Column(name = "move_status")
+    @Enumerated(STRING)
+    private MoveStatus moveStatus;
 
     @ManyToMany(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "players")

@@ -7,6 +7,7 @@ import com.game.monopoly.dto.response.BuyCardDTO;
 import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.*;
+import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.exception.ResourceAlreadyExistsException;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.helper.MessageHelper;
@@ -99,11 +100,11 @@ public class SessionServiceImpl implements SessionService {
 
         playerService.updatePlayerPosition(newPosition, sessionId, playerName);
 
+        sessionDAO.updateMoveStatus(MIDDLE, sessionId);
         Session session = getSession(sessionId);
         Message message = MessageHelper.createRollDicesMessage(playerName, digits);
         messageDAO.save(message);
         session.getMessages().add(message);
-        sessionDAO.updateMoveStatus(MIDDLE, sessionId);
 
         return RoleDicesMapper.rollResultTODTO(digits, playerName, newPosition);
     }
@@ -123,6 +124,7 @@ public class SessionServiceImpl implements SessionService {
     @Transactional
     @Override
     public BuyCardDTO buyCard(String sessionId, String playerName, Long cardId) {
+        sessionDAO.updateMoveStatus(END, sessionId);
         Session session = getSession(sessionId);
         Message message = MessageHelper.createBuyCardMessage(playerName);
         messageDAO.save(message);
@@ -145,7 +147,6 @@ public class SessionServiceImpl implements SessionService {
                 .setLevel(level + 1)
                 .setOwnerName(playerName));
         playerService.updatePlayerBalance(newBalance, sessionId, playerName);
-        sessionDAO.updateMoveStatus(END, sessionId);
 
         return CardActionMapper.cardActionTODTO(playerName, newBalance, cardState);
     }
@@ -184,6 +185,7 @@ public class SessionServiceImpl implements SessionService {
     @Transactional
     @Override
     public PayForCardDTO payForCard(String sessionId, String buyerName, Long cardId) {
+        sessionDAO.updateMoveStatus(START, sessionId);
         Session session = getSession(sessionId);
         Message newMessage = MessageHelper.createPayForCardMessage(buyerName);
         messageDAO.save(newMessage);
@@ -204,9 +206,13 @@ public class SessionServiceImpl implements SessionService {
 
         playerService.updatePlayerBalance(buyerBalance, sessionId, buyerName);
         playerService.updatePlayerBalance(ownerBalance, sessionId, ownerName);
-        sessionDAO.updateMoveStatus(START, sessionId);
 
         return PlayerMapper.playerBalancesToDTO(buyerName, buyerBalance, ownerName, ownerBalance);
+    }
+
+    @Override
+    public MoveStatus getCurrentMoveStatus(String sessionId) {
+        return getSession(sessionId).getMoveStatus();
     }
 
 }

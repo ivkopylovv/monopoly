@@ -1,11 +1,9 @@
 package com.game.monopoly.controller;
 
-import com.game.monopoly.dto.request.ChangeCurrentPlayerDTO;
-import com.game.monopoly.dto.request.InitializeSessionDTO;
-import com.game.monopoly.dto.request.PerformActionWithCardDTO;
-import com.game.monopoly.dto.request.RollDiceDTO;
+import com.game.monopoly.dto.request.*;
 import com.game.monopoly.dto.response.*;
 import com.game.monopoly.entity.Player;
+import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.mapper.MessageContentMapper;
 import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.service.SessionService;
@@ -14,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.game.monopoly.constants.ResultMessage.*;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
@@ -36,8 +36,8 @@ public class SessionWebSocketController {
         return ResponseEntity.ok().body(playerDTO);
     }
 
-    @MessageMapping(value = "/sessions/roll-dice")
-    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(RollDiceDTO dto) {
+    @PostMapping(value = "/sessions/roll-dice")
+    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(@RequestBody RollDiceDTO dto) {
         RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getSessionId(), dto.getPlayerName());
         ResultMessageDTO resultMessage = new ResultMessageDTO(
                 dto.getPlayerName(),
@@ -91,6 +91,16 @@ public class SessionWebSocketController {
 
         simpMessagingTemplate.convertAndSend("/topic/pay-for-card/" + dto.getSessionId(), result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @MessageMapping(value = "/sessions/move-status")
+    public ResponseEntity<MoveStatusDTO> getCurrentMoveStatus(SessionIdDTO dto) {
+        MoveStatus status = sessionService.getCurrentMoveStatus(dto.getSessionId());
+        MoveStatusDTO result = new MoveStatusDTO(String.valueOf(status));
+
+        simpMessagingTemplate.convertAndSend("/topic/move-status/" + dto.getSessionId(), result);
 
         return ResponseEntity.ok().body(result);
     }

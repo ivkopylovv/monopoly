@@ -6,6 +6,7 @@ import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
+import com.game.monopoly.enums.MoveStatus;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface SessionService {
     void addCommonMessageToChatHistory(String sessionId, String sender, String message);
 
     PayForCardDTO payForCard(String sessionId, String buyerName, Long cardId);
+
+    MoveStatus getCurrentMoveStatus(String sessionId);
 }

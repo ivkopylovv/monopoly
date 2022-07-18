@@ -15,7 +15,6 @@ import java.util.List;
 import static com.game.monopoly.enums.SessionState.NEW;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity

@@ -3,6 +3,7 @@ package com.game.monopoly.controller;
 import com.game.monopoly.dto.request.SessionPlayerNameDTO;
 import com.game.monopoly.dto.response.PlayerBalanceDTO;
 import com.game.monopoly.dto.response.PlayerPositionDTO;
+import com.game.monopoly.dto.response.ResultMessageDTO;
 import com.game.monopoly.entity.ChanceCard;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.helper.PlayerPositionHelper;
@@ -48,7 +49,8 @@ public class ChanceCardController {
         }
 
         String description = card.getDescription();
+        ResultMessageDTO resultMessage = new ResultMessageDTO(playerName, description);
         sessionService.addCommonMessageToChatHistory(sessionId, playerName, description);
-        simpMessagingTemplate.convertAndSend("/topic/chat/" + sessionId, description);
+        simpMessagingTemplate.convertAndSend("/topic/chat/" + sessionId, resultMessage);
     }
 }

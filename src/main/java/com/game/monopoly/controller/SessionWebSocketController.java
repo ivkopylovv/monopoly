@@ -36,8 +36,8 @@ public class SessionWebSocketController {
         return ResponseEntity.ok().body(playerDTO);
     }
 
-    @PostMapping(value = "/sessions/roll-dice")
-    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(@RequestBody RollDiceDTO dto) {
+    @MessageMapping(value = "/sessions/roll-dice")
+    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(RollDiceDTO dto) {
         RollDiceResultDTO rollDiceResult = sessionService.rollDices(dto.getSessionId(), dto.getPlayerName());
         ResultMessageDTO resultMessage = new ResultMessageDTO(
                 dto.getPlayerName(),

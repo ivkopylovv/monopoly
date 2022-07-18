@@ -112,8 +112,7 @@ public class SessionServiceImpl implements SessionService {
     @Transactional
     @Override
     public void startGame(String sessionId, String nextPlayer) {
-        sessionDAO.updateSessionStateAndCurrentPlayer(IN_PROGRESS, nextPlayer, sessionId);
-        sessionDAO.updateMoveStatus(START, sessionId);
+        sessionDAO.updateSessionStateAndCurrentPlayerAndMoveStatus(IN_PROGRESS, nextPlayer, START, sessionId);
 
         Session session = getSession(sessionId);
         Message message = MessageHelper.createStartGameMessage();

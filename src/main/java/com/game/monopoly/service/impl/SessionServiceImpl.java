@@ -4,17 +4,16 @@ import com.game.monopoly.dao.CardStateDAO;
 import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.dto.response.BuyCardDTO;
+import com.game.monopoly.dto.response.CardDetailDTO;
 import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.*;
 import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.exception.ResourceAlreadyExistsException;
 import com.game.monopoly.exception.ResourceNotFoundException;
-import com.game.monopoly.helper.MessageHelper;
-import com.game.monopoly.helper.PlayerPositionHelper;
-import com.game.monopoly.helper.RandomHelper;
-import com.game.monopoly.helper.SortHelper;
+import com.game.monopoly.helper.*;
 import com.game.monopoly.mapper.CardActionMapper;
+import com.game.monopoly.mapper.CardStateMapper;
 import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.mapper.RoleDicesMapper;
 import com.game.monopoly.service.PlayerService;
@@ -25,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.game.monopoly.constants.ErrorMessage.*;
+import static com.game.monopoly.constants.ErrorMessage.SESSION_ALREADY_EXISTS;
+import static com.game.monopoly.constants.ErrorMessage.SESSION_NOT_FOUND;
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_MOVE_STATUS;
 import static com.game.monopoly.constants.PlayingFieldParam.MAX_BORDER;
@@ -129,11 +129,7 @@ public class SessionServiceImpl implements SessionService {
         messageDAO.save(message);
         session.getMessages().add(message);
 
-        CardState cardState = session.getCardStates()
-                .stream()
-                .filter(cs -> cs.getCard().getId() == cardId)
-                .findAny()
-                .orElseThrow(() -> new ResourceNotFoundException(CARD_NOT_FOUND));
+        CardState cardState = FindHelper.findCardStateByCardId(session.getCardStates(), cardId);
         CompanyCard card = cardState.getCard();
         Player player = playerService.getPlayer(sessionId, playerName);
 
@@ -188,11 +184,7 @@ public class SessionServiceImpl implements SessionService {
         messageDAO.save(newMessage);
         session.getMessages().add(newMessage);
 
-        CardState cardState = session.getCardStates()
-                .stream()
-                .filter(cs -> cs.getCard().getId() == cardId)
-                .findAny()
-                .orElseThrow(() -> new ResourceNotFoundException(CARD_NOT_FOUND));
+        CardState cardState = FindHelper.findCardStateByCardId(session.getCardStates(), cardId);
         String ownerName = cardState.getOwnerName();
         Long fine = cardState.getCurrentFine();
 
@@ -210,6 +202,14 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public MoveStatus getCurrentMoveStatus(String sessionId) {
         return getSession(sessionId).getMoveStatus();
+    }
+
+    @Override
+    public CardDetailDTO getDetailedCardInfo(String sessionId, Long cardId) {
+        Session session = getSession(sessionId);
+        CardState cardState = FindHelper.findCardStateByCardId(session.getCardStates(), cardId);
+
+        return CardStateMapper.cardStateTOCardDetailDTO(cardState);
     }
 
 }

@@ -27,10 +27,10 @@ public class Message {
     @Column(name = "content")
     private String content;
 
-    @JoinColumn(name = "sender")
+    @Column(name = "sender")
     private String sender;
 
-    @JoinColumn(name = "receiver")
+    @Column(name = "receiver")
     private String receiver;
 
     @Column(name = "type", nullable = false)

@@ -29,13 +29,4 @@ public class ChatController {
         return ResponseEntity.ok().body(new SuccessMessageDTO(COMMON_MESSAGE_WAS_SAVED));
     }
 
-    /*@MessageMapping(value = "/chat/single")
-    public ResponseEntity<SuccessMessageDTO> saveCommonMessage(SingleMessageDTO dto) {
-        chatService.saveSingleMessage(dto.getSessionId(), dto.getSender(), dto.getReceiver(), dto.getMessage());
-        simpMessagingTemplate.convertAndSend(
-                "/topic/chat/" + dto.getSessionId() + dto.getReceiver(),
-                new ResultMessageDTO(dto.getMessage()));
-
-        return ResponseEntity.ok().body(new SuccessMessageDTO(SINGLE_MESSAGE_WAS_SAVED));
-    }*/
 }

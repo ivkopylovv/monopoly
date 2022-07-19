@@ -1,6 +1,7 @@
 package com.game.monopoly.service;
 
 import com.game.monopoly.dto.response.BuyCardDTO;
+import com.game.monopoly.dto.response.CardDetailDTO;
 import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.CardState;
@@ -32,4 +33,6 @@ public interface SessionService {
     PayForCardDTO payForCard(String sessionId, String buyerName, Long cardId);
 
     MoveStatus getCurrentMoveStatus(String sessionId);
+
+    CardDetailDTO getDetailedCardInfo(String sessionId, Long cardId);
 }

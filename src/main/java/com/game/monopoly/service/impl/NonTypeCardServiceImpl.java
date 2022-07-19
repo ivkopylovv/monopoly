@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class NonTypeCardServiceImpl implements NonTypeCardService {
     private final NonTypeCardDAO nonTypeCardDAO;
 
+    @Transactional(readOnly = true)
     @Override
     public List<NonTypeCard> getNonTypeCards() {
         return nonTypeCardDAO.findAll();

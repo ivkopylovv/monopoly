@@ -9,8 +9,8 @@ import com.game.monopoly.entity.Player;
 import com.game.monopoly.helper.PlayerPositionHelper;
 import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.service.ChanceCardService;
+import com.game.monopoly.service.ChatService;
 import com.game.monopoly.service.PlayerService;
-import com.game.monopoly.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,7 +23,7 @@ import static com.game.monopoly.enums.ChanceCardType.CHANGE_BALANCE;
 public class ChanceCardController {
     private final ChanceCardService chanceCardService;
     private final PlayerService playerService;
-    private final SessionService sessionService;
+    private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/cards/chance")
@@ -50,7 +50,7 @@ public class ChanceCardController {
 
         String description = card.getDescription();
         ResultMessageDTO resultMessage = new ResultMessageDTO(playerName, description);
-        sessionService.addCommonMessageToChatHistory(sessionId, playerName, description);
+        chatService.addCommonMessageToChatHistory(sessionId, playerName, description);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + sessionId, resultMessage);
     }
 }

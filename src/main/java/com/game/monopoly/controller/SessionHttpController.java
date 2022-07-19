@@ -49,4 +49,5 @@ public class SessionHttpController {
 
         return ResponseEntity.ok().body(playingField);
     }
+
 }

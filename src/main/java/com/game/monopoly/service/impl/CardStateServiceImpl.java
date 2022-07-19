@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 import static com.game.monopoly.constants.InitialGameValue.*;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class CardStateServiceImpl implements CardStateService {
     private final CardStateDAO cardStateDAO;
 
+    @Transactional(readOnly = true)
     @Override
     public List<CardState> getNewCardStates(List<CompanyCard> companyCards) {
         return companyCards
@@ -31,6 +31,7 @@ public class CardStateServiceImpl implements CardStateService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public void saveCardStates(List<CardState> cardStates) {
         cardStateDAO.saveAll(cardStates);

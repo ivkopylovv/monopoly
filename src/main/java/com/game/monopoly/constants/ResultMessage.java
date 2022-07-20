@@ -12,4 +12,7 @@ public class ResultMessage {
     public static final String NEW_PLAYER = "присоединяется в игру";
     public static final String DICE_ROLL_RESULT = "выбрасывает комбинацию из %d:%d";
     public static final String GAME_WAS_STARTED = "Игра началась!";
+    public static final String IMPROVE_CARD = "улучшает свою компанию";
+    public static final String SELL_CARD = "продает свою компанию";
+    public static final String LOWER_CARD_LEVEL = "понижает уровень своей компании";
 }

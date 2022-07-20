@@ -11,7 +11,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuyCardDTO {
+public class CardStatePlayerBalanceDTO {
     private PlayerBalanceDTO player;
     private Map<Long, CardStateDTO> cardState;
 }

@@ -51,4 +51,25 @@ public class MessageHelper {
                 .setSender(playerName)
                 .setType(COMMON);
     }
+
+    public static Message createImproveCardMessage(String playerName) {
+        return new Message()
+                .setContent(IMPROVE_CARD)
+                .setSender(playerName)
+                .setType(COMMON);
+    }
+
+    public static Message createSellCardMessage(String playerName) {
+        return new Message()
+                .setContent(IMPROVE_CARD)
+                .setSender(playerName)
+                .setType(COMMON);
+    }
+
+    public static Message createLowerCardLevelMessage(String playerName) {
+        return new Message()
+                .setContent(LOWER_CARD_LEVEL)
+                .setSender(playerName)
+                .setType(COMMON);
+    }
 }

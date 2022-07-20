@@ -2,7 +2,7 @@ package com.game.monopoly.mapper;
 
 import java.util.List;
 
-import static com.game.monopoly.constants.ResultMessage.DICE_ROLL_RESULT;
+import static com.game.monopoly.constants.ResultMessage.*;
 
 public class MessageContentMapper {
 
@@ -10,13 +10,11 @@ public class MessageContentMapper {
         return String.format(DICE_ROLL_RESULT, digits.get(0), digits.get(1));
     }
 
-   /* public static ResultMessageDTO changeBalanceDTOToResultMessage(ChangeBalanceDTO dto) {
-        Long diff = dto.getMoneyDifference();
-        String format = diff > 0 ? UPDATE_BALANCE_POSITIVE : UPDATE_BALANCE_NEGATIVE;
+    public static String jackpotEventWinToMessageContent(List<Integer> digits, int digit, Long benefit) {
+        return String.format(JACKPOT_COMMON + JACKPOT_WIN, digits.toString(), digit, benefit);
+    }
 
-        return new ResultMessageDTO(
-                dto.getPlayerName(),
-                String.format(format, dto.getPlayerName(), dto.getMoneyDifference())
-        );
-    }*/
+    public static String jackpotEventLoseToMessageContent(List<Integer> digits, int digit, Long loss) {
+        return String.format(JACKPOT_COMMON + JACKPOT_LOSE, digits.toString(), digit, loss);
+    }
 }

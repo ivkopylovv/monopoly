@@ -25,7 +25,8 @@ public class PlayerUniqueName implements Serializable {
         if (this == o) return true;
         if (!(o instanceof PlayerUniqueName)) return false;
         PlayerUniqueName that = (PlayerUniqueName) o;
-        return Objects.equals(sessionId, that.sessionId) && Objects.equals(name, that.name);
+        return this.sessionId != null && this.sessionId.equals(that.sessionId)
+                && this.name != null && this.name.equals(that.name);
     }
 
     @Override

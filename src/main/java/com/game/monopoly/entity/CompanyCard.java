@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -48,4 +49,23 @@ public class CompanyCard {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "common_card_id", nullable = false)
     private CommonCard commonCard;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CompanyCard)) return false;
+        CompanyCard that = (CompanyCard) o;
+        return this.id != null && this.id.equals(that.id)
+                && this.title != null && this.title.equals(that.title)
+                && this.sphere != null && this.sphere.equals(that.sphere)
+                && this.price != null && this.price.equals(that.price)
+                && this.starPrice != null && this.starPrice.equals(that.starPrice)
+                && this.salePrice != null && this.salePrice.equals(that.salePrice)
+                && this.collectionNumber != null && this.collectionNumber.equals(that.collectionNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, sphere, price, starPrice, salePrice, collectionNumber, fines, commonCard);
+    }
 }

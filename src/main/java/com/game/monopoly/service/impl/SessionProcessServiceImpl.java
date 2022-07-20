@@ -21,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.game.monopoly.constants.PlayingFieldParam.MAX_BORDER;
-import static com.game.monopoly.constants.PlayingFieldParam.MIN_BORDER;
 import static com.game.monopoly.enums.MoveStatus.MIDDLE;
 import static com.game.monopoly.enums.MoveStatus.START;
 import static com.game.monopoly.enums.PlayerRole.USER;
@@ -56,8 +54,8 @@ public class SessionProcessServiceImpl implements SessionProcessService {
     public RollDiceResultDTO rollDices(String sessionId, String playerName) {
         Player player = playerService.getPlayer(sessionId, playerName);
 
-        int firstRoll = RandomHelper.getRandomDiceValue(MIN_BORDER, MAX_BORDER);
-        int secondRoll = RandomHelper.getRandomDiceValue(MIN_BORDER, MAX_BORDER);
+        int firstRoll = RandomHelper.getRandomDiceValue();
+        int secondRoll = RandomHelper.getRandomDiceValue();
         int newPosition = PlayerPositionHelper.getNewPosition(player.getPosition(), firstRoll, secondRoll);
         List<Integer> digits = List.of(firstRoll, secondRoll);
 

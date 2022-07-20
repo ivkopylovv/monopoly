@@ -17,4 +17,5 @@ public class FindHelper {
                 .findAny()
                 .orElseThrow(() -> new ResourceNotFoundException(CARD_NOT_FOUND));
     }
+
 }

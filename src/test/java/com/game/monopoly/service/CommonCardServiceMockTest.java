@@ -1,7 +1,7 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dao.NonTypeCardDAO;
-import com.game.monopoly.service.impl.NonTypeCardServiceImpl;
+import com.game.monopoly.dao.CommonCardDAO;
+import com.game.monopoly.service.impl.CommonCardServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,19 +10,17 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
 
-class NonTypeCardServiceTest {
-
+public class CommonCardServiceMockTest {
     @Mock
-    private NonTypeCardDAO nonTypeCardDAO;
-
-    private NonTypeCardService underTest;
+    private CommonCardDAO commonCardDAO;
+    private CommonCardService underTest;
 
     private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new NonTypeCardServiceImpl(nonTypeCardDAO);
+        underTest = new CommonCardServiceImpl(commonCardDAO);
     }
 
     @AfterEach
@@ -31,11 +29,11 @@ class NonTypeCardServiceTest {
     }
 
     @Test
-    void canGetNonTypeCards() {
+    void canGetChanceCards() {
         //when
-        underTest.getNonTypeCards();
+        underTest.getAllCards();
         //then
-        verify(nonTypeCardDAO).findAll();
+        verify(commonCardDAO).findAll();
     }
 
 }

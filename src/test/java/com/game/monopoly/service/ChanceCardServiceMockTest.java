@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
 
-public class ChanceCardServiceTest {
+public class ChanceCardServiceMockTest {
 
     @Mock
     private ChanceCardDAO chanceCardDAO;

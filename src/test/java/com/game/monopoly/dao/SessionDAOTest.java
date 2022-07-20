@@ -1,6 +1,7 @@
 package com.game.monopoly.dao;
 
 import com.game.monopoly.entity.Session;
+import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.enums.SessionState;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import static com.game.monopoly.enums.MoveStatus.*;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 import static com.game.monopoly.enums.SessionState.NEW;
 import static java.lang.Boolean.*;
@@ -34,33 +36,53 @@ public class SessionDAOTest {
     }
 
     @Test
-    void itShouldUpdateSessionStateAndCurrentPlayer() {
+    void itShouldUpdateSessionStateAndCurrentPlayerAndMoveStatus() {
         // given
         String nextPlayer = "Vanya";
         SessionState newState = IN_PROGRESS;
+        MoveStatus newStatus = MIDDLE;
 
         // when
-        sessionDAO.updateSessionStateAndCurrentPlayer(newState, nextPlayer, ACTUAL_ID);
-        SessionState exceptedSessionState = sessionDAO.findById(ACTUAL_ID).get().getState();
-        String exceptedNextPlayer = sessionDAO.findById(ACTUAL_ID).get().getCurrentPlayer();
+        sessionDAO.updateSessionStateAndCurrentPlayerAndMoveStatus(newState, nextPlayer, newStatus, ACTUAL_ID);
+        SessionState expectedSessionState = sessionDAO.findById(ACTUAL_ID).get().getState();
+        String expectedNextPlayer = sessionDAO.findById(ACTUAL_ID).get().getCurrentPlayer();
+        MoveStatus expectedStatus = sessionDAO.findById(ACTUAL_ID).get().getMoveStatus();
 
         // then
-        assertEquals(nextPlayer, exceptedNextPlayer);
-        assertEquals(newState, exceptedSessionState);
+        assertEquals(nextPlayer, expectedNextPlayer);
+        assertEquals(newState, expectedSessionState);
+        assertEquals(newStatus, expectedStatus);
 
     }
 
     @Test
-    void itShouldUpdateCurrentPlayer() {
+    void itShouldUpdateCurrentPlayerAndMoveStatus() {
         // given
         String nextPlayer = "Vanya";
+        MoveStatus newStatus = MIDDLE;
 
         // when
-        sessionDAO.updateCurrentPlayer(nextPlayer, ACTUAL_ID);
-        String exceptedNextPlayer = sessionDAO.findById(ACTUAL_ID).get().getCurrentPlayer();
+        sessionDAO.updateCurrentPlayerAndMoveStatus(nextPlayer, newStatus, ACTUAL_ID);
+        String expectedNextPlayer = sessionDAO.findById(ACTUAL_ID).get().getCurrentPlayer();
+        MoveStatus expectedStatus = sessionDAO.findById(ACTUAL_ID).get().getMoveStatus();
 
         // then
-        assertEquals(nextPlayer, exceptedNextPlayer);
+        assertEquals(nextPlayer, expectedNextPlayer);
+        assertEquals(newStatus, expectedStatus);
+
+    }
+
+    @Test
+    void itShouldUpdateMoveStatus() {
+        // given
+        MoveStatus newStatus = MIDDLE;
+
+        // when
+        sessionDAO.updateMoveStatus(newStatus, ACTUAL_ID);
+        MoveStatus expectedStatus = sessionDAO.findById(ACTUAL_ID).get().getMoveStatus();
+
+        // then
+        assertEquals(newStatus, expectedStatus);
 
     }
 

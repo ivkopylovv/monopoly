@@ -4,7 +4,7 @@ import com.game.monopoly.dao.CardStateDAO;
 import com.game.monopoly.dao.CommonCardDAO;
 import com.game.monopoly.dao.CompanyCardDAO;
 import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.CardDetailDTO;
+import com.game.monopoly.dto.response.PlayingFieldDTO;
 import com.game.monopoly.entity.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,22 +24,21 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @ComponentScan(basePackages = {"com.game.monopoly.service"})
 @ComponentScan(basePackages = {"com.game.monopoly.dao"})
-public class CompanyCardServiceTest {
-
+class SessionInitServiceTest {
     public static final String SESSION_ID = "123";
-    public static final String OWNER_NAME = "Masha";
+    public static final String ACTUAL_NAME = "Masha";
+    public static final String ACTUAL_COLOUR = "GREEN";
+    @Autowired
+    private SessionDAO sessionDAO;
+    @Autowired
+    private CommonCardDAO commonCardDAO;
     @Autowired
     private CompanyCardDAO companyCardDAO;
     @Autowired
-    private CommonCardDAO commonCardDAO;
-
-    @Autowired
-    private SessionDAO sessionDAO;
-
-    @Autowired
     private CardStateDAO cardStateDAO;
-    @Autowired(required=false)
-    private CompanyCardService underTest;
+
+    @Autowired
+    private SessionInitService underTest;
 
     @BeforeEach
     void setUp() {
@@ -49,7 +48,7 @@ public class CompanyCardServiceTest {
         CompanyCard companyCard = new CompanyCard(12L, "Hi", "Покупки", 15L,
                 10L, 2L, 1, levelFines, commonCard);
         companyCardDAO.save(companyCard);
-        CardState cardState = new CardState(4L, 20L, 2, OWNER_NAME, companyCard);
+        CardState cardState = new CardState(4L, 20L, 2, "Masha", companyCard);
         cardStateDAO.save(cardState);
         Session session = new Session()
                 .setId(SESSION_ID)
@@ -60,30 +59,33 @@ public class CompanyCardServiceTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         sessionDAO.deleteAll();
         cardStateDAO.deleteAll();
-        companyCardDAO.deleteAll();
         commonCardDAO.deleteAll();
     }
 
     @Test
-    void itShouldGetNotNullCardDetailDTO() {
-        CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
-        assertNotNull(cardDetailDTO);
+    void canSaveSession() {
+        String newSessionId = "222";
+        Session expectedSession = new Session()
+                .setId(newSessionId)
+                .setCurrentPlayer(INITIAL_CURRENT_PLAYER_NAME)
+                .setMoveStatus(INITIAL_MOVE_STATUS);
+        underTest.saveSession(newSessionId, ACTUAL_NAME, ACTUAL_COLOUR, null);
+        assertEquals(expectedSession, sessionDAO.findById(newSessionId).get());
+
     }
 
     @Test
-    void itShouldGetEmptyLevelFinesArray() {
-        CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
-        assertTrue(cardDetailDTO.getFines().isEmpty());
+    void itShouldGetNotNullPlayingField() {
+        PlayingFieldDTO playingFieldDTO = underTest.getPlayingField(SESSION_ID);
+        assertNotNull(playingFieldDTO);
     }
 
     @Test
-    void itShouldCompareSessionID() {
-        CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
-        assertEquals(OWNER_NAME, cardDetailDTO.getOwnerName());
-
+    void itShouldGetNotEmptyCardStatesArray() {
+        PlayingFieldDTO playingFieldDTO = underTest.getPlayingField(SESSION_ID);
+        assertFalse(playingFieldDTO.getCardStates().isEmpty());
     }
-
 }

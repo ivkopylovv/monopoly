@@ -31,11 +31,11 @@ public class ChanceCardServiceTest {
     }
 
     @Test
-    void canGetChanceCards() {
+    void canGetChanceCardCount() {
         //when
-        underTest.getChanceCards();
+        underTest.getChanceCardCount();
         //then
-        verify(chanceCardDAO).findAll();
+        verify(chanceCardDAO).count();
     }
 
 }

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.game.monopoly.constants.EventParam.START_BONUS;
 import static com.game.monopoly.enums.MoveStatus.MIDDLE;
 import static com.game.monopoly.enums.MoveStatus.START;
 import static com.game.monopoly.enums.PlayerRole.USER;
@@ -56,16 +57,28 @@ public class SessionProcessServiceImpl implements SessionProcessService {
 
         int firstRoll = RandomHelper.getRandomDiceValue();
         int secondRoll = RandomHelper.getRandomDiceValue();
-        int newPosition = PlayerPositionHelper.getNewPosition(player.getPosition(), firstRoll, secondRoll);
+        int position = player.getPosition();
+        int newPosition = PlayerPositionHelper.getNewPosition(position, firstRoll, secondRoll);
         List<Integer> digits = List.of(firstRoll, secondRoll);
+        Message updMessage = null;
 
         playerService.updatePlayerPosition(newPosition, sessionId, playerName);
+
+        if (position > newPosition) {
+            playerService.updatePlayerBalance(player.getBalance() + START_BONUS, sessionId, playerName);
+            updMessage = MessageHelper.createStartBonusMessage(playerName);
+        }
 
         sessionDAO.updateMoveStatus(MIDDLE, sessionId);
         Session session = sessionCommonService.getSession(sessionId);
         Message message = MessageHelper.createRollDicesMessage(playerName, digits);
         messageDAO.save(message);
         session.getMessages().add(message);
+
+        if (updMessage != null) {
+            messageDAO.save(updMessage);
+            session.getMessages().add(updMessage);
+        }
 
         return RoleDicesMapper.rollResultTODTO(digits, playerName, newPosition);
     }

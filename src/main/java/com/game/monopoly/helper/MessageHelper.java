@@ -72,4 +72,11 @@ public class MessageHelper {
                 .setSender(playerName)
                 .setType(COMMON);
     }
+
+    public static Message createStartBonusMessage(String playerName) {
+        return new Message()
+                .setContent(START_BONUS_PASS)
+                .setSender(playerName)
+                .setType(COMMON);
+    }
 }

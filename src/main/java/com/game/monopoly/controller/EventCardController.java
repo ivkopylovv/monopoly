@@ -54,4 +54,6 @@ public class EventCardController {
         simpMessagingTemplate.convertAndSend("/topic/change-balance/" + sessionId, result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + sessionId, resultMessage);
     }
+
+
 }

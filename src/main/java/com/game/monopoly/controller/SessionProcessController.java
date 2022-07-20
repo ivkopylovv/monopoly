@@ -11,7 +11,6 @@ import com.game.monopoly.mapper.MessageContentMapper;
 import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.service.SessionProcessService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -27,19 +26,17 @@ public class SessionProcessController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping(value = "/sessions/add-player")
-    public ResponseEntity<PlayerDTO> addPlayer(InitializeSessionDTO dto) {
+    public void addPlayer(InitializeSessionDTO dto) {
         Player player = sessionProcessService.addPlayerToSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour());
         PlayerDTO playerDTO = PlayerMapper.entityToPLayerDTO(player);
         ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), NEW_PLAYER);
 
         simpMessagingTemplate.convertAndSend("/topic/add-player/" + dto.getSessionId(), playerDTO);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
-
-        return ResponseEntity.ok().body(playerDTO);
     }
 
     @MessageMapping(value = "/sessions/roll-dice")
-    public ResponseEntity<RollDiceResultDTO> getNewPlayerPosition(SessionPlayerNameDTO dto) {
+    public void getNewPlayerPosition(SessionPlayerNameDTO dto) {
         RollDiceResultDTO rollDiceResult = sessionProcessService.rollDices(dto.getSessionId(), dto.getPlayerName());
         ResultMessageDTO resultMessage = new ResultMessageDTO(
                 dto.getPlayerName(),
@@ -48,12 +45,10 @@ public class SessionProcessController {
 
         simpMessagingTemplate.convertAndSend("/topic/roll-dice/" + dto.getSessionId(), rollDiceResult);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
-
-        return ResponseEntity.ok().body(rollDiceResult);
     }
 
     @MessageMapping(value = "/sessions/start-game")
-    public ResponseEntity<StartGameResultDTO> startGame(ChangeCurrentPlayerDTO dto) {
+    public void startGame(ChangeCurrentPlayerDTO dto) {
         sessionProcessService.startGame(dto.getSessionId(), dto.getPlayerName());
 
         StartGameResultDTO result = new StartGameResultDTO(IN_PROGRESS.toString(), dto.getPlayerName());
@@ -61,27 +56,21 @@ public class SessionProcessController {
 
         simpMessagingTemplate.convertAndSend("/topic/start-game/" + dto.getSessionId(), result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
-
-        return ResponseEntity.ok().body(result);
     }
 
     @MessageMapping(value = "/sessions/move-transition")
-    public ResponseEntity<CurrentPlayerDTO> moveTransition(ChangeCurrentPlayerDTO dto) {
+    public void moveTransition(ChangeCurrentPlayerDTO dto) {
         String currentPlayer = sessionProcessService.getNextPlayer(dto.getSessionId(), dto.getPlayerName());
         CurrentPlayerDTO result = new CurrentPlayerDTO(currentPlayer);
 
         simpMessagingTemplate.convertAndSend("/topic/move-transition/" + dto.getSessionId(), result);
-
-        return ResponseEntity.ok().body(result);
     }
 
     @MessageMapping(value = "/sessions/move-status")
-    public ResponseEntity<MoveStatusDTO> getCurrentMoveStatus(SessionIdDTO dto) {
+    public void getCurrentMoveStatus(SessionIdDTO dto) {
         MoveStatus status = sessionProcessService.getCurrentMoveStatus(dto.getSessionId());
         MoveStatusDTO result = new MoveStatusDTO(String.valueOf(status));
 
         simpMessagingTemplate.convertAndSend("/topic/move-status/" + dto.getSessionId(), result);
-
-        return ResponseEntity.ok().body(result);
     }
 }

@@ -3,7 +3,7 @@ package com.game.monopoly.service.impl;
 import com.game.monopoly.dao.CardStateDAO;
 import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.BuyCardDTO;
+import com.game.monopoly.dto.response.CardStatePlayerBalanceDTO;
 import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.entity.*;
 import com.game.monopoly.helper.FindHelper;
@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_CARD_FINE;
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_CARD_OWNER_NAME;
 import static com.game.monopoly.enums.MoveStatus.END;
 import static com.game.monopoly.enums.MoveStatus.START;
 
@@ -31,7 +33,7 @@ public class CardActionServiceImpl implements CardActionService {
 
     @Transactional
     @Override
-    public BuyCardDTO buyCard(String sessionId, String playerName, Long cardId) {
+    public CardStatePlayerBalanceDTO buyCard(String sessionId, String playerName, Long cardId) {
         sessionDAO.updateMoveStatus(END, sessionId);
         Session session = sessionCommonService.getSession(sessionId);
         Message message = MessageHelper.createBuyCardMessage(playerName);
@@ -48,8 +50,68 @@ public class CardActionServiceImpl implements CardActionService {
 
         cardStateDAO.saveAndFlush(cardState
                 .setCurrentFine(fine)
-                .setLevel(level + 1)
                 .setOwnerName(playerName));
+        playerService.updatePlayerBalance(newBalance, sessionId, playerName);
+
+        return CardActionMapper.cardActionTODTO(playerName, newBalance, cardState);
+    }
+
+    @Transactional
+    @Override
+    public CardStatePlayerBalanceDTO improveCard(String sessionId, String playerName, Long cardId) {
+        Session session = sessionCommonService.getSession(sessionId);
+        Message message = MessageHelper.createImproveCardMessage(playerName);
+        messageDAO.save(message);
+        session.getMessages().add(message);
+
+        CardState cardState = FindHelper.findCardStateByCardId(session.getCardStates(), cardId);
+        CompanyCard card = cardState.getCard();
+        Player player = playerService.getPlayer(sessionId, playerName);
+
+        Integer level = cardState.getLevel() + 1;
+        Long fine = card.getFines().get(level).getValue();
+        Long newBalance = player.getBalance() - card.getStarPrice();
+
+        cardStateDAO.saveAndFlush(cardState
+                .setCurrentFine(fine)
+                .setLevel(level));
+        playerService.updatePlayerBalance(newBalance, sessionId, playerName);
+
+        return CardActionMapper.cardActionTODTO(playerName, newBalance, cardState);
+    }
+
+    @Transactional
+    @Override
+    public CardStatePlayerBalanceDTO sellCard(String sessionId, String playerName, Long cardId) {
+        Session session = sessionCommonService.getSession(sessionId);
+        Message message = null;
+
+        CardState cardState = FindHelper.findCardStateByCardId(session.getCardStates(), cardId);
+        CompanyCard card = cardState.getCard();
+        Player player = playerService.getPlayer(sessionId, playerName);
+
+        Long newBalance = player.getBalance();
+        Integer level = cardState.getLevel();
+
+        if (level > 0) {
+            newBalance += card.getStarPrice();
+            level -= 1;
+            cardState
+                    .setCurrentFine(card.getFines().get(level).getValue())
+                    .setLevel(level);
+            message = MessageHelper.createSellCardMessage(playerName);
+        } else {
+            newBalance += card.getSalePrice();
+            cardState
+                    .setOwnerName(INITIAL_CARD_OWNER_NAME)
+                    .setCurrentFine(INITIAL_CARD_FINE);
+            message = MessageHelper.createLowerCardLevelMessage(playerName);
+        }
+
+        messageDAO.save(message);
+        session.getMessages().add(message);
+
+        cardStateDAO.saveAndFlush(cardState);
         playerService.updatePlayerBalance(newBalance, sessionId, playerName);
 
         return CardActionMapper.cardActionTODTO(playerName, newBalance, cardState);

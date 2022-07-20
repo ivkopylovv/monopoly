@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.game.monopoly.enums.SessionState.NEW;
 import static javax.persistence.CascadeType.ALL;
@@ -50,4 +51,20 @@ public class Session {
     @ManyToMany(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "messages")
     private List<Message> messages = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Session)) return false;
+        Session session = (Session) o;
+        return this.id != null && this.id.equals(session.id)
+                && this.state != null && this.state == session.state
+                && Objects.equals(this.currentPlayer, session.currentPlayer)
+                && this.moveStatus == session.moveStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, state, currentPlayer, moveStatus, players, cardStates, messages);
+    }
 }

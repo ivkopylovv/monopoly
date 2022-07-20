@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 import static com.game.monopoly.constants.InitialGameValue.*;
 import static javax.persistence.FetchType.EAGER;
@@ -36,4 +37,20 @@ public class CardState {
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "card_id", nullable = false)
     private CompanyCard card;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CardState)) return false;
+        CardState cardState = (CardState) o;
+        return this.id != null && this.id.equals(cardState.id)
+                && this.currentFine != null && this.currentFine.equals(cardState.currentFine)
+                && this.level != null && this.level.equals(cardState.level)
+                && this.ownerName != null && this.ownerName.equals(cardState.ownerName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, currentFine, level, ownerName, card);
+    }
 }

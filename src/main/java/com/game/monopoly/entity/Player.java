@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_BALANCE;
 import static javax.persistence.EnumType.STRING;
@@ -44,4 +45,22 @@ public class Player {
 
     @Column(name = "balance", nullable = false)
     private Long balance = INITIAL_BALANCE;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+        Player player = (Player) o;
+        return this.id != null && this.id.equals(player.id)
+                && this.uniqueName != null && this.uniqueName.equals(player.uniqueName)
+                && this.position != null && this.position.equals(player.position)
+                && this.role != null && this.role == player.role
+                && this.colour != null && this.colour == player.colour
+                && this.balance != null && this.balance.equals(player.balance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, uniqueName, position, role, colour, balance);
+    }
 }

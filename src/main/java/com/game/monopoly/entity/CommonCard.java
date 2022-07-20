@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -28,4 +29,19 @@ public class CommonCard {
     @Column(name = "card_type", nullable = false)
     @Enumerated(STRING)
     private CardType type;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CommonCard)) return false;
+        CommonCard that = (CommonCard) o;
+        return this.id != null && this.id.equals(that.id)
+                && this.image != null && this.image.equals(that.image)
+                && this.type != null && this.type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, image, type);
+    }
 }

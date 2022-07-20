@@ -15,21 +15,12 @@ VALUES (1, 'берет билет на самолет. Он проходит н�
        (14, 'выигрывает в лотерею и получает 100К ', 100, null, 'CHANGE_BALANCE'),
        (15, 'приходится долечить зубы. Пройдите на 4 шага назад ', null, -4, 'CHANGE_POSITION');
 
-INSERT INTO non_type_card (id, money_diff)
-VALUES (1, 0),
-       (5, 0),
-       (11, 0),
-       (21, 0),
-       (31, 0),
-       (37, 0);
-
-
 INSERT INTO common_card (id, image, card_type)
-VALUES (1, '/images/tinkoff.png', 'NONTYPE'),
+VALUES (1, '/images/tinkoff.png', 'START'),
        (2, '/images/levis.svg', 'COMPANY'),
        (3, '/images/chance-1.png', 'CHANCE'),
        (4, '/images/hm.svg', 'COMPANY'),
-       (5, '/images/tax_income.png', 'NONTYPE'),
+       (5, '/images/tax_income.png', 'TAX_INCOME'),
        (6, '/images/lg.svg', 'COMPANY'),
        (7, '/images/new_balance.svg', 'COMPANY'),
        (8, '/images/chance-1.png', 'CHANCE'),
@@ -45,7 +36,7 @@ VALUES (1, '/images/tinkoff.png', 'NONTYPE'),
        (18, '/images/chance-3.png', 'CHANCE'),
        (19, '/images/telegram.svg', 'COMPANY'),
        (20, '/images/youtube.svg', 'COMPANY'),
-       (21, '/images/jackpot.svg', 'NONTYPE'),
+       (21, '/images/jackpot.svg', 'JACKPOT'),
        (22, '/images/gucci.svg', 'COMPANY'),
        (23, '/images/chance-1.png', 'CHANCE'),
        (24, '/images/prada.svg', 'COMPANY'),
@@ -55,13 +46,13 @@ VALUES (1, '/images/tinkoff.png', 'NONTYPE'),
        (28, '/images/mirinda.svg', 'COMPANY'),
        (29, '/images/bmw.svg', 'COMPANY'),
        (30, '/images/sprite.svg', 'COMPANY'),
-       (31, '/images/goToJail.png', 'NONTYPE'),
+       (31, '/images/goToJail.png', 'TELEPORT'),
        (32, '/images/loreal.svg', 'COMPANY'),
        (33, '/images/givenchy.svg', 'COMPANY'),
        (34, '/images/chance-5.png', 'CHANCE'),
        (35, '/images/sephora.svg', 'COMPANY'),
        (36, '/images/nedozon.svg', 'COMPANY'),
-       (37, '/images/tax_luxury.png', 'NONTYPE'),
+       (37, '/images/tax_luxury.png', 'TAX_LUXURY'),
        (38, '/images/netflix.svg', 'COMPANY'),
        (39, '/images/chance-5.png', 'CHANCE'),
        (40, '/images/google.svg', 'COMPANY');

@@ -23,7 +23,7 @@ class SessionCommonServiceTest {
     @Autowired
     private SessionDAO sessionDAO;
 
-    @Autowired
+    @Autowired(required = false)
     private SessionCommonService underTest;
 
     @BeforeEach

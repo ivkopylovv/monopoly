@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+
 import static org.mockito.Mockito.verify;
 
 public class CompanyCardServiceMockTest {

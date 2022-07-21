@@ -14,12 +14,14 @@ import com.game.monopoly.service.SessionProcessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.game.monopoly.constants.ResultMessage.*;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class SessionProcessController {
     private final SessionProcessService sessionProcessService;
@@ -87,9 +89,9 @@ public class SessionProcessController {
         simpMessagingTemplate.convertAndSend("/topic/move-status/" + dto.getSessionId(), result);
     }
 
-    @MessageMapping(value = "/sessions/surrender")
-    public void surrenderTheGame(GameEventDTO dto) {
-        PlayerStatusDTO result = sessionProcessService.getSurrenderPlayer(dto.getSessionId(), dto.getPlayerName());
+    @PostMapping(value = "/sessions/surrender")
+    public void surrenderTheGame(@RequestBody GameEventDTO dto) {
+        SurrenderPlayerDTO result = sessionProcessService.getSurrenderPlayer(dto.getSessionId(), dto.getPlayerName());
         ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), SURRENDER);
 
         simpMessagingTemplate.convertAndSend("/topic/surrender/" + dto.getSessionId(), result);

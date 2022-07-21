@@ -1,6 +1,6 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dao.*;
+import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
@@ -18,7 +18,8 @@ import org.springframework.context.annotation.ComponentScan;
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
 import static com.game.monopoly.enums.MoveStatus.START;
 import static com.game.monopoly.enums.PlayerRole.USER;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @ComponentScan(basePackages = {"com.game.monopoly.service"})

@@ -25,7 +25,7 @@ public class PlayingFieldMapper {
                 .setChatHistory(ResultMessageMapper.entitiesToDTOList(session.getMessages()));
     }
 
-    private static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
+    public static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {
         return cardStates
                 .stream()
                 .collect(Collectors.toMap(

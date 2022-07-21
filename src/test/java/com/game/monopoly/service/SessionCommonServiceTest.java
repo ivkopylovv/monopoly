@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_MOVE_STATUS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ComponentScan(basePackages = {"com.game.monopoly.service"})

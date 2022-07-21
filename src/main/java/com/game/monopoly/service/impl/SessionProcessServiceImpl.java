@@ -2,22 +2,17 @@ package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.PlayerStatusDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
+import com.game.monopoly.dto.response.SurrenderPlayerDTO;
+import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Message;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.Session;
 import com.game.monopoly.enums.MoveStatus;
-import com.game.monopoly.helper.MessageHelper;
-import com.game.monopoly.helper.PlayerPositionHelper;
-import com.game.monopoly.helper.RandomHelper;
-import com.game.monopoly.helper.SortHelper;
+import com.game.monopoly.helper.*;
 import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.mapper.RollDicesMapper;
-import com.game.monopoly.service.ChatService;
-import com.game.monopoly.service.PlayerService;
-import com.game.monopoly.service.SessionCommonService;
-import com.game.monopoly.service.SessionProcessService;
+import com.game.monopoly.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +21,8 @@ import java.util.ArrayDeque;
 import java.util.List;
 
 import static com.game.monopoly.constants.EventParam.START_BONUS;
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_CARD_FINE;
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
 import static com.game.monopoly.constants.ResultMessage.SURRENDER;
 import static com.game.monopoly.enums.MoveStatus.MIDDLE;
 import static com.game.monopoly.enums.MoveStatus.START;
@@ -42,6 +39,7 @@ public class SessionProcessServiceImpl implements SessionProcessService {
     private final ChatService chatService;
     private final SessionCommonService sessionCommonService;
     private final PlayerService playerService;
+    private final CardStateService cardStateService;
 
     @Transactional
     @Override
@@ -146,16 +144,26 @@ public class SessionProcessServiceImpl implements SessionProcessService {
         return nextPlayerName;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MoveStatus getCurrentMoveStatus(String sessionId) {
         return sessionCommonService.getSession(sessionId).getMoveStatus();
     }
 
+    @Transactional
     @Override
-    public PlayerStatusDTO getSurrenderPlayer(String sessionId, String playerName) {
+    public SurrenderPlayerDTO getSurrenderPlayer(String sessionId, String playerName) {
         playerService.updatePlayerStatus(LOST, sessionId, playerName);
         chatService.addCommonMessageToChatHistory(sessionId, playerName, SURRENDER);
 
-        return PlayerMapper.playerStatusToDTO(playerName, LOST);
+        Session session = sessionCommonService.getSession(sessionId);
+        List<CardState> cardStates = FindHelper
+                .findCardStatesByOwnerName(session.getCardStates(), playerName);
+        cardStates.forEach(cs -> cs
+                .setOwnerName(INITIAL_CURRENT_PLAYER_NAME)
+                .setCurrentFine(INITIAL_CARD_FINE));
+        cardStateService.saveCardStates(cardStates);
+
+        return PlayerMapper.surrenderPlayerToDTO(playerName, LOST, cardStates);
     }
 }

@@ -23,7 +23,7 @@ public class ChatServiceTest {
     public static final String SENDER_NAME = "Masha";
     @Autowired
     private SessionDAO sessionDAO;
-    @Autowired(required=true)
+    @Autowired(required = true)
     private ChatService underTest;
 
     @BeforeEach

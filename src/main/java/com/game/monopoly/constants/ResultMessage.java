@@ -3,6 +3,7 @@ package com.game.monopoly.constants;
 public class ResultMessage {
     public static final String SESSION_WAS_CREATED = "Session was created";
     public static final String COMMON_MESSAGE_WAS_SAVED = "Common Message Was Saved";
+    public static final String SESSION_IS_VALID = "Session Is Valid";
 
     public static final String BUY_CARD = "приобретает себе новую компанию";
     public static final String PAY_FOR_CARD = "попадает на территорию другого игрока и платит за аренду";

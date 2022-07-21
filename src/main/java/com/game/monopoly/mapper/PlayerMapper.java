@@ -1,6 +1,7 @@
 package com.game.monopoly.mapper;
 
 import com.game.monopoly.dto.response.*;
+import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.enums.PlayerStatus;
 
@@ -40,6 +41,12 @@ public class PlayerMapper {
 
     public static PlayerBalanceDTO playerBalanceToDTO(String playerName, Long balance) {
         return new PlayerBalanceDTO(playerName, balance);
+    }
+
+    public static SurrenderPlayerDTO surrenderPlayerToDTO(String playerName, PlayerStatus status, List<CardState> cardStates) {
+        return new SurrenderPlayerDTO()
+                .setPlayer(PlayerMapper.playerStatusToDTO(playerName, status))
+                .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(cardStates));
     }
 
     public static PlayerStatusDTO playerStatusToDTO(String playerName, PlayerStatus status) {

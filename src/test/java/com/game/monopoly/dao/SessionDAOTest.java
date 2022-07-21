@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static com.game.monopoly.enums.MoveStatus.*;
+import static com.game.monopoly.enums.MoveStatus.MIDDLE;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 import static com.game.monopoly.enums.SessionState.NEW;
-import static java.lang.Boolean.*;
+import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest

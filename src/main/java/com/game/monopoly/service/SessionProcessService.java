@@ -1,7 +1,7 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dto.response.PlayerStatusDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
+import com.game.monopoly.dto.response.SurrenderPlayerDTO;
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.enums.MoveStatus;
 
@@ -16,5 +16,5 @@ public interface SessionProcessService {
 
     MoveStatus getCurrentMoveStatus(String sessionId);
 
-    PlayerStatusDTO getSurrenderPlayer(String sessionId, String playerName);
+    SurrenderPlayerDTO getSurrenderPlayer(String sessionId, String playerName);
 }

@@ -38,7 +38,7 @@ public class CompanyCardServiceTest {
 
     @Autowired
     private CardStateDAO cardStateDAO;
-    @Autowired(required=false)
+    @Autowired(required = false)
     private CompanyCardService underTest;
 
     @BeforeEach

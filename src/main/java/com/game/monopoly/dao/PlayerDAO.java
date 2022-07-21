@@ -2,6 +2,7 @@ package com.game.monopoly.dao;
 
 import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.embedded.PlayerUniqueName;
+import com.game.monopoly.enums.PlayerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,10 @@ public interface PlayerDAO extends JpaRepository<Player, Long> {
             "set p.position = ?1 " +
             "where p.uniqueName = ?2")
     void updatePlayerPositionByName(Integer position, PlayerUniqueName name);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update Player p " +
+            "set p.status = ?1 " +
+            "where p.uniqueName = ?2")
+    void updatePlayerStatusByName(PlayerStatus status, PlayerUniqueName name);
 }

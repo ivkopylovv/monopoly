@@ -2,6 +2,7 @@ package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
+import com.game.monopoly.dto.response.PlayerStatusDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.Message;
 import com.game.monopoly.entity.Player;
@@ -11,7 +12,9 @@ import com.game.monopoly.helper.MessageHelper;
 import com.game.monopoly.helper.PlayerPositionHelper;
 import com.game.monopoly.helper.RandomHelper;
 import com.game.monopoly.helper.SortHelper;
+import com.game.monopoly.mapper.PlayerMapper;
 import com.game.monopoly.mapper.RoleDicesMapper;
+import com.game.monopoly.service.ChatService;
 import com.game.monopoly.service.PlayerService;
 import com.game.monopoly.service.SessionCommonService;
 import com.game.monopoly.service.SessionProcessService;
@@ -22,9 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.game.monopoly.constants.EventParam.START_BONUS;
+import static com.game.monopoly.constants.ResultMessage.SURRENDER;
 import static com.game.monopoly.enums.MoveStatus.MIDDLE;
 import static com.game.monopoly.enums.MoveStatus.START;
 import static com.game.monopoly.enums.PlayerRole.USER;
+import static com.game.monopoly.enums.PlayerStatus.LOST;
+import static com.game.monopoly.enums.PlayerStatus.PLAYING;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 
 @Service
@@ -32,6 +38,7 @@ import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 public class SessionProcessServiceImpl implements SessionProcessService {
     private final MessageDAO messageDAO;
     private final SessionDAO sessionDAO;
+    private final ChatService chatService;
     private final SessionCommonService sessionCommonService;
     private final PlayerService playerService;
 
@@ -103,7 +110,9 @@ public class SessionProcessServiceImpl implements SessionProcessService {
         Player nextPlayer = null;
 
         for (int i = 0; i < count; i++) {
-            if (previousPLayer.equals(players.get(i).getUniqueName().getName())) {
+            Player player = players.get(i);
+
+            if (previousPLayer.equals(player.getUniqueName().getName()) && player.getStatus() == PLAYING) {
                 nextPlayer = i == count - 1 ? players.get(0) : players.get(i + 1);
                 break;
             }
@@ -118,5 +127,13 @@ public class SessionProcessServiceImpl implements SessionProcessService {
     @Override
     public MoveStatus getCurrentMoveStatus(String sessionId) {
         return sessionCommonService.getSession(sessionId).getMoveStatus();
+    }
+
+    @Override
+    public PlayerStatusDTO getSurrenderPlayer(String sessionId, String playerName) {
+        playerService.updatePlayerStatus(LOST, sessionId, playerName);
+        chatService.addCommonMessageToChatHistory(sessionId, playerName, SURRENDER);
+
+        return PlayerMapper.playerStatusToDTO(playerName, LOST);
     }
 }

@@ -1,5 +1,6 @@
 package com.game.monopoly.dto.response;
 
+import com.game.monopoly.enums.PlayerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class PlayerDTO {
     private String role;
     private String colour;
     private Long balance;
+    private PlayerStatus status;
 }

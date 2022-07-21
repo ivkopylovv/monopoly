@@ -1,6 +1,6 @@
 package com.game.monopoly.controller;
 
-import com.game.monopoly.dto.request.ChangeCurrentPlayerDTO;
+import com.game.monopoly.dto.request.GameEventDTO;
 import com.game.monopoly.dto.request.InitializeSessionDTO;
 import com.game.monopoly.dto.request.SessionIdDTO;
 import com.game.monopoly.dto.request.SessionPlayerNameDTO;
@@ -15,8 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import static com.game.monopoly.constants.ResultMessage.GAME_WAS_STARTED;
-import static com.game.monopoly.constants.ResultMessage.NEW_PLAYER;
+import static com.game.monopoly.constants.ResultMessage.*;
 import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 
 @Controller
@@ -48,7 +47,7 @@ public class SessionProcessController {
     }
 
     @MessageMapping(value = "/sessions/start-game")
-    public void startGame(ChangeCurrentPlayerDTO dto) {
+    public void startGame(GameEventDTO dto) {
         sessionProcessService.startGame(dto.getSessionId(), dto.getPlayerName());
 
         StartGameResultDTO result = new StartGameResultDTO(IN_PROGRESS.toString(), dto.getPlayerName());
@@ -59,7 +58,7 @@ public class SessionProcessController {
     }
 
     @MessageMapping(value = "/sessions/move-transition")
-    public void moveTransition(ChangeCurrentPlayerDTO dto) {
+    public void moveTransition(GameEventDTO dto) {
         String currentPlayer = sessionProcessService.getNextPlayer(dto.getSessionId(), dto.getPlayerName());
         CurrentPlayerDTO result = new CurrentPlayerDTO(currentPlayer);
 
@@ -72,5 +71,14 @@ public class SessionProcessController {
         MoveStatusDTO result = new MoveStatusDTO(String.valueOf(status));
 
         simpMessagingTemplate.convertAndSend("/topic/move-status/" + dto.getSessionId(), result);
+    }
+
+    @MessageMapping(value = "/sessions/surrender")
+    public void surrenderTheGame(GameEventDTO dto) {
+        PlayerStatusDTO result = sessionProcessService.getSurrenderPlayer(dto.getSessionId(), dto.getPlayerName());
+        ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), SURRENDER);
+
+        simpMessagingTemplate.convertAndSend("/topic/surrender/" + dto.getSessionId(), result);
+        simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
     }
 }

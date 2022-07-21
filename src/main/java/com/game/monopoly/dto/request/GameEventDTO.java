@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChangeCurrentPlayerDTO {
+public class GameEventDTO {
     private String sessionId;
     private String playerName;
 }

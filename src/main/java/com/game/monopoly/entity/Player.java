@@ -3,6 +3,7 @@ package com.game.monopoly.entity;
 import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.enums.PlayerRole;
+import com.game.monopoly.enums.PlayerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_BALANCE;
+import static com.game.monopoly.constants.InitialGameValue.INITIAL_PLAYER_STATUS;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -45,6 +47,10 @@ public class Player {
 
     @Column(name = "balance", nullable = false)
     private Long balance = INITIAL_BALANCE;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(STRING)
+    private PlayerStatus status = INITIAL_PLAYER_STATUS;
 
     @Override
     public boolean equals(Object o) {

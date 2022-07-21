@@ -15,10 +15,11 @@ public class ResultMessage {
     public static final String START_BONUS_PASS = "проходит поле Старт и получает 2000K";
 
     public static final String JACKPOT_COMMON = "решил попытать удачу, выбрав %s. Выпадает число %d, ";
-    public static final String JACKPOT_WIN = "выигрыш составил %d";
-    public static final String JACKPOT_LOSE = "и игрок теряет %d";
-    public static final String TAX_INCOME_RESULT = "платит подоходный налог в размере %d";
-    public static final String TAX_LUXURY_RESULT = "платит налог на роскошь в размере %d";
-    public static final String START_BONUS_RESULT = "попадает на поле Старт и получает %d";
+    public static final String JACKPOT_WIN = "выигрыш составил %dK";
+    public static final String JACKPOT_LOSE = "и игрок теряет %dK";
+    public static final String TAX_INCOME_RESULT = "платит подоходный налог в размере %dK";
+    public static final String TAX_LUXURY_RESULT = "платит налог на роскошь в размере %dK";
+    public static final String START_BONUS_RESULT = "попадает на поле Старт и получает %dK";
     public static final String TELEPORT_RESULT = "попадает на телепорт и перемещается кушать пончики";
+    public static final String SURRENDER = "не хочет продолжать игру и сдаётся";
 }

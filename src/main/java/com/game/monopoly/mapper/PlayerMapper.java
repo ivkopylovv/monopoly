@@ -1,10 +1,8 @@
 package com.game.monopoly.mapper;
 
-import com.game.monopoly.dto.response.PayForCardDTO;
-import com.game.monopoly.dto.response.PlayerBalanceDTO;
-import com.game.monopoly.dto.response.PlayerDTO;
-import com.game.monopoly.dto.response.PlayerPositionDTO;
+import com.game.monopoly.dto.response.*;
 import com.game.monopoly.entity.Player;
+import com.game.monopoly.enums.PlayerStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +23,8 @@ public class PlayerMapper {
                 .setColour(player.getColour().toString())
                 .setPosition(player.getPosition())
                 .setRole(player.getRole().toString())
-                .setBalance(player.getBalance());
+                .setBalance(player.getBalance())
+                .setStatus(player.getStatus());
     }
 
     public static PayForCardDTO playerBalancesToDTO(
@@ -41,5 +40,9 @@ public class PlayerMapper {
 
     public static PlayerBalanceDTO playerBalanceToDTO(String playerName, Long balance) {
         return new PlayerBalanceDTO(playerName, balance);
+    }
+
+    public static PlayerStatusDTO playerStatusToDTO(String playerName, PlayerStatus status) {
+        return new PlayerStatusDTO(playerName, String.valueOf(status));
     }
 }

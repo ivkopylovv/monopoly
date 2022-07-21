@@ -5,6 +5,7 @@ import com.game.monopoly.entity.Player;
 import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.enums.PlayerRole;
+import com.game.monopoly.enums.PlayerStatus;
 import com.game.monopoly.exception.ResourceNotFoundException;
 import com.game.monopoly.service.PlayerService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,12 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void updatePlayerBalance(Long newBalance, String sessionId, String playerName) {
         playerDAO.updatePlayerBalanceByName(newBalance, new PlayerUniqueName(sessionId, playerName));
+    }
+
+    @Transactional
+    @Override
+    public void updatePlayerStatus(PlayerStatus status, String sessionId, String playerName) {
+        playerDAO.updatePlayerStatusByName(status, new PlayerUniqueName(sessionId, playerName));
     }
 
 }

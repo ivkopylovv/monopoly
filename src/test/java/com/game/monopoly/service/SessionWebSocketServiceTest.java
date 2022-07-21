@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DataJpaTest
 @ComponentScan(basePackages = {"com.game.monopoly.service"})
 @ComponentScan(basePackages = {"com.game.monopoly.dao"})
-class SessionProcessServiceTest {
+class SessionWebSocketServiceTest {
 
     public static final String SESSION_ID = "222";
     public static final long PLAYER_ID = 10L;
@@ -37,7 +37,7 @@ class SessionProcessServiceTest {
     private SessionDAO sessionDAO;
 
     @Autowired
-    private SessionProcessService underTest;
+    private SessionWebSocketService underTest;
 
     @BeforeEach
     void setUp() {

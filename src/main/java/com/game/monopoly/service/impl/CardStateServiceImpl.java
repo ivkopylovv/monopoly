@@ -37,4 +37,10 @@ public class CardStateServiceImpl implements CardStateService {
         cardStateDAO.saveAll(cardStates);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<CardState> findByCardIds(List<Long> cardIds) {
+        return cardStateDAO.findByCardIdIn(cardIds);
+    }
+
 }

@@ -8,21 +8,20 @@ import com.game.monopoly.entity.CompanyCard;
 import com.game.monopoly.service.CardStateService;
 import com.game.monopoly.service.CompanyCardService;
 import com.game.monopoly.service.SessionCommonService;
-import com.game.monopoly.service.SessionInitService;
+import com.game.monopoly.service.SessionHttpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.game.monopoly.constants.ResultMessage.SESSION_IS_VALID;
-import static com.game.monopoly.constants.ResultMessage.SESSION_WAS_CREATED;
+import static com.game.monopoly.constants.ResultMessage.*;
 
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
-public class SessionInitController {
-    private final SessionInitService sessionInitService;
+public class SessionHttpController {
+    private final SessionHttpService sessionHttpService;
     private final SessionCommonService sessionCommonService;
     private final CompanyCardService companyCardService;
     private final CardStateService cardStateService;
@@ -32,7 +31,7 @@ public class SessionInitController {
         List<CompanyCard> companyCards = companyCardService.getCompanyCards();
         List<CardState> cardStates = cardStateService.getNewCardStates(companyCards);
         cardStateService.saveCardStates(cardStates);
-        sessionInitService.saveSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour(), cardStates);
+        sessionHttpService.saveSession(dto.getSessionId(), dto.getPlayerName(), dto.getColour(), cardStates);
 
         return ResponseEntity.ok().body(new SuccessMessageDTO(SESSION_WAS_CREATED));
     }
@@ -46,9 +45,16 @@ public class SessionInitController {
 
     @GetMapping(value = "/sessions/{sessionId}")
     public ResponseEntity<PlayingFieldDTO> getPlayingField(@PathVariable String sessionId) {
-        PlayingFieldDTO playingField = sessionInitService.getPlayingField(sessionId);
+        PlayingFieldDTO playingField = sessionHttpService.getPlayingField(sessionId);
 
         return ResponseEntity.ok().body(playingField);
+    }
+
+    @DeleteMapping(value = "/sessions/{id}")
+    public ResponseEntity<SuccessMessageDTO> finishSession(@PathVariable String id) {
+        sessionHttpService.finishSession(id);
+
+        return ResponseEntity.ok().body(new SuccessMessageDTO(SESSION_WAS_DELETED));
     }
 
 }

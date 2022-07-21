@@ -4,6 +4,7 @@ public class ResultMessage {
     public static final String SESSION_WAS_CREATED = "Session was created";
     public static final String COMMON_MESSAGE_WAS_SAVED = "Common Message Was Saved";
     public static final String SESSION_IS_VALID = "Session Is Valid";
+    public static final String SESSION_WAS_DELETED = "Session Was Deleted";
 
     public static final String BUY_CARD = "приобретает себе новую компанию";
     public static final String PAY_FOR_CARD = "попадает на территорию другого игрока и платит за аренду";
@@ -23,4 +24,7 @@ public class ResultMessage {
     public static final String START_BONUS_RESULT = "попадает на поле Старт и получает %dK";
     public static final String TELEPORT_RESULT = "попадает на телепорт и перемещается кушать пончики";
     public static final String SURRENDER = "не хочет продолжать игру и сдаётся";
+    public static final String OFFER_SEND = "предлагает игроку %s подписать договор";
+    public static final String REJECT_OFFER = "отклоняет предложение";
+    public static final String ACCEPT_OFFER = "принимает предложение";
 }

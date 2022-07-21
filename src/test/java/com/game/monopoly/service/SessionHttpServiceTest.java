@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @ComponentScan(basePackages = {"com.game.monopoly.service"})
 @ComponentScan(basePackages = {"com.game.monopoly.dao"})
-class SessionInitServiceTest {
+class SessionHttpServiceTest {
     public static final String SESSION_ID = "123";
     public static final String ACTUAL_NAME = "Masha";
     public static final String ACTUAL_COLOUR = "GREEN";
@@ -38,7 +38,7 @@ class SessionInitServiceTest {
     private CardStateDAO cardStateDAO;
 
     @Autowired
-    private SessionInitService underTest;
+    private SessionHttpService underTest;
 
     @BeforeEach
     void setUp() {

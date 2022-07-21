@@ -10,7 +10,7 @@ import com.game.monopoly.mapper.PlayingFieldMapper;
 import com.game.monopoly.service.CommonCardService;
 import com.game.monopoly.service.PlayerService;
 import com.game.monopoly.service.SessionCommonService;
-import com.game.monopoly.service.SessionInitService;
+import com.game.monopoly.service.SessionHttpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ import static com.game.monopoly.enums.PlayerRole.ADMIN;
 
 @Service
 @RequiredArgsConstructor
-public class SessionInitServiceImpl implements SessionInitService {
+public class SessionHttpServiceImpl implements SessionHttpService {
     private final SessionDAO sessionDAO;
     private final CommonCardService commonCardService;
     private final SessionCommonService sessionCommonService;
@@ -51,6 +51,12 @@ public class SessionInitServiceImpl implements SessionInitService {
         List<CommonCard> cards = commonCardService.getAllCards();
 
         return PlayingFieldMapper.buildPlayingField(session, cards);
+    }
+
+    @Transactional
+    @Override
+    public void finishSession(String sessionId) {
+        sessionDAO.deleteById(sessionId);
     }
 
 }

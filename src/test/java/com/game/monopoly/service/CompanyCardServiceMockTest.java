@@ -24,7 +24,7 @@ public class CompanyCardServiceMockTest {
     private SessionCommonService sessionCommonService;
 
     @Mock
-    private SessionInitService sessionInitService;
+    private SessionHttpService sessionHttpService;
     @Mock
     private CardStateService cardStateService;
     @Mock
@@ -40,7 +40,7 @@ public class CompanyCardServiceMockTest {
 
         List<CompanyCard> companyCards = companyCardService.getCompanyCards();
         List<CardState> cardStates = cardStateService.getNewCardStates(companyCards);
-        sessionInitService.saveSession(SESSION_ID, ACTUAL_NAME, "GREEN", cardStates);
+        sessionHttpService.saveSession(SESSION_ID, ACTUAL_NAME, "GREEN", cardStates);
 
     }
 

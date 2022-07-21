@@ -9,4 +9,6 @@ public interface CardStateService {
     List<CardState> getNewCardStates(List<CompanyCard> companyCards);
 
     void saveCardStates(List<CardState> cardStates);
+
+    List<CardState> findByCardIds(List<Long> cardIds);
 }

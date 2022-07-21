@@ -2,6 +2,7 @@ package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.MessageDAO;
 import com.game.monopoly.dao.SessionDAO;
+import com.game.monopoly.dto.response.ChangeBalanceCardStateDTO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.dto.response.SurrenderPlayerDTO;
 import com.game.monopoly.entity.CardState;
@@ -21,8 +22,7 @@ import java.util.ArrayDeque;
 import java.util.List;
 
 import static com.game.monopoly.constants.EventParam.START_BONUS;
-import static com.game.monopoly.constants.InitialGameValue.INITIAL_CARD_FINE;
-import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
+import static com.game.monopoly.constants.InitialGameValue.*;
 import static com.game.monopoly.constants.ResultMessage.SURRENDER;
 import static com.game.monopoly.enums.MoveStatus.MIDDLE;
 import static com.game.monopoly.enums.MoveStatus.START;
@@ -33,7 +33,7 @@ import static com.game.monopoly.enums.SessionState.IN_PROGRESS;
 
 @Service
 @RequiredArgsConstructor
-public class SessionProcessServiceImpl implements SessionProcessService {
+public class SessionWebSocketServiceImpl implements SessionWebSocketService {
     private final MessageDAO messageDAO;
     private final SessionDAO sessionDAO;
     private final ChatService chatService;
@@ -161,9 +161,24 @@ public class SessionProcessServiceImpl implements SessionProcessService {
                 .findCardStatesByOwnerName(session.getCardStates(), playerName);
         cardStates.forEach(cs -> cs
                 .setOwnerName(INITIAL_CURRENT_PLAYER_NAME)
-                .setCurrentFine(INITIAL_CARD_FINE));
+                .setCurrentFine(INITIAL_CARD_FINE)
+                .setLevel(INITIAL_CARD_LEVEL));
         cardStateService.saveCardStates(cardStates);
 
         return PlayerMapper.surrenderPlayerToDTO(playerName, LOST, cardStates);
+    }
+
+    @Transactional
+    @Override
+    public ChangeBalanceCardStateDTO acceptOffer(String sessionId, String playerName, String ownerName, Long money, List<Long> cardIds) {
+        Player player = playerService.getPlayer(sessionId, playerName);
+        Long newBalance = player.getBalance() + money;
+        playerService.updatePlayerBalance(newBalance, sessionId, playerName);
+
+        List<CardState> cardStates = cardStateService.findByCardIds(cardIds);
+        cardStates.forEach(cs -> cs.setOwnerName(ownerName));
+        cardStateService.saveCardStates(cardStates);
+
+        return PlayerMapper.changeBalanceCardStateToDTO(playerName, newBalance, cardStates);
     }
 }

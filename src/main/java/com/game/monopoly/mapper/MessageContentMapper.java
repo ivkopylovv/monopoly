@@ -33,4 +33,8 @@ public class MessageContentMapper {
     public static String teleportEventToMessageContent(Integer position) {
         return String.format(TELEPORT_RESULT, position);
     }
+
+    public static String sendOfferToMessageContent(String receiver) {
+        return String.format(OFFER_SEND, receiver);
+    }
 }

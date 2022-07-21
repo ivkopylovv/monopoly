@@ -52,4 +52,10 @@ public class PlayerMapper {
     public static PlayerStatusDTO playerStatusToDTO(String playerName, PlayerStatus status) {
         return new PlayerStatusDTO(playerName, String.valueOf(status));
     }
+
+    public static ChangeBalanceCardStateDTO changeBalanceCardStateToDTO(String playerName, Long balance, List<CardState> cardStates) {
+        return new ChangeBalanceCardStateDTO()
+                .setPlayer(PlayerMapper.playerBalanceToDTO(playerName, balance))
+                .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(cardStates));
+    }
 }

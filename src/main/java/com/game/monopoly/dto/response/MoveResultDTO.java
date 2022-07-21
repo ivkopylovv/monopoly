@@ -13,8 +13,7 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class RollDiceResultDTO {
-    private PlayerBalanceDTO playerBalance;
+public class MoveResultDTO {
     private PlayerPositionDTO player;
     private List<Integer> digits;
 }

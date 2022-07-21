@@ -9,6 +9,7 @@ import com.game.monopoly.entity.Player;
 import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.mapper.MessageContentMapper;
 import com.game.monopoly.mapper.PlayerMapper;
+import com.game.monopoly.mapper.RollDicesMapper;
 import com.game.monopoly.service.SessionProcessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -37,12 +38,23 @@ public class SessionProcessController {
     @MessageMapping(value = "/sessions/roll-dice")
     public void getNewPlayerPosition(SessionPlayerNameDTO dto) {
         RollDiceResultDTO rollDiceResult = sessionProcessService.rollDices(dto.getSessionId(), dto.getPlayerName());
+        Long balance = rollDiceResult.getPlayerBalance().getBalance();
+
+        if (balance != null) {
+            ResultMessageDTO startMessage = new ResultMessageDTO(dto.getPlayerName(), START_BONUS_PASS);
+            simpMessagingTemplate.convertAndSend(
+                    "/topic/change-balance/" + dto.getSessionId(),
+                    rollDiceResult.getPlayerBalance());
+            simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), startMessage);
+        }
+
         ResultMessageDTO resultMessage = new ResultMessageDTO(
                 dto.getPlayerName(),
                 MessageContentMapper.rollDiceToMessageContent(rollDiceResult.getDigits())
         );
+        MoveResultDTO result = RollDicesMapper.rollResultToMoveDTO(rollDiceResult);
 
-        simpMessagingTemplate.convertAndSend("/topic/roll-dice/" + dto.getSessionId(), rollDiceResult);
+        simpMessagingTemplate.convertAndSend("/topic/roll-dice/" + dto.getSessionId(), result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);
     }
 
@@ -58,11 +70,13 @@ public class SessionProcessController {
     }
 
     @MessageMapping(value = "/sessions/move-transition")
-    public void moveTransition(GameEventDTO dto) {
+    public String moveTransition(GameEventDTO dto) {
         String currentPlayer = sessionProcessService.getNextPlayer(dto.getSessionId(), dto.getPlayerName());
         CurrentPlayerDTO result = new CurrentPlayerDTO(currentPlayer);
 
         simpMessagingTemplate.convertAndSend("/topic/move-transition/" + dto.getSessionId(), result);
+
+        return currentPlayer;
     }
 
     @MessageMapping(value = "/sessions/move-status")

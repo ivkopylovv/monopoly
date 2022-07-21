@@ -13,7 +13,7 @@ import com.game.monopoly.helper.PlayerPositionHelper;
 import com.game.monopoly.helper.RandomHelper;
 import com.game.monopoly.helper.SortHelper;
 import com.game.monopoly.mapper.PlayerMapper;
-import com.game.monopoly.mapper.RoleDicesMapper;
+import com.game.monopoly.mapper.RollDicesMapper;
 import com.game.monopoly.service.ChatService;
 import com.game.monopoly.service.PlayerService;
 import com.game.monopoly.service.SessionCommonService;
@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayDeque;
 import java.util.List;
 
 import static com.game.monopoly.constants.EventParam.START_BONUS;
@@ -68,11 +69,13 @@ public class SessionProcessServiceImpl implements SessionProcessService {
         int newPosition = PlayerPositionHelper.getNewPosition(position, firstRoll, secondRoll);
         List<Integer> digits = List.of(firstRoll, secondRoll);
         Message updMessage = null;
+        Long balance = null;
 
         playerService.updatePlayerPosition(newPosition, sessionId, playerName);
 
         if (position > newPosition) {
-            playerService.updatePlayerBalance(player.getBalance() + START_BONUS, sessionId, playerName);
+            balance = player.getBalance() + START_BONUS;
+            playerService.updatePlayerBalance(balance, sessionId, playerName);
             updMessage = MessageHelper.createStartBonusMessage(playerName);
         }
 
@@ -87,7 +90,7 @@ public class SessionProcessServiceImpl implements SessionProcessService {
             session.getMessages().add(updMessage);
         }
 
-        return RoleDicesMapper.rollResultTODTO(digits, playerName, newPosition);
+        return RollDicesMapper.rollResultTODTO(digits, playerName, newPosition, balance);
     }
 
     @Transactional
@@ -107,13 +110,32 @@ public class SessionProcessServiceImpl implements SessionProcessService {
         List<Player> players = SortHelper.getSortedPlayers(
                 sessionCommonService.getSession(sessionId).getPlayers());
         int count = players.size();
-        Player nextPlayer = null;
+
+        ArrayDeque<Player> deque = new ArrayDeque<>();
+        int idx = 0;
 
         for (int i = 0; i < count; i++) {
             Player player = players.get(i);
 
-            if (previousPLayer.equals(player.getUniqueName().getName()) && player.getStatus() == PLAYING) {
-                nextPlayer = i == count - 1 ? players.get(0) : players.get(i + 1);
+            if (previousPLayer.equals(player.getUniqueName().getName())) {
+                idx = i;
+                break;
+            }
+
+            deque.addLast(player);
+        }
+
+        for (int i = count - 1; i > idx; i--) {
+            deque.addFirst(players.get(i));
+        }
+
+        Player nextPlayer = null;
+
+        while (!deque.isEmpty()) {
+            Player player = deque.pop();
+
+            if (player.getStatus() == PLAYING) {
+                nextPlayer = player;
                 break;
             }
         }

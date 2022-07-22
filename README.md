@@ -1,4 +1,4 @@
-# Monopoly
+# :iphone: Monopoly
 
 Онлайн-игра ``Монополия``
 
@@ -13,6 +13,8 @@
 - ``Liquibase``
 - ``H2 Database``
 - ``Docker``
+- ``STOMP``
+- ``REST``
 - ``Gradle``
 - ``Lombok``
 - ``JUnit 5``

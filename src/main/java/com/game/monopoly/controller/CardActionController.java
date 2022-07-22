@@ -1,6 +1,7 @@
 package com.game.monopoly.controller;
 
 import com.game.monopoly.dto.request.PerformActionWithCardDTO;
+import com.game.monopoly.dto.response.CardStateDTO;
 import com.game.monopoly.dto.response.CardStatePlayerBalanceDTO;
 import com.game.monopoly.dto.response.PayForCardDTO;
 import com.game.monopoly.dto.response.ResultMessageDTO;
@@ -39,7 +40,14 @@ public class CardActionController {
     @MessageMapping(value = "/sessions/sell-card")
     public void sellCard(PerformActionWithCardDTO dto) {
         CardStatePlayerBalanceDTO result = cardActionService.sellCard(dto.getSessionId(), dto.getPlayerName(), dto.getCardId());
-        ResultMessageDTO resultMessage = new ResultMessageDTO(dto.getPlayerName(), SELL_CARD);
+        CardStateDTO cardState = result.getCardState().get(dto.getCardId());
+        ResultMessageDTO resultMessage;
+
+        if (cardState.getOwnerName() == null) {
+            resultMessage = new ResultMessageDTO(dto.getPlayerName(), SELL_CARD);
+        } else {
+            resultMessage = new ResultMessageDTO(dto.getPlayerName(), LOWER_CARD_LEVEL);
+        }
 
         simpMessagingTemplate.convertAndSend("/topic/card-action/" + dto.getSessionId(), result);
         simpMessagingTemplate.convertAndSend("/topic/chat/" + dto.getSessionId(), resultMessage);

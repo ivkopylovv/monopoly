@@ -1,6 +1,24 @@
 # Monopoly
 
-Маленький проект игры ``Монополия``
+Онлайн-игра ``Монополия``
+
+## Technologies
+
+- ``Java 17``
+- ``Spring Boot``
+- ``Spring MVC``
+- ``Spring Data JPA``
+- ``Hibernate``
+- ``PostgreSQL``
+- ``Liquibase``
+- ``H2 Database``
+- ``Docker``
+- ``Gradle``
+- ``Lombok``
+- ``JUnit 5``
+- ``Mockito``
+- ``Intellij Idea for IDE``
+- ``Heroku``
 
 # Docker
 

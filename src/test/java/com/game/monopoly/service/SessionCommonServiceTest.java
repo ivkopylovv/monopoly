@@ -3,6 +3,7 @@ package com.game.monopoly.service;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.entity.Session;
 import com.game.monopoly.exception.ResourceNotFoundException;
+import com.game.monopoly.service.impl.SessionCommonServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +21,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ComponentScan(basePackages = {"com.game.monopoly.dao"})
 class SessionCommonServiceTest {
     public static final String SESSION_ID = "123";
+
     @Autowired
     private SessionDAO sessionDAO;
 
-    @Autowired(required = false)
     private SessionCommonService underTest;
 
     @BeforeEach
     void setUp() {
+        underTest = new SessionCommonServiceImpl(sessionDAO);
         Session session = new Session()
                 .setId(SESSION_ID)
                 .setCurrentPlayer(INITIAL_CURRENT_PLAYER_NAME)

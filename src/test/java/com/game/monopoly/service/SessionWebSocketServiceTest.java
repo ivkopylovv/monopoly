@@ -1,5 +1,8 @@
 package com.game.monopoly.service;
 
+import com.game.monopoly.dao.CardStateDAO;
+import com.game.monopoly.dao.MessageDAO;
+import com.game.monopoly.dao.PlayerDAO;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.dto.response.RollDiceResultDTO;
 import com.game.monopoly.entity.Player;
@@ -8,19 +11,23 @@ import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.enums.MoveStatus;
 import com.game.monopoly.enums.PlayerColour;
 import com.game.monopoly.enums.PlayerRole;
+import com.game.monopoly.service.impl.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.game.monopoly.constants.InitialGameValue.INITIAL_CURRENT_PLAYER_NAME;
 import static com.game.monopoly.enums.MoveStatus.START;
 import static com.game.monopoly.enums.PlayerRole.USER;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith(SpringRunner.class)
 @DataJpaTest
 @ComponentScan(basePackages = {"com.game.monopoly.service"})
 @ComponentScan(basePackages = {"com.game.monopoly.dao"})
@@ -35,12 +42,29 @@ class SessionWebSocketServiceTest {
 
     @Autowired
     private SessionDAO sessionDAO;
+    @Autowired
+    private PlayerDAO playerDAO;
 
-    @Autowired(required = false)
+    @Autowired
+    MessageDAO messageDAO;
+    @Autowired
+    CardStateDAO cardStateDAO;
+
+    private ChatService chatService;
+    private SessionCommonService sessionCommonService;
+    private PlayerService playerService;
+    private CardStateService cardStateService;
+
     private SessionWebSocketService underTest;
 
     @BeforeEach
     void setUp() {
+        sessionCommonService = new SessionCommonServiceImpl(sessionDAO);
+        chatService = new ChatServiceImpl(messageDAO, sessionCommonService);
+        playerService = new PlayerServiceImpl(playerDAO);
+        cardStateService = new CardStateServiceImpl(cardStateDAO);
+        underTest = new SessionWebSocketServiceImpl(messageDAO, sessionDAO,
+                chatService, sessionCommonService, playerService, cardStateService);
         Session session = new Session()
                 .setId(SESSION_ID)
                 .setCurrentPlayer(INITIAL_CURRENT_PLAYER_NAME)
@@ -66,7 +90,7 @@ class SessionWebSocketServiceTest {
         assertEquals(player.getUniqueName(), sessionDAO.findById(SESSION_ID).get().getPlayers().get(0).getUniqueName());
     }
 
-    @Test
+    @RepeatedTest(10)
     void canGetCorrectRollDices() {
         String newName = "Nikita";
         underTest.addPlayerToSession(SESSION_ID, newName, "BLUE");
@@ -83,6 +107,14 @@ class SessionWebSocketServiceTest {
     }
 
     @Test
+    void canGetNotNullRollDices() {
+        String newName = "Nikita";
+        underTest.addPlayerToSession(SESSION_ID, newName, "BLUE");
+        RollDiceResultDTO rollDiceResultDTO = underTest.rollDices(SESSION_ID, newName);
+        assertNotNull(rollDiceResultDTO.getDigits());
+    }
+
+    @Test
     void canGetNextPlayer() {
         String previousPLayer = "Bob";
         String nextPlayer = "Kate";
@@ -93,9 +125,25 @@ class SessionWebSocketServiceTest {
     }
 
     @Test
+    void canGetNotNullNextPlayer() {
+        String previousPLayer = "Bob";
+        String nextPlayer = "Kate";
+        underTest.addPlayerToSession(SESSION_ID, previousPLayer, "GREEN");
+        underTest.addPlayerToSession(SESSION_ID, nextPlayer, "YELLOW");
+        String nextPlayerName = underTest.getNextPlayer(SESSION_ID, previousPLayer);
+        assertNotNull(nextPlayerName);
+    }
+
+    @Test
     void canGetCurrentMoveStatus() {
         MoveStatus moveStatus = START;
         MoveStatus expectedMoveStatus = underTest.getCurrentMoveStatus(SESSION_ID);
         assertEquals(moveStatus, expectedMoveStatus);
+    }
+
+    @Test
+    void itShouldGetNotNullCurrentMoveStatus() {
+        MoveStatus expectedMoveStatus = underTest.getCurrentMoveStatus(SESSION_ID);
+        assertNotNull(expectedMoveStatus);
     }
 }

@@ -16,7 +16,7 @@ VALUES (1, 'берет билет на самолет. Он проходит н�
        (15, 'приходится долечить зубы. Пройдите на 4 шага назад ', null, -4, 'CHANGE_POSITION');
 
 INSERT INTO common_card (id, image, card_type)
-VALUES (1, '/images/tinkoff.png', 'START'),
+VALUES (1, '/images/rocket.png', 'START'),
        (2, '/images/levis.svg', 'COMPANY'),
        (3, '/images/chance-1.png', 'CHANCE'),
        (4, '/images/hm.svg', 'COMPANY'),
@@ -46,7 +46,7 @@ VALUES (1, '/images/tinkoff.png', 'START'),
        (28, '/images/mirinda.svg', 'COMPANY'),
        (29, '/images/bmw.svg', 'COMPANY'),
        (30, '/images/sprite.svg', 'COMPANY'),
-       (31, '/images/goToJail.png', 'TELEPORT'),
+       (31, '/images/portal.png', 'TELEPORT'),
        (32, '/images/loreal.svg', 'COMPANY'),
        (33, '/images/givenchy.svg', 'COMPANY'),
        (34, '/images/chance-5.png', 'CHANCE'),

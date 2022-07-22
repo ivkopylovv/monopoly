@@ -7,6 +7,7 @@ import com.game.monopoly.entity.Session;
 import com.game.monopoly.entity.embedded.PlayerUniqueName;
 import com.game.monopoly.enums.PlayerRole;
 import com.game.monopoly.exception.ResourceNotFoundException;
+import com.game.monopoly.service.impl.PlayerServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import static com.game.monopoly.constants.InitialGameValue.*;
 import static com.game.monopoly.enums.PlayerColour.GREEN;
 import static com.game.monopoly.enums.PlayerRole.USER;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
@@ -29,16 +31,17 @@ class PlayerServiceTest {
     public static final String ACTUAL_NAME = "Masha";
     public static final String ACTUAL_COLOUR = "GREEN";
     public static final PlayerRole PLAYER_ROLE = USER;
+
     @Autowired
     private SessionDAO sessionDAO;
     @Autowired
     private PlayerDAO playerDAO;
-    @Autowired(required = false)
-    private PlayerService underTest;
 
+    private PlayerService underTest;
 
     @BeforeEach
     void setUp() {
+        underTest = new PlayerServiceImpl(playerDAO);
         Session session = new Session()
                 .setId(SESSION_ID)
                 .setCurrentPlayer(INITIAL_CURRENT_PLAYER_NAME)
@@ -51,7 +54,6 @@ class PlayerServiceTest {
                 .setColour(GREEN)
                 .setRole(PLAYER_ROLE);
         playerDAO.save(player);
-
     }
 
     @AfterEach
@@ -64,7 +66,6 @@ class PlayerServiceTest {
     void canGetPlayer() {
         Player expectedPlayer = playerDAO.findPlayerByUniqueName(new PlayerUniqueName(SESSION_ID, ACTUAL_NAME)).get();
         assertEquals(expectedPlayer, underTest.getPlayer(SESSION_ID, ACTUAL_NAME));
-
     }
 
     @Test
@@ -88,7 +89,6 @@ class PlayerServiceTest {
         assertEquals(expectedPlayer.getUniqueName(),
                 playerDAO.findPlayerByUniqueName(
                         new PlayerUniqueName(SESSION_ID, newPlayerName)).get().getUniqueName());
-
     }
 
 }

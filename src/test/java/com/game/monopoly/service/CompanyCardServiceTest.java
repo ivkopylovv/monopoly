@@ -6,6 +6,8 @@ import com.game.monopoly.dao.CompanyCardDAO;
 import com.game.monopoly.dao.SessionDAO;
 import com.game.monopoly.dto.response.CardDetailDTO;
 import com.game.monopoly.entity.*;
+import com.game.monopoly.service.impl.CompanyCardServiceImpl;
+import com.game.monopoly.service.impl.SessionCommonServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,24 +27,26 @@ import static org.junit.jupiter.api.Assertions.*;
 @ComponentScan(basePackages = {"com.game.monopoly.service"})
 @ComponentScan(basePackages = {"com.game.monopoly.dao"})
 public class CompanyCardServiceTest {
-
     public static final String SESSION_ID = "123";
     public static final String OWNER_NAME = "Masha";
+
     @Autowired
     private CompanyCardDAO companyCardDAO;
     @Autowired
     private CommonCardDAO commonCardDAO;
-
     @Autowired
     private SessionDAO sessionDAO;
-
     @Autowired
     private CardStateDAO cardStateDAO;
-    @Autowired(required = false)
+
+    private SessionCommonService sessionCommonService;
+
     private CompanyCardService underTest;
 
     @BeforeEach
     void setUp() {
+        sessionCommonService = new SessionCommonServiceImpl(sessionDAO);
+        underTest = new CompanyCardServiceImpl(sessionCommonService, companyCardDAO);
         List<LevelFine> levelFines = new ArrayList<>();
         CommonCard commonCard = new CommonCard(3L, "Image", COMPANY);
         commonCardDAO.save(commonCard);
@@ -80,10 +84,30 @@ public class CompanyCardServiceTest {
     }
 
     @Test
-    void itShouldCompareSessionID() {
+    void itShouldCompareOwnerName() {
         CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
         assertEquals(OWNER_NAME, cardDetailDTO.getOwnerName());
+    }
 
+    @Test
+    void itShouldCompareNotEqualOwnerName() {
+        String ownerName = "Jack";
+        CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
+        assertNotEquals(ownerName, cardDetailDTO.getOwnerName());
+    }
+
+    @Test
+    void itShouldCompareTitle() {
+        String expectedTitle = "Hi";
+        CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
+        assertEquals(expectedTitle, cardDetailDTO.getTitle());
+    }
+
+    @Test
+    void itShouldCompareNotEqualShpere() {
+        String notExpectedTitle = "Одежда";
+        CardDetailDTO cardDetailDTO = underTest.getDetailedCardInfo(SESSION_ID, 12L);
+        assertNotEquals(notExpectedTitle, cardDetailDTO.getSphere());
     }
 
 }

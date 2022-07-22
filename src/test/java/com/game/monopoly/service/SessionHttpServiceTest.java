@@ -1,14 +1,16 @@
 package com.game.monopoly.service;
 
-import com.game.monopoly.dao.CardStateDAO;
-import com.game.monopoly.dao.CommonCardDAO;
-import com.game.monopoly.dao.CompanyCardDAO;
-import com.game.monopoly.dao.SessionDAO;
+import com.game.monopoly.dao.*;
 import com.game.monopoly.dto.response.PlayingFieldStateDTO;
 import com.game.monopoly.entity.*;
+import com.game.monopoly.service.impl.CommonCardServiceImpl;
+import com.game.monopoly.service.impl.PlayerServiceImpl;
+import com.game.monopoly.service.impl.SessionCommonServiceImpl;
+import com.game.monopoly.service.impl.SessionHttpServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,6 +30,7 @@ class SessionHttpServiceTest {
     public static final String SESSION_ID = "123";
     public static final String ACTUAL_NAME = "Masha";
     public static final String ACTUAL_COLOUR = "GREEN";
+
     @Autowired
     private SessionDAO sessionDAO;
     @Autowired
@@ -35,13 +38,22 @@ class SessionHttpServiceTest {
     @Autowired
     private CompanyCardDAO companyCardDAO;
     @Autowired
+    private PlayerDAO playerDAO;
+    @Autowired
     private CardStateDAO cardStateDAO;
 
-    @Autowired(required = false)
+    private PlayerService playerService;
+    private SessionCommonService sessionCommonService;
+    private CommonCardService commonCardService;
+
     private SessionHttpService underTest;
 
     @BeforeEach
     void setUp() {
+        commonCardService = new CommonCardServiceImpl(commonCardDAO);
+        sessionCommonService = new SessionCommonServiceImpl(sessionDAO);
+        playerService = new PlayerServiceImpl(playerDAO);
+        underTest = new SessionHttpServiceImpl(sessionDAO, commonCardService, sessionCommonService, playerService);
         List<LevelFine> levelFines = new ArrayList<>();
         CommonCard commonCard = new CommonCard(3L, "Image", COMPANY);
         commonCardDAO.save(commonCard);
@@ -81,6 +93,12 @@ class SessionHttpServiceTest {
     void itShouldGetNotNullPlayingField() {
         PlayingFieldStateDTO playingFieldStateDTO = underTest.getStatePlayingField(SESSION_ID);
         assertNotNull(playingFieldStateDTO);
+    }
+
+    @Test
+    void itShouldGetEmptyCurrentPlayer() {
+        PlayingFieldStateDTO playingFieldStateDTO = underTest.getStatePlayingField(SESSION_ID);
+        assertNull(playingFieldStateDTO.getCurrentPlayer());
     }
 
     @Test

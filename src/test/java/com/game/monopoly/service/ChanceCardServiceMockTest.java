@@ -14,6 +14,7 @@ public class ChanceCardServiceMockTest {
 
     @Mock
     private ChanceCardDAO chanceCardDAO;
+
     private ChanceCardService underTest;
 
     private AutoCloseable autoCloseable;

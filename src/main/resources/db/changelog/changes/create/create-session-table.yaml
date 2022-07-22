@@ -22,6 +22,9 @@ databaseChangeLog:
                   name: current_player
                   type: varchar
               - column:
+                  name: move_status
+                  type: varchar
+              - column:
                   name: state
                   type: varchar
                   constraints:

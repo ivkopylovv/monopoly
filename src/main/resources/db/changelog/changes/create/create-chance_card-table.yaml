@@ -22,11 +22,13 @@ databaseChangeLog:
                   name: description
                   type: varchar
               - column:
-                  name: image
-                  type: varchar
-              - column:
                   name: money_difference
                   type: bigint
               - column:
                   name: step
-                  type: bigint
+                  type: integer
+              - column:
+                  name: type
+                  type: varchar
+                  constraints:
+                    nullable: false

@@ -4,6 +4,12 @@ ALTER TABLE card_state
         ON UPDATE NO ACTION
         ON DELETE NO ACTION;
 
+ALTER TABLE company_card
+    ADD CONSTRAINT fkglqvtnnk2ojyfdjas4uimo1w5 FOREIGN KEY (common_card_id)
+        REFERENCES public.common_card (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION;
+
 ALTER TABLE company_card_fines
     ADD CONSTRAINT fk62u3688renmwt2kbthi9ipgo4 FOREIGN KEY (fines_id)
         REFERENCES public.level_fine (id) MATCH SIMPLE
@@ -20,7 +26,9 @@ ALTER TABLE session_card_states
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     ADD CONSTRAINT fkact41n2exbg84dedmurvq5c74 FOREIGN KEY (card_states_id)
-        REFERENCES public.card_state (id) MATCH SIMPLE;
+        REFERENCES public.card_state (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION;
 
 ALTER TABLE session_players
     ADD CONSTRAINT fk85g0pliqsmttp3t8iowxm4ncf FOREIGN KEY (session_id)
@@ -28,7 +36,9 @@ ALTER TABLE session_players
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     ADD CONSTRAINT fkolt6486wq0lrc2rviyircpvts FOREIGN KEY (players_id)
-        REFERENCES public.player (id) MATCH SIMPLE;
+        REFERENCES public.player (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION;
 
 ALTER TABLE session_messages
     ADD CONSTRAINT fkcmfjgtpdi72gvhlsinny3l2ex FOREIGN KEY (session_id)

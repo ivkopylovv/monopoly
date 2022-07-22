@@ -37,7 +37,7 @@ class SessionHttpServiceTest {
     @Autowired
     private CardStateDAO cardStateDAO;
 
-    @Autowired
+    @Autowired(required = false)
     private SessionHttpService underTest;
 
     @BeforeEach

@@ -33,7 +33,7 @@ class PlayerServiceTest {
     private SessionDAO sessionDAO;
     @Autowired
     private PlayerDAO playerDAO;
-    @Autowired(required = true)
+    @Autowired(required = false)
     private PlayerService underTest;
 
 

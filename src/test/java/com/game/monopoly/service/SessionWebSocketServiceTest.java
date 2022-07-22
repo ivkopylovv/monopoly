@@ -36,7 +36,7 @@ class SessionWebSocketServiceTest {
     @Autowired
     private SessionDAO sessionDAO;
 
-    @Autowired
+    @Autowired(required = false)
     private SessionWebSocketService underTest;
 
     @BeforeEach

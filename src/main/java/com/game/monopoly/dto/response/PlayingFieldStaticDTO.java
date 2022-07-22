@@ -8,19 +8,12 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlayingFieldDTO {
-    private List<PlayerDTO> players;
-    private String state;
-    private String currentPlayer;
-    private String moveStatus;
+public class PlayingFieldStaticDTO {
     private List<CommonCard> cards;
-    private Map<Long, CardStateDTO> cardStates;
-    private List<ResultMessageDTO> chatHistory;
 }

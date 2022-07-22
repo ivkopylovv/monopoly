@@ -1,7 +1,8 @@
 package com.game.monopoly.controller;
 
 import com.game.monopoly.dto.request.InitializeSessionDTO;
-import com.game.monopoly.dto.response.PlayingFieldDTO;
+import com.game.monopoly.dto.response.PlayingFieldStateDTO;
+import com.game.monopoly.dto.response.PlayingFieldStaticDTO;
 import com.game.monopoly.dto.response.SuccessMessageDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.CompanyCard;
@@ -43,11 +44,18 @@ public class SessionHttpController {
         return ResponseEntity.ok().body(new SuccessMessageDTO(SESSION_IS_VALID));
     }
 
-    @GetMapping(value = "/sessions/{sessionId}")
-    public ResponseEntity<PlayingFieldDTO> getPlayingField(@PathVariable String sessionId) {
-        PlayingFieldDTO playingField = sessionHttpService.getPlayingField(sessionId);
+    @GetMapping(value = "/sessions/state/{sessionId}")
+    public ResponseEntity<PlayingFieldStateDTO> getPlayingFieldState(@PathVariable String sessionId) {
+        PlayingFieldStateDTO playingFieldState = sessionHttpService.getStatePlayingField(sessionId);
 
-        return ResponseEntity.ok().body(playingField);
+        return ResponseEntity.ok().body(playingFieldState);
+    }
+
+    @GetMapping(value = "/sessions/static")
+    public ResponseEntity<PlayingFieldStaticDTO> getPlayingFieldStatic() {
+        PlayingFieldStaticDTO playingFieldStatic = sessionHttpService.getStaticPlayingField();
+
+        return ResponseEntity.ok().body(playingFieldStatic);
     }
 
     @DeleteMapping(value = "/sessions/{id}")

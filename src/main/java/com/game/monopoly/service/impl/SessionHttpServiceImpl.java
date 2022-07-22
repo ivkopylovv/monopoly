@@ -1,7 +1,8 @@
 package com.game.monopoly.service.impl;
 
 import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.PlayingFieldDTO;
+import com.game.monopoly.dto.response.PlayingFieldStateDTO;
+import com.game.monopoly.dto.response.PlayingFieldStaticDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.CommonCard;
 import com.game.monopoly.entity.Player;
@@ -46,11 +47,18 @@ public class SessionHttpServiceImpl implements SessionHttpService {
 
     @Transactional(readOnly = true)
     @Override
-    public PlayingFieldDTO getPlayingField(String sessionId) {
+    public PlayingFieldStateDTO getStatePlayingField(String sessionId) {
         Session session = sessionCommonService.getSession(sessionId);
+
+        return PlayingFieldMapper.buildPlayingFieldState(session);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public PlayingFieldStaticDTO getStaticPlayingField() {
         List<CommonCard> cards = commonCardService.getAllCards();
 
-        return PlayingFieldMapper.buildPlayingField(session, cards);
+        return PlayingFieldMapper.buildPlayingFieldStatic(cards);
     }
 
     @Transactional

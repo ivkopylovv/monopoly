@@ -1,7 +1,8 @@
 package com.game.monopoly.mapper;
 
 import com.game.monopoly.dto.response.CardStateDTO;
-import com.game.monopoly.dto.response.PlayingFieldDTO;
+import com.game.monopoly.dto.response.PlayingFieldStateDTO;
+import com.game.monopoly.dto.response.PlayingFieldStaticDTO;
 import com.game.monopoly.entity.CardState;
 import com.game.monopoly.entity.CommonCard;
 import com.game.monopoly.entity.Session;
@@ -13,16 +14,19 @@ import java.util.stream.Collectors;
 
 public class PlayingFieldMapper {
 
-    public static PlayingFieldDTO buildPlayingField(Session session, List<CommonCard> cards) {
+    public static PlayingFieldStateDTO buildPlayingFieldState(Session session) {
 
-        return new PlayingFieldDTO()
+        return new PlayingFieldStateDTO()
                 .setPlayers(PlayerMapper.entitiesToDTOList(SortHelper.getSortedPlayers(session.getPlayers())))
                 .setState(String.valueOf(session.getState()))
                 .setCurrentPlayer(session.getCurrentPlayer())
                 .setMoveStatus(String.valueOf(session.getMoveStatus()))
-                .setCards(cards)
                 .setCardStates(PlayingFieldMapper.cardStatesEntitiesToDTOList(session.getCardStates()))
                 .setChatHistory(ResultMessageMapper.entitiesToDTOList(session.getMessages()));
+    }
+
+    public static PlayingFieldStaticDTO buildPlayingFieldStatic(List<CommonCard> cards) {
+        return new PlayingFieldStaticDTO(cards);
     }
 
     public static Map<Long, CardStateDTO> cardStatesEntitiesToDTOList(List<CardState> cardStates) {

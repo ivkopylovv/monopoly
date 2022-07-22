@@ -102,10 +102,12 @@ VALUES (40),
        (3200),
        (4500);
 INSERT INTO level_fine (value)
-VALUES (250),
-       (500),
-       (1000),
-       (2000);
+VALUES (300),
+       (900),
+       (2000),
+       (4500),
+       (9200),
+       (12000);
 INSERT INTO level_fine (value)
 VALUES (60),
        (300),
@@ -135,8 +137,12 @@ VALUES (100),
        (6250),
        (7500);
 INSERT INTO level_fine (value)
-VALUES (100),
-       (250);
+VALUES (150),
+       (400),
+       (900),
+       (1600),
+       (3700),
+       (6200);
 INSERT INTO level_fine (value)
 VALUES (100),
        (500),
@@ -152,10 +158,12 @@ VALUES (120),
        (7000),
        (9000);
 INSERT INTO level_fine (value)
-VALUES (250),
-       (500),
-       (1000),
-       (2000);
+VALUES (300),
+       (900),
+       (2000),
+       (4500),
+       (9200),
+       (12000);
 INSERT INTO level_fine (value)
 VALUES (140),
        (700),
@@ -199,10 +207,12 @@ VALUES (200),
        (9250),
        (11000);
 INSERT INTO level_fine (value)
-VALUES (250),
-       (500),
-       (1000),
-       (2000);
+VALUES (300),
+       (900),
+       (2000),
+       (4500),
+       (9200),
+       (12000);
 INSERT INTO level_fine (value)
 VALUES (220),
        (1100),
@@ -219,7 +229,11 @@ VALUES (220),
        (11500);
 INSERT INTO level_fine (value)
 VALUES (100),
-       (250);
+       (400),
+       (1000),
+       (1900),
+       (3100),
+       (5000);
 INSERT INTO level_fine (value)
 VALUES (240),
        (1200),
@@ -249,10 +263,12 @@ VALUES (280),
        (12000),
        (14000);
 INSERT INTO level_fine (value)
-VALUES (250),
-       (500),
-       (1000),
-       (2000);
+VALUES (300),
+       (900),
+       (2000),
+       (4500),
+       (9200),
+       (12000);
 INSERT INTO level_fine (value)
 VALUES (350),
        (1750),

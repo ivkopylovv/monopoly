@@ -4,7 +4,7 @@ import com.game.monopoly.dao.CardStateDAO;
 import com.game.monopoly.dao.CommonCardDAO;
 import com.game.monopoly.dao.CompanyCardDAO;
 import com.game.monopoly.dao.SessionDAO;
-import com.game.monopoly.dto.response.PlayingFieldDTO;
+import com.game.monopoly.dto.response.PlayingFieldStateDTO;
 import com.game.monopoly.entity.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,13 +79,13 @@ class SessionHttpServiceTest {
 
     @Test
     void itShouldGetNotNullPlayingField() {
-        PlayingFieldDTO playingFieldDTO = underTest.getPlayingField(SESSION_ID);
-        assertNotNull(playingFieldDTO);
+        PlayingFieldStateDTO playingFieldStateDTO = underTest.getStatePlayingField(SESSION_ID);
+        assertNotNull(playingFieldStateDTO);
     }
 
     @Test
     void itShouldGetNotEmptyCardStatesArray() {
-        PlayingFieldDTO playingFieldDTO = underTest.getPlayingField(SESSION_ID);
-        assertFalse(playingFieldDTO.getCardStates().isEmpty());
+        PlayingFieldStateDTO playingFieldStateDTO = underTest.getStatePlayingField(SESSION_ID);
+        assertFalse(playingFieldStateDTO.getCardStates().isEmpty());
     }
 }

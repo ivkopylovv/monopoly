@@ -29,6 +29,16 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: sale_price
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sphere
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
                   name: star_price
                   type: bigint
                   constraints:
@@ -36,3 +46,8 @@ databaseChangeLog:
               - column:
                   name: title
                   type: varchar
+              - column:
+                  name: common_card_id
+                  type: bigint
+                  constraints:
+                    nullable: false

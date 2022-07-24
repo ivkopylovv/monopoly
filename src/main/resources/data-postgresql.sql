@@ -58,7 +58,7 @@ VALUES (1, '/images/rocket.svg', 'START'),
        (40, '/images/google.svg', 'COMPANY');
 
 INSERT INTO company_card (id, title, sphere, price, star_price, sale_price, collection_number, common_card_id)
-VALUES (2, 'Levi’s', 'Одежда', 600, 500, 300, 1, 2),
+VALUES (2, 'Levis', 'Одежда', 600, 500, 300, 1, 2),
        (4, 'H&M', 'Одежда', 800, 500, 400, 1, 4),
        (6, 'LG', 'Электроника', 2000, 1200, 1000, 2, 6),
        (7, 'New Balance', 'Спортивная одежда', 1000, 500, 500, 3, 7),

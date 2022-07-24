@@ -13,7 +13,7 @@ public class CorsWebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry
                 .addMapping("/**")
-                .allowedOrigins("https://monopoly-client-8ql304dsh-iamreptiloid.vercel.app/")
+                .allowedOrigins("https://thebestmonopoly.herokuapp.com")
                 .allowCredentials(true);
     }
 }

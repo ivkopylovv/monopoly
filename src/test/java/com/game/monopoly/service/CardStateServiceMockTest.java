@@ -12,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 public class CardStateServiceMockTest {
@@ -45,14 +44,6 @@ public class CardStateServiceMockTest {
         underTest.saveCardStates(cardStates);
         //then
         verify(cardStateDAO).saveAll(cardStates);
-    }
-
-    @Test
-    void canGetNewCardStates() {
-        //when
-        List<CompanyCard> companyCards = companyCardService.getCompanyCards();
-        //then
-        assertEquals(underTest.getNewCardStates(companyCards), companyCards);
     }
 
 }

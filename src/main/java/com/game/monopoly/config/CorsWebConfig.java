@@ -13,6 +13,8 @@ public class CorsWebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry
                 .addMapping("/**")
+                .allowedOrigins("*")
+                .allowedOrigins("/*")
                 .allowedOrigins("https://thebestmonopoly.herokuapp.com")
                 .allowedOrigins("http://thebestmonopoly.herokuapp.com")
                 .allowedOrigins("/**")

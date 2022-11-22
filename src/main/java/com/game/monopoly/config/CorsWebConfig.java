@@ -15,6 +15,7 @@ public class CorsWebConfig implements WebMvcConfigurer {
                 .addMapping("/**")
                 .allowedOrigins("https://thebestmonopoly.herokuapp.com")
                 .allowedOrigins("http://thebestmonopoly.herokuapp.com")
+                .allowedOrigins("/**")
                 .allowCredentials(true);
     }
 }
